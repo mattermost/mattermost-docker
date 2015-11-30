@@ -11,6 +11,6 @@ app:
 web:
   build: web
   ports:
-    - "8066:443"
+    - "8065:443"
   links:
     - app:platform
