@@ -14,10 +14,12 @@ exec bin/platform\n'\
 RUN wget https://github.com/mattermost/platform/releases/download/v1.2.1/mattermost.tar.gz \
 	&& tar -xvzf mattermost.tar.gz && rm mattermost.tar.gz
 
-ADD config_docker.json /
+ADD config/config.json /mattermost/config/
 ADD docker-entry.sh /
 
 RUN chmod +x /docker-entry.sh
 ENTRYPOINT /docker-entry.sh
+
+VOLUME ["/mattermost/config"]
 
 EXPOSE 80

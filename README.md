@@ -30,10 +30,6 @@ Run `docker-compose stop && docker-compose rm`.
 
 ## Known Issues
 
-* Recreating the 'app' container resets the mattermost settings. If you modified
-  settings in System Console or `/mattermost/config/config.json` in the 'app'
-  container and want to keep them, you should manually update `app/config.json`.
-
 * Do not modify the Listen Address in Service Settings.
 
 ## More informations
