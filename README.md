@@ -35,6 +35,8 @@ Remove `volumes` directory
 ## Known Issues
 
 * Do not modify the Listen Address in Service Settings.
+* Sometimes 'app' container fails to start because of "connection refused" to
+  database. Workaround: Restart the container.
 
 ## More informations
 
