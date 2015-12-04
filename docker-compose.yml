@@ -2,15 +2,19 @@ db:
   build: db
   volumes:
     - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
+    - /etc/localtime:/etc/localtime:ro
 app:
   build: app
   links:
     - db:pg
   volumes:
     - ./volumes/app/mattermost/config:/mattermost/config:rw
+    - /etc/localtime:/etc/localtime:ro
 web:
   build: web
   ports:
     - "8065:443"
   links:
     - app:platform
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
