@@ -1,5 +1,7 @@
 db:
   build: db
+  volumes:
+    - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
 app:
   build: app
   links:
