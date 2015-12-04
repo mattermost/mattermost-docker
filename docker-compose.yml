@@ -1,13 +1,9 @@
 db:
   build: db
-  ports:
-    - "5432"
 app:
   build: app
   links:
     - db:pg
-  ports:
-    - "80"
 web:
   build: web
   ports:
