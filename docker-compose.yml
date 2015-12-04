@@ -4,6 +4,8 @@ app:
   build: app
   links:
     - db:pg
+  volumes:
+    - ./volumes/app/mattermost/config:/mattermost/config:rw
 web:
   build: web
   ports:
