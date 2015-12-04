@@ -24,9 +24,13 @@ If you don't have them you can generate a self-signed SSL certificate.
 
 Run `docker-compose stop`.
 
-### Remove
+### Remove the containers
 
 Run `docker-compose stop && docker-compose rm`.
+
+### Remove the data and settings of your mattermost instance
+
+Remove `volumes` directory
 
 ## Known Issues
 
