@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-RUN apt-get update && apt-get -y upgrade && apt-get -y install wget
+RUN apt-get update && apt-get -y upgrade && apt-get -y install wget netcat
 RUN mkdir -p /mattermost/data
 
 RUN touch /etc/init/mattermost.conf
