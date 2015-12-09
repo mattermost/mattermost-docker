@@ -37,6 +37,8 @@ Remove `volumes` directory
 * Do not modify the Listen Address in Service Settings.
 * Sometimes 'app' container fails to start because of "connection refused" to
   database. Workaround: Restart the container.
+* Sometimes database connection is misconfigured. Workaround: Delete
+  `volumes/app/mattermost/config/config.json` and restart the 'app' container.
 
 ## More informations
 
