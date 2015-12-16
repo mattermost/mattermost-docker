@@ -9,6 +9,7 @@ app:
     - db:pg
   volumes:
     - ./volumes/app/mattermost/config:/mattermost/config:rw
+    - ./volumes/app/mattermost/data:/mattermost/data:rw
     - /etc/localtime:/etc/localtime:ro
 web:
   build: web
