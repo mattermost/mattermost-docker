@@ -11,7 +11,7 @@ chdir /mattermost\n\
 exec bin/platform\n'\
 >> /etc/init/mattermost.conf
 
-RUN wget https://github.com/mattermost/platform/releases/download/v1.2.1/mattermost.tar.gz \
+RUN wget https://github.com/mattermost/platform/releases/download/v1.3.0/mattermost.tar.gz \
 	&& tar -xvzf mattermost.tar.gz && rm mattermost.tar.gz
 
 COPY config.template.json /
