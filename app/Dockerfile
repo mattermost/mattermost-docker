@@ -11,8 +11,8 @@ chdir /mattermost\n\
 exec bin/platform\n'\
 >> /etc/init/mattermost.conf
 
-COPY mattermost-ent.tar.gz /
-RUN tar -xvzf mattermost-ent.tar.gz && rm mattermost-ent.tar.gz
+RUN wget https://github.com/mattermost/platform/releases/download/v1.2.1/mattermost.tar.gz \
+	&& tar -xvzf mattermost.tar.gz && rm mattermost.tar.gz
 
 COPY config.template.json /
 COPY docker-entry.sh /
