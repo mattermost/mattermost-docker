@@ -9,8 +9,8 @@ ADD mattermost /etc/nginx/sites-available/
 ADD docker-entry.sh /
 
 RUN mkdir /cert
-ADD cert/cert.pem /cert
-ADD cert/private/key-no-password.pem /cert
+ADD cert/cert.pem /cert/
+ADD cert/private/key-no-password.pem /cert/
 
 RUN chmod +x /docker-entry.sh
 
