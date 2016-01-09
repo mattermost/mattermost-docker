@@ -18,7 +18,7 @@ If you don't have them you can generate a self-signed SSL certificate.
 ### (Re)start
 
 1. Run `docker-compose up -d`.
-2. Open `https://your.domain:8065` with your web browser.
+2. Open `https://your.domain` with your web browser.
 
 ### Stop
 
