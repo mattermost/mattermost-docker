@@ -6,7 +6,7 @@ db:
 app:
   build: app
   links:
-    - db:pg
+    - db:db
   volumes:
     - ./volumes/app/mattermost/config:/mattermost/config:rw
     - ./volumes/app/mattermost/data:/mattermost/data:rw
