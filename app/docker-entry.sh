@@ -11,17 +11,12 @@ else
     echo SKIP
 fi
 
-echo -n "Wait until database is ready..."
+# Wait to avoid "panic: Failed to open sql connection pq: the database system is starting up"
+echo "Wait until database is ready..."
 until nc -z $PG_PORT_5432_TCP_ADDR $PG_PORT_5432_TCP_PORT
 do
-    echo -n .
     sleep 1
 done
-
-# Wait to avoid "panic: Failed to open sql connection pq: the database system is starting up"
-sleep 1
-
-echo "OK"
 
 echo "Starting platform"
 cd /mattermost/bin
