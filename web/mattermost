@@ -6,7 +6,6 @@ server {
 
 server {
     listen 443;
-    server_name chat.navercorp.com;
 
     ssl on;
     ssl_certificate /cert/cert.pem;
