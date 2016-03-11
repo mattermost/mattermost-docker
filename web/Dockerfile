@@ -14,6 +14,10 @@ ADD cert/private/key-no-password.pem /cert/
 
 RUN chmod +x /docker-entry.sh
 
+# You can see the logs using `docker-compose logs web`.
+RUN ln -sf /dev/stdout /var/log/nginx/access.log
+RUN ln -sf /dev/stderr /var/log/nginx/error.log
+
 # Define mountable directories.
 VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
 
