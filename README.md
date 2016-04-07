@@ -5,32 +5,55 @@ Dockerfiles for Mattermost in production
 * [docker]
 * [docker-compose]
 
-## Howto
+## Installation
 
-### Install SSL certificate
+### Install with SSL certificate
 
-You must install SSL certificate before starting. Put your SSL certificate as
-`web/cert/cert.pem` and the private key that has no password as
-`web/cert/private/key-no-password.pem`.
+1. Create a symbolic link `docker-compose.yml` to `docker-compose-ssl.yml`:
 
-If you don't have them you can generate a self-signed SSL certificate.
+    ln -s docker-compose-ssl.yml docker-compose.yml
 
-### (Re)start
+2. Put your SSL certificate as `web/cert/cert.pem` and the private key that has
+   no password as `web/cert/private/key-no-password.pem`. If you don't have
+   them you may generate a self-signed SSL certificate.
 
-1. Run `docker-compose up -d`.
-2. Open `https://your.domain` with your web browser.
+3. Build and run mattermost
+
+    docker-compose up -d
+
+4. Open `https://your.domain` with your web browser.
+
+### Install without SSL certificate
+
+1. Create a symbolic link `docker-compose.yml` to `docker-compose-nossl.yml`:
+
+    ln -s docker-compose-nossl.yml docker-compose.yml
+
+2. Build and run mattermost
+
+    docker-compose up -d
+
+3. Open `http://your.domain` with your web browser.
+
+## Starting/Stopping
+
+### Start
+
+    docker-compose start
 
 ### Stop
 
-Run `docker-compose stop`.
+    docker-compose stop
+
+## Removing
 
 ### Remove the containers
 
-Run `docker-compose stop && docker-compose rm`.
+    docker-compose stop && docker-compose rm
 
 ### Remove the data and settings of your mattermost instance
 
-Remove `volumes` directory
+    sudo rm -rf volumes
 
 ## Known Issues
 

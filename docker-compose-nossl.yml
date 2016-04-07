@@ -1,0 +1,15 @@
+db:
+  build: db
+  volumes:
+    - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
+    - /etc/localtime:/etc/localtime:ro
+app:
+  build: app
+  links:
+    - db:db
+  ports:
+    - "80:80"
+  volumes:
+    - ./volumes/app/mattermost/config:/mattermost/config:rw
+    - ./volumes/app/mattermost/data:/mattermost/data:rw
+    - /etc/localtime:/etc/localtime:ro
