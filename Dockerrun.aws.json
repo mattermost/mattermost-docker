@@ -1,0 +1,60 @@
+{
+    "AWSEBDockerrunVersion": "2",
+    "volumes": [
+        {
+            "name": "app-config",
+            "host": {
+                "sourcePath": "/var/app/current/app/mattermost/config"
+            }
+        },
+        {
+            "name": "app-data",
+            "host": {
+                "sourcePath": "/var/app/current/app/mattermost/data"
+            }
+        },
+        {
+            "name": "db-data",
+            "host": {
+                "sourcePath": "/var/app/current/db/mattermost/var/lib/postgresql/data"
+            }
+        }
+    ],
+    "containerDefinitions": [
+        {
+            "name": "app",
+            "image": "npcode/mattermost-app:latest",
+            "memory": 128,
+            "mountPoints": [
+                {
+                    "sourceVolume": "app-config",
+                    "containerPath": "/mattermost/config"
+                },
+                {
+                    "sourceVolume": "app-data",
+                    "containerPath": "/mattermost/data"
+                }
+            ],
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "db"
+            ]
+        },
+        {
+            "name": "db",
+            "image": "npcode/mattermost-db:latest",
+            "memory": 128,
+            "mountPoints": [
+                {
+                    "sourceVolume": "db-data",
+                    "containerPath": "/var/lib/postgresql/data"
+                }
+            ]
+        }
+    ]
+}
