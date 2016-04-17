@@ -43,8 +43,8 @@ Remove `volumes` directory
 If you want to know how to use docker-compose, see [the overview
 page](https://docs.docker.com/compose).
 
-For the server configurations, see [Production-Ubuntu.md] of mattermost.
+For the server configurations, see [prod-ubuntu.rst] of mattermost.
 
 [docker]: http://docs.docker.com/engine/installation/
 [docker-compose]: https://docs.docker.com/compose/install/
-[Production-Ubuntu.md]: https://github.com/mattermost/platform/blob/master/doc/install/Production-Ubuntu.md
+[prod-ubuntu.rst]: https://github.com/mattermost/docs/blob/master/source/install/prod-ubuntu.rst
