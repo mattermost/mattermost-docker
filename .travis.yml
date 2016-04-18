@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+    - docker
+
+before_install:
+    - ln -s docker-compose-nossl.yml docker-compose.yml
+    - docker-compose up -d
+    - sleep 10
+
+script:
+    - curl http://localhost
