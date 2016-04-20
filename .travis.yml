@@ -10,3 +10,6 @@ before_install:
 
 script:
     - curl http://localhost
+
+after_failure:
+    - timeout 3s docker-compose logs app db
