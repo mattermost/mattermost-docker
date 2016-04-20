@@ -55,6 +55,31 @@ Dockerfiles for Mattermost in production
 
     sudo rm -rf volumes
 
+## Database Backup
+
+When AWS S3 environment variables are specified on db docker container, it enables [Wel-E](https://github.com/wal-e/wal-e) backup to S3.
+
+```bash
+docker run -d --name mattermost-db \
+    -e AWS_ACCESS_KEY_ID=XXXX \
+    -e AWS_SECRET_ACCESS_KEY=XXXX \
+    -e WALE_S3_PREFIX=s3://BUCKET_NAME/PATH \
+    -e AWS_REGION=us-east-1
+    -v ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
+    -v /etc/localtime:/etc/localtime:ro
+    db
+```
+
+All four environment variables are required. It will enable completed WAL segments sent to archive storage (S3). The base backup and clean up can be done through the following command:
+
+```bash
+# base backup
+docker exec mattermost-db su - postgres sh -c "/usr/bin/envdir /etc/wal-e.d/env /usr/local/bin/wal-e backup-push /var/lib/postgresql/data"
+# keep the most recent 7 base backups and remove the old ones
+docker exec mattermost-db su - postgres sh -c "/usr/bin/envdir /etc/wal-e.d/env /usr/local/bin/wal-e delete --confirm retain 7"
+```
+Those tasks can be executed through a cron job or systemd timer.
+
 ## Known Issues
 
 * Do not modify the Listen Address in Service Settings.

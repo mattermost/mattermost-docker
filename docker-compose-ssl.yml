@@ -3,6 +3,12 @@ db:
   volumes:
     - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
     - /etc/localtime:/etc/localtime:ro
+  # uncomment the following to enable backup
+  #environment:
+  #  - AWS_ACCESS_KEY_ID=XXXX
+  #  - AWS_SECRET_ACCESS_KEY=XXXX
+  #  - WALE_S3_PREFIX=s3://BUCKET_NAME/PATH
+  #  - AWS_REGION=us-east-1
 app:
   build: app
   links:
