@@ -2,6 +2,8 @@ Dockerfiles for Mattermost in production
 
 See [README.aws.md](./README.aws.md) if you want to install it on AWS Elastic Beanstalk.
 
+[![Build Status](https://travis-ci.org/mattermost/mattermost-docker.svg?branch=master)](https://travis-ci.org/mattermost/mattermost-docker)
+
 ## Requirements
 
 * [docker]
