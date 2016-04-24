@@ -1,6 +1,6 @@
 Dockerfiles for Mattermost in production
 
-## Requirement
+## Requirements
 
 * [docker]
 * [docker-compose]
