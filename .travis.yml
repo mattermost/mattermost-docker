@@ -9,7 +9,7 @@ before_install:
     - sleep 10
 
 script:
-    - curl http://localhost
+    - curl -sSf http://localhost > /dev/null
 
 after_failure:
     - timeout 3s docker-compose logs app db
