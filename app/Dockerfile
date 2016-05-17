@@ -9,6 +9,6 @@ COPY config.template.json /
 COPY docker-entry.sh /
 
 RUN chmod +x /docker-entry.sh
-ENTRYPOINT /docker-entry.sh
+ENTRYPOINT ["/docker-entry.sh"]
 
 EXPOSE 80

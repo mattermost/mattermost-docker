@@ -30,4 +30,4 @@ sleep 1
 
 echo "Starting platform"
 cd /mattermost/bin
-./platform
+./platform $*
