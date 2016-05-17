@@ -1,10 +1,9 @@
 FROM ubuntu:14.04
 
-RUN apt-get update && apt-get -y install wget netcat
+RUN apt-get update && apt-get -y install curl netcat
 RUN mkdir -p /mattermost/data
 
-RUN wget https://releases.mattermost.com/2.2.0/mattermost-team-2.2.0-linux-amd64.tar.gz \
-	&& tar -xvzf mattermost-team-2.2.0-linux-amd64.tar.gz && rm mattermost-team-2.2.0-linux-amd64.tar.gz
+RUN curl https://releases.mattermost.com/3.0.1/mattermost-team-3.0.1-linux-amd64.tar.gz | tar -xvz
 
 COPY config.template.json /
 COPY docker-entry.sh /
