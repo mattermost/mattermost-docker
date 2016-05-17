@@ -84,6 +84,18 @@ docker exec mattermost-db su - postgres sh -c "/usr/bin/envdir /etc/wal-e.d/env 
 ```
 Those tasks can be executed through a cron job or systemd timer.
 
+## Upgrading to Team Edition 3.0.x from 2.x
+
+You need to migrate your database before upgrading mattermost to 3.0.x from
+2.x. Run these commands in the latest mattermost-docker directory.
+
+    docker-compose rm -f app
+    docker-compose build app
+    docker-compose run app -upgrade_db_30
+    docker-compose up -d
+
+See the [offical Upgrade Guide](http://docs.mattermost.com/administration/upgrade.html) for more details.
+
 ## Known Issues
 
 * Do not modify the Listen Address in Service Settings.
