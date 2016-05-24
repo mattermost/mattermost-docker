@@ -8,10 +8,6 @@ RUN ln -s /etc/nginx/sites-available/mattermost /etc/nginx/sites-enabled/matterm
 ADD mattermost /etc/nginx/sites-available/
 ADD docker-entry.sh /
 
-RUN mkdir /cert
-ADD cert/cert.pem /cert/
-ADD cert/private/key-no-password.pem /cert/
-
 RUN chmod +x /docker-entry.sh
 
 # You can see the logs using `docker-compose logs web`.
