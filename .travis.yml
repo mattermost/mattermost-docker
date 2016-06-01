@@ -4,7 +4,6 @@ services:
     - docker
 
 before_install:
-    - ln -s docker-compose-nossl.yml docker-compose.yml
     - docker-compose up -d
     - sleep 10
 
@@ -12,4 +11,4 @@ script:
     - curl -sSf http://localhost > /dev/null
 
 after_failure:
-    - timeout 3s docker-compose logs app db
+    - timeout 3s docker-compose logs app db web

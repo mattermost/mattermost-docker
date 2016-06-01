@@ -23,8 +23,11 @@ web:
     - "80:80"
     - "443:443"
   links:
-    - app:platform
+    - app:app
   volumes:
       # This directory must have cert files
     - ./volumes/web/cert:/cert:ro
     - /etc/localtime:/etc/localtime:ro
+  environment:
+    - MATTERMOST_ENABLE_SSL=false
+    - PLATFORM_PORT_80_TCP_PORT=80

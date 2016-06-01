@@ -13,12 +13,13 @@ See [README.aws.md](./README.aws.md) if you want to install it on AWS Elastic Be
 
 ### Install with SSL certificate
 
-1. Create a symbolic link `docker-compose.yml` to `docker-compose-ssl.yml`:
+1. Open docker-compose.yml and set `MATTERMOST_ENABLE_SSL` to true.
 
-    ln -s docker-compose-ssl.yml docker-compose.yml
+    environment:
+      - MATTERMOST_ENABLE_SSL=true
 
-2. Put your SSL certificate as `web/cert/cert.pem` and the private key that has
-   no password as `web/cert/private/key-no-password.pem`. If you don't have
+2. Put your SSL certificate as `./volumes/cert/cert.pem` and the private key that has
+   no password as `./volumes/cert/key-no-password.pem`. If you don't have
    them you may generate a self-signed SSL certificate.
 
 3. Build and run mattermost
@@ -29,9 +30,10 @@ See [README.aws.md](./README.aws.md) if you want to install it on AWS Elastic Be
 
 ### Install without SSL certificate
 
-1. Create a symbolic link `docker-compose.yml` to `docker-compose-nossl.yml`:
+1. Open docker-compose.yml and set `MATTERMOST_ENABLE_SSL` to false.
 
-    ln -s docker-compose-nossl.yml docker-compose.yml
+    environment:
+      - MATTERMOST_ENABLE_SSL=false
 
 2. Build and run mattermost
 
