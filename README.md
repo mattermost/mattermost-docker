@@ -107,6 +107,9 @@ See the [offical Upgrade Guide](http://docs.mattermost.com/administration/upgrad
 * Do not modify the Listen Address in Service Settings.
 * Rarely 'app' container fails to start because of "connection refused" to
   database. Workaround: Restart the container.
+* On Docker version 1.11.2 and 1.11.1 you can have some problems with mattermostdocker_db image (see [issue/26](https://github.com/mattermost/mattermost-docker/issues/26), [issue/6](https://github.com/mattermost/mattermost-docker/issues/6).
+
+  Please use docker version [1.9.1](https://yum.dockerproject.org/repo/main/centos/7/Packages/)  if you can. There is apparently no problem with this version and postgres image
 
 ## More informations
 
