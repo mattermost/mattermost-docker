@@ -67,7 +67,7 @@ See [README.aws.md](./README.aws.md) if you want to install it on AWS Elastic Be
 
 ## Database Backup
 
-When AWS S3 environment variables are specified on db docker container, it enables [Wel-E](https://github.com/wal-e/wal-e) backup to S3.
+When AWS S3 environment variables are specified on db docker container, it enables [Wal-E](https://github.com/wal-e/wal-e) backup to S3.
 
 ```bash
 docker run -d --name mattermost-db \
