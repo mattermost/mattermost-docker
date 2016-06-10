@@ -19,7 +19,7 @@ else
     echo SKIP
 fi
 
-echo "Wait until database is ready..."
+echo "Wait until database $DB_HOST:$DB_PORT_5432_TCP_PORT is ready..."
 until nc -z $DB_HOST $DB_PORT_5432_TCP_PORT
 do
     sleep 1
