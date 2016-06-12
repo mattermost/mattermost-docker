@@ -1,6 +1,6 @@
 {
     "ServiceSettings": {
-        "ListenAddress": ":80",
+        "ListenAddress": ":8080",
         "MaximumLoginAttempts": 10,
         "SegmentDeveloperKey": "",
         "GoogleDeveloperKey": "",
@@ -23,12 +23,12 @@
     },
     "SqlSettings": {
         "DriverName": "postgres",
-        "DataSource": "postgres://MM_USERNAME:MM_PASSWORD@DB_HOST:DB_PORT/MM_DBNAME?sslmode=disable&connect_timeout=10",
+        "DataSource": "postgres://mattermost:POSTGRES_PASSWORD@db:5432/mattermost?sslmode=disable&connect_timeout=10",
         "DataSourceReplicas": [],
         "MaxIdleConns": 10,
         "MaxOpenConns": 10,
         "Trace": false,
-        "AtRestEncryptKey": "7rAh6iwQCkV4cA1Gsg3fgGOXJAQ43QVg"
+        "AtRestEncryptKey": "ChangeAtRestEncryptKey"
     },
     "LogSettings": {
         "EnableConsole": false,
@@ -42,7 +42,7 @@
         "DriverName": "local",
         "Directory": "/mattermost/data/",
         "EnablePublicLink": true,
-        "PublicLinkSalt": "A705AklYF8MFDOfcwh3I488G8vtLlVip",
+        "PublicLinkSalt": "ChangePublicLinkSalt",
         "ThumbnailWidth": 120,
         "ThumbnailHeight": 100,
         "PreviewWidth": 1024,
@@ -66,8 +66,8 @@
         "SMTPServer": "",
         "SMTPPort": "",
         "ConnectionSecurity": "",
-        "InviteSalt": "bjlSR4QqkXFBr7TP4oDzlfZmcNuH9YoS",
-        "PasswordResetSalt": "vZ4DcKyVVRlKHHJpexcuXzojkE5PZ5eL",
+        "InviteSalt": "ChangeInviteSalt",
+        "PasswordResetSalt": "ChangePasswordResetSalt",
         "ApplePushServer": "",
         "ApplePushCertPublic": "",
         "ApplePushCertPrivate": ""

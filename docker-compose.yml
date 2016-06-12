@@ -1,9 +1,9 @@
 db:
-  build: db
   image: mattermost/mattermost-prod-db
   volumes:
     - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
-    - /etc/localtime:/etc/localtime:ro
+  environment:
+    - POSTGRES_PASSWORD
   # uncomment the following to enable backup
   #environment:
   #  - AWS_ACCESS_KEY_ID=XXXX
@@ -11,26 +11,15 @@ db:
   #  - WALE_S3_PREFIX=s3://BUCKET_NAME/PATH
   #  - AWS_REGION=us-east-1
 app:
-  build: app
   image: mattermost/mattermost-prod-app
   links:
-    - db:db
+    - db
   volumes:
-    - ./volumes/app/mattermost/config:/mattermost/config:rw
-    - ./volumes/app/mattermost/data:/mattermost/data:rw
-    - /etc/localtime:/etc/localtime:ro
-web:
-  build: web
-  image: mattermost/mattermost-prod-web
-  ports:
-    - "80:80"
-    - "443:443"
-  links:
-    - app:app
-  volumes:
-      # This directory must have cert files
-    - ./volumes/web/cert:/cert:ro
-    - /etc/localtime:/etc/localtime:ro
+    - ./volumes/app/mattermost/config:/opt/mattermost/config
+    - ./volumes/app/mattermost/data:/opt/mattermost/data
   environment:
-    - MATTERMOST_ENABLE_SSL=false
-    - PLATFORM_PORT_80_TCP_PORT=80
+    - POSTGRES_PASSWORD
+web:
+  image: mattermost/mattermost-prod-web
+  links:
+    - app
