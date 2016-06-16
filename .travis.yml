@@ -4,8 +4,16 @@ services:
     - docker
 
 before_install:
-    - docker-compose up -d
+    - docker build -t mattermost-prod-db db
+    - docker build -t mattermost-prod-app app
+
+install:
+    - eval $BUILD
     - sleep 10
+
+env:
+    - BUILD="docker-compose up -d"
+    - BUILD="docker run -d --name db mattermost-prod-db && sleep 5 && docker run -d --link db -p 80:80 --name app mattermost-prod-app"
 
 script:
     - curl -sSf http://localhost > /dev/null
