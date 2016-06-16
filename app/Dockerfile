@@ -1,8 +1,6 @@
-FROM ubuntu:14.04
+FROM alpine:3.3
 
-ENV PATH="/mattermost/bin:${PATH}"
-
-RUN apt-get update && apt-get -y install curl netcat
+RUN apk add --update curl netcat-openbsd ca-certificates && rm -rf /var/cache/apk/*
 RUN mkdir -p /mattermost/data
 
 ENV MM_VERSION=3.8.1
