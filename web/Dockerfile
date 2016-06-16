@@ -1,6 +1,6 @@
-FROM ubuntu:14.04
+FROM alpine:3.3
 
-RUN apt-get update && apt-get install -y nginx
+RUN apk add --update nginx && rm -rf /var/cache/apk/*
 
 RUN rm /etc/nginx/sites-enabled/default
 

@@ -1,6 +1,6 @@
-FROM ubuntu:14.04
+FROM alpine:3.3
 
-RUN apt-get update && apt-get -y install curl netcat
+RUN apk add --update curl netcat-openbsd ca-certificates && rm -rf /var/cache/apk/*
 RUN mkdir -p /mattermost/data
 
 RUN curl https://releases.mattermost.com/3.0.2/mattermost-team-3.0.2-linux-amd64.tar.gz | tar -xvz
