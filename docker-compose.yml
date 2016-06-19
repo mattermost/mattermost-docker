@@ -1,5 +1,6 @@
 db:
   build: db
+  image: mattermost/mattermost-prod-db
   volumes:
     - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
     - /etc/localtime:/etc/localtime:ro
@@ -11,6 +12,7 @@ db:
   #  - AWS_REGION=us-east-1
 app:
   build: app
+  image: mattermost/mattermost-prod-app
   links:
     - db:db
   volumes:
@@ -19,6 +21,7 @@ app:
     - /etc/localtime:/etc/localtime:ro
 web:
   build: web
+  image: mattermost/mattermost-prod-web
   ports:
     - "80:80"
     - "443:443"
