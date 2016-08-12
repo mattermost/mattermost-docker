@@ -20,8 +20,8 @@ See [README.aws.md](./README.aws.md) if you want to install it on AWS Elastic Be
       - MATTERMOST_ENABLE_SSL=true
     ```
 
-2. Put your SSL certificate as `./volumes/cert/cert.pem` and the private key that has
-   no password as `./volumes/cert/key-no-password.pem`. If you don't have
+2. Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key that has
+   no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
    them you may generate a self-signed SSL certificate.
 
 3. Build and run mattermost
