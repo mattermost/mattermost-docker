@@ -3,6 +3,7 @@
 # if wal backup is not enabled, use minimal wal logging to reduce disk space
 : ${WAL_LEVEL:=minimal}
 : ${ARCHIVE_MODE:=off}
+: ${ARCHIVE_TIMEOUT:=60}
 # PGDATA is defined in upstream postgres dockerfile
 
 function update_conf () {
