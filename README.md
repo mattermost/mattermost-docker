@@ -113,7 +113,7 @@ See the [offical Upgrade Guide](http://docs.mattermost.com/administration/upgrad
 If you want to know how to use docker-compose, see [the overview
 page](https://docs.docker.com/compose).
 
-If you want to run Mattermost on Kubernetes you can start with the [manifest examples in the kubernetes folder](kubernetes/README.md)
+If you want to run Mattermost on Kubernetes you can start with the [manifest examples in the kubernetes folder](contrib/kubernetes/README.md)
 
 For the server configurations, see [prod-ubuntu.rst] of mattermost.
 
