@@ -2,7 +2,7 @@
     config=/mattermost/config/config.json
 if [ ! -f $config ]
 then
-    cp /config.json $config
+    cp /config.templete.json $config
     echo OK
 else
     echo SKIP
