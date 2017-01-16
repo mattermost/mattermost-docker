@@ -6,6 +6,7 @@ RUN mkdir -p /mattermost/data
 RUN curl https://releases.mattermost.com/3.6.0/mattermost-team-3.6.0-linux-amd64.tar.gz | tar -xvz
 
 RUN rm /mattermost/config/config.json
+
 COPY config.templete.json /
 
 COPY docker-entry.sh /
