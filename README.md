@@ -11,6 +11,8 @@ See [README.aws.md](./README.aws.md) if you want to install it on AWS Elastic Be
 
 ## Installation
 
+For the people who want to install Mattermost in a traditional way (without docker), please refer to the guide here: https://docs.mattermost.com/guides/administrator.html#installing-mattermost
+
 ### Install with SSL certificate
 
 1. Open docker-compose.yml and set `MATTERMOST_ENABLE_SSL` to true.
