@@ -21,6 +21,8 @@ services:
   app:
     build: app
     restart: always
+    depends_on:
+      - db
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
       - ./volumes/app/mattermost/data:/mattermost/data:rw
