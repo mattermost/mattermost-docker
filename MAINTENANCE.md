@@ -18,13 +18,13 @@ The following people help to maintain this open source project:
 
 | Current Maintainer(s)  | Start Date    | 
 |:-----------------------|:--------------|
-| Pan Luo - @xcompass    | NOV 30 2015   |
+| Pan Luo - @xcompass    | Nov 30 2015   |
 
 In case something happens where a maintainer is unable to complete their responsibilies or find a new maintainer, the following sponsoring organization can help find a new maintainer: 
 
 | Sponsoring Organization        | Start Date    | 
 |:-------------------------------|:--------------|
-| Mattermost Open Source Project | DEC 04 2016   |
+| Mattermost Open Source Project | Dec 04 2016   |
 
 
 ## Activities
@@ -61,12 +61,12 @@ PREVIOUS MAINTAINERS
 
 | Maintainer             | Start Date    | End Date    |
 |:-----------------------|:--------------|:------------|
-| Yi EungJun - @npcode   | NOV 26 2015   | NOV 30 2016 | 
+| Yi EungJun - @npcode   | Nov 26 2015   | Nov 30 2016 | 
 
 
 CREATOR 
 
 | Creator                | Created Date  |
 |:-----------------------|:--------------|
-| Yi EungJun - @npcode   | NOV 26 2015   |
+| Yi EungJun - @npcode   | Nov 26 2015   |
 
