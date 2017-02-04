@@ -4,7 +4,11 @@ This file outlines the current maintainer(s) of this open source project and exp
 
 ## Project Name 
 
-When reference externally, please call this project: 
+When reference externally, please use this for the short name: 
+
+- Production Docker deployment for Mattermost 
+
+Please use this long name: 
 
 - Production Docker deployment for Mattermost by the Mattermost open source project
 
