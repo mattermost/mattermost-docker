@@ -6,7 +6,7 @@ This file outlines the current maintainer(s) of this open source project and exp
 
 When reference externally, please call this project: 
 
-- Multi-node Docker image for Mattermost by the Mattermost open source project
+- Production Docker deployment for Mattermost by the Mattermost open source project
 
 ## Maintainer(s)
 
