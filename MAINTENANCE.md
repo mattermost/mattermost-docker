@@ -20,7 +20,7 @@ The following people help to maintain this open source project:
 |:-----------------------|:--------------|
 | Pan Luo - @xcompass    | Nov 30 2015   |
 
-In case something happens where a maintainer is unable to complete their responsibilies or find a new maintainer, the following sponsoring organization can help find a new maintainer: 
+In case something happens where no maintainers are able to complete their responsibilies, the following sponsoring organization can help find a new maintainer: 
 
 | Sponsoring Organization        | Start Date    | 
 |:-------------------------------|:--------------|
