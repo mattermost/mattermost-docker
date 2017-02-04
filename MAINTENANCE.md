@@ -1,4 +1,4 @@
-# Maintenance 
+# Maintainer Guide 
 
 This file outlines the current maintainer(s) of this open source project and expectations. It also includes credits to past maintainers and the project creator. 
 
@@ -25,7 +25,7 @@ In case something happens where a maintainer is unable to complete their respons
 
 ## Maintainer Guide 
 
-The following is a guide for current and new maintainers of this open source project to get started and to understand on-going responsibilities: 
+The following is a guide for current, new maintainers and prospective maintainers of this open source project to get started and to understand on-going responsibilities: 
 
 ### Getting Started 
 
@@ -40,6 +40,10 @@ When receive a mailing list email about a new security update or major version o
 
 - Change the [version number](https://github.com/mattermost/mattermost-docker/blob/master/app/Dockerfile#L6) in the **master branch** to pull in the latest Mattermost Team Edition release
 - Change the [version number](https://github.com/mattermost/mattermost-docker/blob/team-and-enterprise/app/Dockerfile#L6) in the **the team-and-enterprise branch** to pull in the latest Mattermost Enterprise Edition release
+
+## Issue and Pull Request Review 
+
+Maintainer(s) should periodically review pull requests and issues submitted to provide feedback and to merge pull request changes when the maintainer feels the change would be appropriate. 
 
 ## Credits 
 
