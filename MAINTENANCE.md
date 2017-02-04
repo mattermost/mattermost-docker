@@ -20,7 +20,7 @@ In case something happens where a maintainer is unable to complete their respons
 
 | Sponsoring Organization        | Start Date    | 
 |:-------------------------------|:--------------|
-| Mattermost Open Source Project | 2015-11-30    |
+| Mattermost Open Source Project | 2016-04-12    |
 
 
 ## Maintainer Guide 
@@ -51,12 +51,12 @@ PREVIOUS MAINTAINERS
 
 | Creator                | Start Date    | End Date   |
 |:-----------------------|:--------------|:-----------|
-| Yi EungJun - @npcode   | 2015-11-30    | 2015-11-30 | 
+| Yi EungJun - @npcode   | 2015-11-30    | 2015-11-26 | 
 
 
 CREATOR 
 
 | Creator                | Created Date  |
 |:-----------------------|:--------------|
-| Yi EungJun - @npcode   | 2015-11-30    |
+| Yi EungJun - @npcode   | 2015-11-26    |
 
