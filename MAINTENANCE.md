@@ -49,7 +49,7 @@ Maintainer(s) should periodically review pull requests and issues submitted to p
 
 PREVIOUS MAINTAINERS 
 
-| Creator                | Start Date    | End Date   |
+| Maintainer             | Start Date    | End Date   |
 |:-----------------------|:--------------|:-----------|
 | Yi EungJun - @npcode   | 2015-11-30    | 2015-11-26 | 
 
