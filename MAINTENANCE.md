@@ -4,7 +4,7 @@ This file outlines the current maintainer(s) of this open source project and exp
 
 ## Project Name 
 
-When reference externally, this project should be called: 
+When reference externally, please call this project: 
 
 - Multi-node Docker image for Mattermost by the Mattermost open source project
 
