@@ -1,4 +1,4 @@
-FROM postgres:9.4
+FROM postgres:9.5
 
 RUN apt-get update \
     && apt-get install -y python-dev lzop pv daemontools curl build-essential \
