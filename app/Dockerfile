@@ -1,9 +1,10 @@
-FROM alpine:3.3
+FROM alpine:3.5
 
 RUN apk add --update curl netcat-openbsd ca-certificates && rm -rf /var/cache/apk/*
 RUN mkdir -p /mattermost/data
 
-RUN curl https://releases.mattermost.com/3.0.2/mattermost-team-3.0.2-linux-amd64.tar.gz | tar -xvz
+RUN curl https://releases.mattermost.com/3.6.2/mattermost-team-3.6.2-linux-amd64.tar.gz | tar -xvz
+RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
 
 RUN rm /mattermost/config/config.json
 COPY config.template.json /

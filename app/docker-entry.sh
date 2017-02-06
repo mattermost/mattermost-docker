@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 config=/mattermost/config/config.json
 DB_HOST=${DB_HOST:-db}
 DB_PORT_5432_TCP_PORT=${DB_PORT_5432_TCP_PORT:-5432}
