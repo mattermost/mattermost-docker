@@ -1,8 +1,6 @@
-FROM alpine:3.3
+FROM nginx:alpine
 
-RUN apk add --update nginx && rm -rf /var/cache/apk/*
-
-RUN rm /etc/nginx/sites-enabled/default
+RUN rm /etc/nginx/conf.d/default.conf
 
 COPY mattermost /etc/nginx/sites-available/
 COPY mattermost-ssl /etc/nginx/sites-available/
