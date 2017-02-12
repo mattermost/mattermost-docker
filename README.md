@@ -1,17 +1,21 @@
-Dockerfiles for Mattermost in production
+# Production Docker deployment for Mattermost
 
-See [README.aws.md](./README.aws.md) if you want to install it on AWS Elastic Beanstalk.
+This project enables deployment of a Mattermost server in a multi-node production configuration using Docker. 
 
 [![Build Status](https://travis-ci.org/mattermost/mattermost-docker.svg?branch=master)](https://travis-ci.org/mattermost/mattermost-docker)
 
-## Requirements
+Notes: 
+- To install this Docker project on AWS Elastic Beanstalk please see [AWS Elastic Beanstalk Guide](./README.aws.md).
+- To install Mattermost without Docker directly onto a Linux-based operating systems, please see [Admin Guide](https://docs.mattermost.com/guides/administrator.html#installing-mattermost).
+
+## Installation using Docker Compose 
+
+The following instructions deploy Mattermost in a production configuration using multi-node Docker Compose set up. 
+
+### Requirements
 
 * [docker]
 * [docker-compose]
-
-## Installation
-
-For the people who want to install Mattermost in a traditional way (without docker), please refer to the guide here: https://docs.mattermost.com/guides/administrator.html#installing-mattermost
 
 ### Install with SSL certificate
 
@@ -110,7 +114,7 @@ See the [offical Upgrade Guide](http://docs.mattermost.com/administration/upgrad
 * Rarely 'app' container fails to start because of "connection refused" to
   database. Workaround: Restart the container.
 
-## More informations
+## More information
 
 If you want to know how to use docker-compose, see [the overview
 page](https://docs.docker.com/compose).
