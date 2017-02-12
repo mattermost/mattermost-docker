@@ -29,17 +29,38 @@ Make sure to set the appropriate values for `MM_USERNAME`, `MM_PASSWORD` and `MM
 
 3. Build and run mattermost
 
+    ```
     docker-compose up -d
+    ```
 
 4. Open `https://your.domain` with your web browser.
 
 ### Install without SSL certificate
 
-1. Build and run mattermost
+1. Open docker-compose.yml and set `MATTERMOST_ENABLE_SSL` to false.
 
+    ```
+    environment:
+      - MATTERMOST_ENABLE_SSL=false
+    ```
+
+2. Build and run mattermost
+
+    ```
     docker-compose up -d
+    ```
 
 3. Open `http://your.domain` with your web browser.
+
+### Install the Enterprise Version
+
+To install the enterprise version, uncomment the following line in docker-compose.yaml file:
+
+    ```
+    dockerfile: Dockerfile-enterprise
+    ```
+
+Then follow the instruction above.
 
 ## Starting/Stopping
 
