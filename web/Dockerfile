@@ -4,7 +4,6 @@ RUN apt-get update && apt-get install -y nginx
 
 RUN rm /etc/nginx/sites-enabled/default
 
-COPY mattermost /etc/nginx/sites-available/
 COPY mattermost-ssl /etc/nginx/sites-available/
 ADD docker-entry.sh /
 
