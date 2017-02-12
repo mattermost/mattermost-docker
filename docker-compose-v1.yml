@@ -22,6 +22,12 @@ app:
     - ./volumes/app/mattermost/config:/mattermost/config:rw
     - ./volumes/app/mattermost/data:/mattermost/data:rw
     - /etc/localtime:/etc/localtime:ro
+  environment:
+  # set same as db environment
+    - MM_USERNAME=mmuser
+    - MM_PASSWORD=mmuser_password
+    - MM_DBNAME=mattermost
+
 web:
   build: web
   ports:
