@@ -17,6 +17,16 @@ The following instructions deploy Mattermost in a production configuration using
 * [docker]
 * [docker-compose]
 
+### Choose Edition to Install
+
+If you want to install enterprise edition, you can skip this section.
+
+To install the team edition, comment out the following line in docker-compose.yaml file:
+
+    ```
+    dockerfile: Dockerfile-enterprise
+    ```
+
 ### Database
 
 Make sure to set the appropriate values for `MM_USERNAME`, `MM_PASSWORD` and `MM_DBNAME`.
@@ -27,40 +37,23 @@ Make sure to set the appropriate values for `MM_USERNAME`, `MM_PASSWORD` and `MM
    no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
    them you may generate a self-signed SSL certificate.
 
-3. Build and run mattermost
-
-    ```
-    docker-compose up -d
-    ```
-
-4. Open `https://your.domain` with your web browser.
-
-### Install without SSL certificate
-
-1. Open docker-compose.yml and set `MATTERMOST_ENABLE_SSL` to false.
-
-    ```
-    environment:
-      - MATTERMOST_ENABLE_SSL=false
-    ```
-
 2. Build and run mattermost
 
     ```
     docker-compose up -d
     ```
 
-3. Open `http://your.domain` with your web browser.
+3. Open `https://your.domain` with your web browser.
 
-### Install the Enterprise Version
+### Install without SSL certificate
 
-To install the enterprise version, uncomment the following line in docker-compose.yaml file:
+1. Build and run mattermost
 
     ```
-    dockerfile: Dockerfile-enterprise
+    docker-compose up -d
     ```
 
-Then follow the instruction above.
+2. Open `http://your.domain` with your web browser.
 
 ## Starting/Stopping
 
