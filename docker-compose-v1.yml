@@ -1,6 +1,6 @@
 db:
   build: db
-  restart: always
+  restart: unless-stopped
   volumes:
     - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
     - /etc/localtime:/etc/localtime:ro
@@ -17,7 +17,7 @@ app:
   build: app
   links:
     - db:db
-  restart: always
+  restart: unless-stopped
   volumes:
     - ./volumes/app/mattermost/config:/mattermost/config:rw
     - ./volumes/app/mattermost/data:/mattermost/data:rw
@@ -35,7 +35,7 @@ web:
     - "443:443"
   links:
     - app:app
-  restart: always
+  restart: unless-stopped
   volumes:
       # This directory must have cert files
     - ./volumes/web/cert:/cert:ro
