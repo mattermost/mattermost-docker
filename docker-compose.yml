@@ -4,7 +4,7 @@ services:
 
   db:
     build: db
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
       - /etc/localtime:/etc/localtime:ro
@@ -20,7 +20,7 @@ services:
 
   app:
     build: app
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
       - ./volumes/app/mattermost/data:/mattermost/data:rw
@@ -36,7 +36,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    restart: always
+    restart: unless-stopped
     volumes:
       # This directory must have cert files
       - ./volumes/web/cert:/cert:ro
