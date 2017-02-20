@@ -30,6 +30,8 @@ services:
       - MM_USERNAME=mmuser
       - MM_PASSWORD=mmuser_password
       - MM_DBNAME=mattermost
+    depends_on:
+      - db
 
   web:
     build: web
@@ -44,3 +46,5 @@ services:
     environment:
       - MATTERMOST_ENABLE_SSL=false
       - PLATFORM_PORT_80_TCP_PORT=80
+    depends_on:
+      - app
