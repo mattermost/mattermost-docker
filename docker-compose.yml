@@ -24,6 +24,7 @@ services:
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
       - ./volumes/app/mattermost/data:/mattermost/data:rw
+      - ./volumes/app/mattermost/logs:/mattermost/logs:rw
       - /etc/localtime:/etc/localtime:ro
     environment:
       # set same as db environment
