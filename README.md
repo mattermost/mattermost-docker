@@ -96,6 +96,34 @@ docker exec mattermost-db su - postgres sh -c "/usr/bin/envdir /etc/wal-e.d/env 
 ```
 Those tasks can be executed through a cron job or systemd timer.
 
+## Customization
+
+Customization can be done through environment variables.
+
+### Mattermost App Image
+
+* MM_USERNAME: database username, must be the same as one in DB image
+* MM_PASSWORD: database password, must be the same as one in DB image
+* MM_DBNAME: database name, must be the same as one in DB image
+* DB_HOST: database host address
+* DB_PORT_5432_TCP_PORT: database port
+* MM_CONFIG: configuration file location. It can be used when config is mounted in a different location.
+
+### Mattermost DB Image
+
+* MM_USERNAME: database username, must be the same as on in App image
+* MM_PASSWORD: database password, must be the same as on in App image
+* MM_DBNAME: database name, must be the same as on in App image
+* AWS_ACCESS_KEY_ID: aws access key, used for db backup
+* AWS_SECRET_ACCESS_KEY: aws secret, used for db backup
+* WALE_S3_PREFIX: aws s3 bucket name, used for db backup
+* AWS_REGION: aws region, used for db backup
+
+### Mattermost Web Image
+
+* MATTERMOST_ENABLE_SSL: whether to enable SSL
+* PLATFORM_PORT_80_TCP_PORT: port that Mattermost image is listening on
+
 ## Upgrading to Team Edition 3.0.x from 2.x
 
 You need to migrate your database before upgrading mattermost to 3.0.x from
