@@ -1,16 +1,16 @@
 # Production Docker deployment for Mattermost
 
-This project enables deployment of a Mattermost server in a multi-node production configuration using Docker. 
+This project enables deployment of a Mattermost server in a multi-node production configuration using Docker.
 
 [![Build Status](https://travis-ci.org/mattermost/mattermost-docker.svg?branch=master)](https://travis-ci.org/mattermost/mattermost-docker)
 
-Notes: 
+Notes:
 - To install this Docker project on AWS Elastic Beanstalk please see [AWS Elastic Beanstalk Guide](./README.aws.md).
 - To install Mattermost without Docker directly onto a Linux-based operating systems, please see [Admin Guide](https://docs.mattermost.com/guides/administrator.html#installing-mattermost).
 
-## Installation using Docker Compose 
+## Installation using Docker Compose
 
-The following instructions deploy Mattermost in a production configuration using multi-node Docker Compose set up. 
+The following instructions deploy Mattermost in a production configuration using multi-node Docker Compose set up.
 
 ### Requirements
 
@@ -19,14 +19,7 @@ The following instructions deploy Mattermost in a production configuration using
 
 ### Install with SSL certificate
 
-1. Open docker-compose.yml and set `MATTERMOST_ENABLE_SSL` to true.
-
-    ```
-    environment:
-      - MATTERMOST_ENABLE_SSL=true
-    ```
-
-2. Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key that has
+1. Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key that has
    no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
    them you may generate a self-signed SSL certificate.
 
@@ -38,14 +31,7 @@ The following instructions deploy Mattermost in a production configuration using
 
 ### Install without SSL certificate
 
-1. Open docker-compose.yml and set `MATTERMOST_ENABLE_SSL` to false.
-
-    ```
-    environment:
-      - MATTERMOST_ENABLE_SSL=false
-    ```
-    
-2. Build and run mattermost
+1. Build and run mattermost
 
     docker-compose up -d
 
