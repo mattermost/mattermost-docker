@@ -19,7 +19,7 @@ The following instructions deploy Mattermost in a production configuration using
 
 ### Database
 
-make sure to set the appropriate values for `MM_USERNAME`, `MM_PASSWORD` and `MM_DBNAME`  
+Make sure to set the appropriate values for `MM_USERNAME`, `MM_PASSWORD` and `MM_DBNAME`.
 
 ### Install with SSL certificate
 
@@ -50,6 +50,15 @@ make sure to set the appropriate values for `MM_USERNAME`, `MM_PASSWORD` and `MM
 ### Stop
 
     docker-compose stop
+
+### Update
+
+Make sure to backup Mattermost data before proceeding.
+
+    docker-compose down
+    git pull
+    docker-compose build
+    docker-compose up -d
 
 ## Removing
 
