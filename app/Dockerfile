@@ -5,7 +5,7 @@ ENV PATH="/mattermost/bin:${PATH}"
 RUN apt-get update && apt-get -y install curl netcat
 RUN mkdir -p /mattermost/data
 
-ENV MM_VERSION=3.6.3
+ENV MM_VERSION=3.7.1
 
 RUN curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz | tar -xvz
 
