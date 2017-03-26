@@ -9,7 +9,7 @@ before_install:
 
 install:
     - eval $BUILD
-    - sleep 10
+    - sleep 30
 
 env:
     - BUILD="docker-compose up -d"
