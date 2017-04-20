@@ -1,5 +1,7 @@
 FROM alpine:3.5
 
+ENV PATH="/mattermost/bin:${PATH}"
+
 RUN apk add --update curl netcat-openbsd ca-certificates && rm -rf /var/cache/apk/*
 RUN mkdir -p /mattermost/data
 

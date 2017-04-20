@@ -24,7 +24,7 @@ services:
     build:
       context: app
       # comment out for team edition
-      dockerfile: Dockerfile-enterprise
+      #dockerfile: Dockerfile-enterprise
     restart: unless-stopped
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
