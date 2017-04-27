@@ -5,7 +5,7 @@ ENV PATH="/mattermost/bin:${PATH}"
 RUN apk add --update curl netcat-openbsd ca-certificates && rm -rf /var/cache/apk/*
 RUN mkdir -p /mattermost/data
 
-ENV MM_VERSION=3.8.1
+ENV MM_VERSION=3.8.2
 
 RUN curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz | tar -xvz
 RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
