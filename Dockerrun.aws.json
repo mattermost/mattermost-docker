@@ -23,7 +23,7 @@
     "containerDefinitions": [
         {
             "name": "app",
-            "image": "npcode/mattermost-app:latest",
+            "image": "mattermost/mattermost-prod-app:latest",
             "memory": 128,
             "mountPoints": [
                 {
@@ -47,7 +47,7 @@
         },
         {
             "name": "db",
-            "image": "npcode/mattermost-db:latest",
+            "image": "mattermost/mattermost-prod-db:latest",
             "memory": 128,
             "mountPoints": [
                 {
