@@ -19,6 +19,7 @@ The following people help to maintain this open source project:
 | Current Maintainer(s)  | Start Date    | 
 |:-----------------------|:--------------|
 | Pan Luo - @xcompass    | Nov 30 2015   |
+| Kyâne Pichou - @pichouk| Jun 01 2017   |
 
 In case something happens where no maintainers are able to complete their responsibilies, the following sponsoring organization can help find a new maintainer: 
 
