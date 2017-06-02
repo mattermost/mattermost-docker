@@ -14,13 +14,48 @@
             }
         },
         {
+            "name": "app-logs",
+            "host": {
+                "sourcePath": "/var/app/current/app/mattermost/logs"
+            }
+        },
+        {
             "name": "db-data",
             "host": {
                 "sourcePath": "/var/app/current/db/mattermost/var/lib/postgresql/data"
             }
+        },
+        {
+            "name": "web-cert",
+            "host": {
+                "sourcePath": "/var/app/current/web/cert"
+            }
         }
     ],
     "containerDefinitions": [
+        {
+            "name": "db",
+            "image": "mattermost/mattermost-prod-db:latest",
+            "memory": 128,
+            "mountPoints": [
+                {
+                    "sourceVolume": "db-data",
+                    "containerPath": "/var/lib/postgresql/data"
+                }
+            ],
+            "environment": [
+              {
+                "name": "POSTGRES_USER",
+                "value": "mmuser"
+              }, {
+                "name": "POSTGRES_PASSWORD",
+                "value": "mmuser_password"
+              }, {
+                "name": "POSTGRES_DB",
+                "value": "mattermost"
+              }
+            ]
+        },
         {
             "name": "app",
             "image": "mattermost/mattermost-prod-app:latest",
@@ -33,12 +68,10 @@
                 {
                     "sourceVolume": "app-data",
                     "containerPath": "/mattermost/data"
-                }
-            ],
-            "portMappings": [
+                },
                 {
-                    "hostPort": 80,
-                    "containerPort": 80
+                    "sourceVolume": "app-logs",
+                    "containerPath": "/mattermost/logs"
                 }
             ],
             "links": [
@@ -46,14 +79,27 @@
             ]
         },
         {
-            "name": "db",
-            "image": "mattermost/mattermost-prod-db:latest",
+            "name": "web",
+            "image": "mattermost/mattermost-prod-web:latest",
             "memory": 128,
             "mountPoints": [
                 {
-                    "sourceVolume": "db-data",
-                    "containerPath": "/var/lib/postgresql/data"
+                    "sourceVolume": "web-cert",
+                    "containerPath": "/cert"
                 }
+            ],
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                },
+                {
+                    "hostPort": 443,
+                    "containerPort": 443
+                }
+            ],
+            "links": [
+                "app"
             ]
         }
     ]
