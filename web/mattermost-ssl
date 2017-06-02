@@ -10,7 +10,7 @@ map $http_x_forwarded_proto $proxy_x_forwarded_proto {
 }
 
 server {
-    listen 443;
+    listen 443 ssl http2;
 
     ssl on;
     ssl_certificate /cert/cert.pem;
@@ -20,18 +20,37 @@ server {
     ssl_ciphers HIGH:MEDIUM:!SSLv2:!PSK:!SRP:!ADH:!AECDH;
     ssl_prefer_server_ciphers on;
 
-    location / {
-        gzip off;
+    location ~ /api/v[0-9]+/(users/)?websocket$ {
+        proxy_set_header Upgrade $http_upgrade;
         proxy_set_header X-Forwarded-Ssl on;
+        proxy_set_header Connection "upgrade";
 
         client_max_body_size 50M;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
         proxy_set_header Host $http_host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
         proxy_set_header X-Frame-Options SAMEORIGIN;
+        proxy_buffers 256 16k;
+        proxy_buffer_size 16k;
+        proxy_read_timeout 600s;
+        proxy_pass http://app:80;
+    }
+
+    location / {
+        gzip on;
+        proxy_set_header X-Forwarded-Ssl on;
+
+        client_max_body_size 50M;
+        proxy_set_header Connection "";
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
+        proxy_set_header X-Frame-Options SAMEORIGIN;
+        proxy_buffers 256 16k;
+        proxy_buffer_size 16k;
+        proxy_read_timeout 600s;
         proxy_pass http://app:80;
     }
 }
