@@ -1,4 +1,4 @@
-FROM nginx:mainline
+FROM nginx:alpine
 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./mattermost /etc/nginx/sites-available/
