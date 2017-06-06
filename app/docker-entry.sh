@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DB_HOST=${DB_HOST:-db}
-DB_PORT_5432_TCP_PORT=${DB_PORT_5432_TCP_PORT:-5432}
+DB_PORT_NUMBER=${DB_PORT_NUMBER:-5432}
 MM_USERNAME=${MM_USERNAME:-mmuser}
 MM_PASSWORD=${MM_PASSWORD:-mmuser_password}
 MM_DBNAME=${MM_DBNAME:-mattermost}
@@ -27,11 +27,11 @@ if [ "$1" = 'platform' ]; then
     fi
 
     echo -ne "Configure database connection..."
-    export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$MM_PASSWORD@$DB_HOST:$DB_PORT/$MM_DBNAME?sslmode=disable&connect_timeout=10"
+    export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$MM_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
     echo OK
 
-    echo "Wait until database $DB_HOST:$DB_PORT_5432_TCP_PORT is ready..."
-    until nc -z $DB_HOST $DB_PORT_5432_TCP_PORT
+    echo "Wait until database $DB_HOST:$DB_PORT_NUMBER is ready..."
+    until nc -z $DB_HOST $DB_PORT_NUMBER
     do
         sleep 1
     done

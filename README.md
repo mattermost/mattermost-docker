@@ -120,7 +120,7 @@ Customization can be done through environment variables.
 * MM_PASSWORD: database password, must be the same as one in DB image
 * MM_DBNAME: database name, must be the same as one in DB image
 * DB_HOST: database host address
-* DB_PORT_5432_TCP_PORT: database port
+* DB_PORT_NUMBER: database port
 * MM_CONFIG: configuration file location. It can be used when config is mounted in a different location.
 
 ### Mattermost DB Image
