@@ -29,7 +29,8 @@ RUN apt-get update \
 # Prepare Mattermost
 RUN mkdir -p /mattermost/data \
     && curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz | tar -xvz \
-    && cp /mattermost/config/config.json /config.json.save
+    && cp /mattermost/config/config.json /config.json.save \
+    && rm -rf /mattermost/config/config.json
 
 # Configure entrypoint
 COPY docker-entry.sh /
