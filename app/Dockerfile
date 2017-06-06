@@ -20,11 +20,11 @@ ENV MM_SERVICESETTINGS_LISTENADDRESS=":80" \
     MM_SQLSETTINGS_DRIVERNAME="postgres"
 
 # Install some needed packages
-RUN apt-get update; \
-    apt-get -y install \
+RUN apt-get update \
+    && apt-get -y install \
       curl \
-      netcat; \
-    rm -rf /var/lib/apt/lists/*
+      netcat \
+    && rm -rf /var/lib/apt/lists/*
 
 # Prepare Mattermost
 RUN mkdir -p /mattermost/data \
