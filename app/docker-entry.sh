@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DB_HOST=${DB_HOST:-db}
-DB_PORT_5432_TCP_PORT=${DB_PORT_5432_TCP_PORT:-5432}
+DB_PORT_NUMBER=${DB_PORT_NUMBER:-5432}
 MM_USERNAME=${MM_USERNAME:-mmuser}
 MM_PASSWORD=${MM_PASSWORD:-mmuser_password}
 MM_DBNAME=${MM_DBNAME:-mattermost}
@@ -21,23 +21,17 @@ if [ "$1" = 'platform' ]; then
     done
 
     echo "Using config file" $MM_CONFIG
-
-    echo -ne "Configure database connection..."
     if [ ! -f $MM_CONFIG ]
     then
-        cp /config.template.json $MM_CONFIG
-        sed -Ei "s/DB_HOST/$DB_HOST/" $MM_CONFIG
-        sed -Ei "s/DB_PORT/$DB_PORT_5432_TCP_PORT/" $MM_CONFIG
-        sed -Ei "s/MM_USERNAME/$MM_USERNAME/" $MM_CONFIG
-        sed -Ei "s/MM_PASSWORD/$MM_PASSWORD/" $MM_CONFIG
-        sed -Ei "s/MM_DBNAME/$MM_DBNAME/" $MM_CONFIG
-        echo OK
-    else
-        echo SKIP
+        cp /config.json.save $MM_CONFIG
     fi
 
-    echo "Wait until database $DB_HOST:$DB_PORT_5432_TCP_PORT is ready..."
-    until nc -z $DB_HOST $DB_PORT_5432_TCP_PORT
+    echo -ne "Configure database connection..."
+    export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$MM_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
+    echo OK
+
+    echo "Wait until database $DB_HOST:$DB_PORT_NUMBER is ready..."
+    until nc -z $DB_HOST $DB_PORT_NUMBER
     do
         sleep 1
     done
