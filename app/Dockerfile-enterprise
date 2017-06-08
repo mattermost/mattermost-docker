@@ -4,25 +4,11 @@ FROM ubuntu:14.04
 ENV PATH="/mattermost/bin:${PATH}"
 ENV MM_VERSION=3.9.0
 
-# Override default config
-ENV MM_SERVICESETTINGS_LISTENADDRESS=":80" \
-    MM_LOGSETTINGS_ENABLECONSOLE=false \
-    MM_LOGSETTINGS_CONSOLELEVEL="INFO" \
-    MM_FILESETTINGS_DIRECTORY="/mattermost/data/" \
-    MM_FILESETTINGS_ENABLEPUBLICLINK=true \
-    MM_FILESETTINGS_PUBLICLINKSALT="A705AklYF8MFDOfcwh3I488G8vtLlVip" \
-    MM_EMAILSETTINGS_SENDEMAILNOTIFICATIONS=false \
-    MM_EMAILSETTINGS_FEEDBACKEMAIL="" \
-    MM_EMAILSETTINGS_SMTPSERVER="" \
-    MM_EMAILSETTINGS_SMTPPORT="" \
-    MM_EMAILSETTINGS_INVITESALT="bjlSR4QqkXFBr7TP4oDzlfZmcNuH9YoS" \
-    MM_RATELIMITSETTINGS_ENABLE=true \
-    MM_SQLSETTINGS_DRIVERNAME="postgres"
-
 # Install some needed packages
 RUN apt-get update \
     && apt-get -y install \
       curl \
+      jq \
       netcat \
     && rm -rf /var/lib/apt/lists/*
 
