@@ -6,7 +6,7 @@ This project enables deployment of a Mattermost server in a multi-node productio
 
 Notes:
 - The default Mattermost edition for this repo has changed from team edition to enterprise edition. Please see [Choose Edition](#choose-edition-to-install) section.
-- To install this Docker project on AWS Elastic Beanstalk please see [AWS Elastic Beanstalk Guide](./contrib/awd/README.md).
+- To install this Docker project on AWS Elastic Beanstalk please see [AWS Elastic Beanstalk Guide](./contrib/aws/README.md).
 - To run Mattermost on Kubernetes you can start with the [manifest examples in the kubernetes folder](contrib/kubernetes/README.md)
 - To install Mattermost without Docker directly onto a Linux-based operating systems, please see [Admin Guide](https://docs.mattermost.com/guides/administrator.html#installing-mattermost).
 
