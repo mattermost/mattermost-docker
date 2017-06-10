@@ -1,5 +1,9 @@
 #!/bin/bash
 
+generate_salt() {
+  cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 48 | head -n 1
+}
+
 DB_HOST=${DB_HOST:-db}
 DB_PORT_NUMBER=${DB_PORT_NUMBER:-5432}
 MM_USERNAME=${MM_USERNAME:-mmuser}
@@ -33,14 +37,27 @@ if [ "$1" = 'platform' ]; then
       jq '.LogSettings.ConsoleLevel = "INFO"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
       jq '.FileSettings.Directory = "/mattermost/data/"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
       jq '.FileSettings.EnablePublicLink = true' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-      jq '.FileSettings.PublicLinkSalt = "A705AklYF8MFDOfcwh3I488G8vtLlVip"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+      jq '.FileSettings.PublicLinkSalt = "ChangePublicLinkSalt"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
       jq '.EmailSettings.SendEmailNotifications = false' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
       jq '.EmailSettings.FeedbackEmail = ""' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
       jq '.EmailSettings.SMTPServer = ""' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
       jq '.EmailSettings.SMTPPort = ""' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-      jq '.EmailSettings.InviteSalt = "bjlSR4QqkXFBr7TP4oDzlfZmcNuH9YoS"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+      jq '.EmailSettings.InviteSalt = "ChangeInviteSalt"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+      jq '.EmailSettings.PasswordResetSalt = "ChangePasswordResetSalt"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
       jq '.RateLimitSettings.Enable = true' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
       jq '.SqlSettings.DriverName = "postgres"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+      jq '.SqlSettings.AtRestEncryptKey = "ChangeAtRestEncryptKey"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+
+      # Generating salts
+      for key in \
+        ChangeInviteSalt \
+        ChangePublicLinkSalt \
+        ChangePasswordResetSalt \
+        ChangeAtRestEncryptKey
+      do
+        echo "Generating and setting salt for '$key'..."
+        sed -Ei "s/$key/`generate_salt`/" $MM_CONFIG
+      done
     else
       echo "Using existing config file" $MM_CONFIG
     fi
