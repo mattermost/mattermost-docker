@@ -37,7 +37,6 @@ services:
       - MM_PASSWORD=mmuser_password
       - MM_DBNAME=mattermost
       - VIRTUAL_HOST=mattermost.tinfoilsecurity.com
-      - VIRTUAL_EMAIL=engineers@tinfoilsecurity.com
       - LETSENCRYPT_HOST=mattermost.tinfoilsecurity.com
       - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
     depends_on:
