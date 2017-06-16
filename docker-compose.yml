@@ -59,3 +59,13 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     volumes_from:
       - "nginx-proxy"
+
+  github-integration:
+    image: tinfoil/mattermost-github-integration
+    environment:
+      - VIRTUAL_HOST=github.mattermost.tinfoilsecurity.com
+      - VIRTUAL_PORT=5000
+      - LETSENCRYPT_HOST=github.mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
+    volumes:
+      - "./volumes/github-integration/config.py:/app/mattermostgithub/config.py"
