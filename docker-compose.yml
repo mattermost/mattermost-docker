@@ -36,8 +36,8 @@ services:
       - MM_USERNAME=mmuser
       - MM_PASSWORD=mmuser_password
       - MM_DBNAME=mattermost
-    depends_on:
-      - db
+    links:
+      - db:db
 
   web:
     build: web
@@ -49,5 +49,5 @@ services:
       # This directory must have cert files
       - ./volumes/web/cert:/cert:ro
       - /etc/localtime:/etc/localtime:ro
-    depends_on:
-      - app
+    links:
+      - app:app
