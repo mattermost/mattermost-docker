@@ -69,3 +69,15 @@ services:
       - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
     volumes:
       - "./volumes/github-integration/config.py:/app/mattermostgithub/config.py"
+
+  giphy-integration:
+    image: tinfoil/mattermost-giphy-integration
+    expose:
+      - 5000
+    environment:
+      - VIRTUAL_HOST=giphy.mattermost.tinfoilsecurity.com
+      - VIRTUAL_PORT=5000
+      - LETSENCRYPT_HOST=giphy.mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
+    env_file:
+      - "./volumes/giphy-integration/env"
