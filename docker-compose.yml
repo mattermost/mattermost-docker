@@ -36,18 +36,48 @@ services:
       - MM_USERNAME=mmuser
       - MM_PASSWORD=mmuser_password
       - MM_DBNAME=mattermost
+      - VIRTUAL_HOST=mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_HOST=mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
     depends_on:
       - db
 
-  web:
-    build: web
+  nginx-proxy:
+    image: jwilder/nginx-proxy
     ports:
       - "80:80"
       - "443:443"
-    restart: unless-stopped
     volumes:
-      # This directory must have cert files
-      - ./volumes/web/cert:/cert:ro
-      - /etc/localtime:/etc/localtime:ro
-    depends_on:
-      - app
+      - "/etc/nginx/vhost.d"
+      - "/usr/share/nginx/html"
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - "/etc/nginx/certs"
+
+  letsencrypt-nginx-proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    volumes_from:
+      - "nginx-proxy"
+
+  github-integration:
+    image: tinfoil/mattermost-github-integration
+    environment:
+      - VIRTUAL_HOST=github.mattermost.tinfoilsecurity.com
+      - VIRTUAL_PORT=5000
+      - LETSENCRYPT_HOST=github.mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
+    volumes:
+      - "./volumes/github-integration/config.py:/app/mattermostgithub/config.py"
+
+  giphy-integration:
+    image: tinfoil/mattermost-giphy-integration
+    expose:
+      - 5000
+    environment:
+      - VIRTUAL_HOST=giphy.mattermost.tinfoilsecurity.com
+      - VIRTUAL_PORT=5000
+      - LETSENCRYPT_HOST=giphy.mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
+    env_file:
+      - "./volumes/giphy-integration/env"
