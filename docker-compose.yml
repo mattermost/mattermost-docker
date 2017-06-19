@@ -37,7 +37,6 @@ services:
       - MM_PASSWORD=mmuser_password
       - MM_DBNAME=mattermost
       - VIRTUAL_HOST=mattermost.tinfoilsecurity.com
-      - VIRTUAL_EMAIL=engineers@tinfoilsecurity.com
       - LETSENCRYPT_HOST=mattermost.tinfoilsecurity.com
       - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
     depends_on:
@@ -60,3 +59,25 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     volumes_from:
       - "nginx-proxy"
+
+  github-integration:
+    image: tinfoil/mattermost-github-integration
+    environment:
+      - VIRTUAL_HOST=github.mattermost.tinfoilsecurity.com
+      - VIRTUAL_PORT=5000
+      - LETSENCRYPT_HOST=github.mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
+    volumes:
+      - "./volumes/github-integration/config.py:/app/mattermostgithub/config.py"
+
+  giphy-integration:
+    image: tinfoil/mattermost-giphy-integration
+    expose:
+      - 5000
+    environment:
+      - VIRTUAL_HOST=giphy.mattermost.tinfoilsecurity.com
+      - VIRTUAL_PORT=5000
+      - LETSENCRYPT_HOST=giphy.mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
+    env_file:
+      - "./volumes/giphy-integration/env"
