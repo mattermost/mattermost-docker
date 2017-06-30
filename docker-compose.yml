@@ -53,6 +53,7 @@ services:
       - "/usr/share/nginx/html"
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
       - "/etc/nginx/certs"
+      - "/home/ubuntu/mattermost-docker/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf"
 
   letsencrypt-nginx-proxy-companion:
     restart: unless-stopped
