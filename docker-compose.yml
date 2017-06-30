@@ -43,6 +43,7 @@ services:
       - db
 
   nginx-proxy:
+    restart: unless-stopped
     image: jwilder/nginx-proxy
     ports:
       - "80:80"
@@ -54,6 +55,7 @@ services:
       - "/etc/nginx/certs"
 
   letsencrypt-nginx-proxy-companion:
+    restart: unless-stopped
     image: jrcs/letsencrypt-nginx-proxy-companion
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -61,6 +63,7 @@ services:
       - "nginx-proxy"
 
   github-integration:
+    restart: unless-stopped
     image: tinfoil/mattermost-github-integration
     environment:
       - VIRTUAL_HOST=github.mattermost.tinfoilsecurity.com
@@ -71,6 +74,7 @@ services:
       - "./volumes/github-integration/config.py:/app/mattermostgithub/config.py"
 
   giphy-integration:
+    restart: unless-stopped
     image: tinfoil/mattermost-giphy-integration
     expose:
       - 5000
