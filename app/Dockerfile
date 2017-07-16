@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
-ENV MM_VERSION=3.10.0
+ENV MM_VERSION=4.0.0
 
 # Install some needed packages
 RUN apt-get update \
