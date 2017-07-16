@@ -64,7 +64,7 @@ If you use a Mattermost configuration file on a different location than the defa
 * `MM_CONFIG`: configuration file location inside the container.
 
 If you choose to use MySQL instead of PostgreSQL, you should set a different datasource :
-* `MM_SQLSETTINGS_DATASOURCE` : "$MM_USERNAME:$MM_PASSWORD@tcp($DB_HOST:$DB_PORT_NUMBER)/$MM_DBNAME?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s"
+* `MM_SQLSETTINGS_DATASOURCE` : `"$MM_USERNAME:$MM_PASSWORD@tcp($DB_HOST:$DB_PORT_NUMBER)/$MM_DBNAME?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s"`
 
 ### Web server container
 This image is optional, you should not use it you have your own reverse-proxy. It is a simple front Web server for the Mattermost app container.
