@@ -9,7 +9,7 @@ DB_PORT_NUMBER=${DB_PORT_NUMBER:-5432}
 MM_USERNAME=${MM_USERNAME:-mmuser}
 MM_PASSWORD=${MM_PASSWORD:-mmuser_password}
 MM_DBNAME=${MM_DBNAME:-mattermost}
-MM_CONFIG=/mattermost/config/config.json
+MM_CONFIG=${MM_CONFIG:-/mattermost/config/config.json}
 
 if [ "${1:0:1}" = '-' ]; then
     set -- platform "$@"
@@ -51,9 +51,14 @@ if [ "$1" = 'platform' ]; then
       echo "Using existing config file" $MM_CONFIG
     fi
 
-    echo -ne "Configure database connection..."
-    export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$MM_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
-    echo OK
+    if [ -z "$MM_SQLSETTINGS_DATASOURCE"]
+    then
+      echo -ne "Configure database connection..."
+      export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$MM_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
+      echo OK
+    else
+      echo "Using existing database connection"
+    fi
 
     echo "Wait until database $DB_HOST:$DB_PORT_NUMBER is ready..."
     until nc -z $DB_HOST $DB_PORT_NUMBER

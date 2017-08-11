@@ -17,8 +17,6 @@ services:
     #  - AWS_SECRET_ACCESS_KEY=XXXX
     #  - WALE_S3_PREFIX=s3://BUCKET_NAME/PATH
     #  - AWS_REGION=us-east-1
-    #  in case your config is not in default location
-    #  - MM_CONFIG=/mattermost/config/config.jso
 
   app:
     build:
@@ -39,8 +37,8 @@ services:
       - VIRTUAL_HOST=mattermost.tinfoilsecurity.com
       - LETSENCRYPT_HOST=mattermost.tinfoilsecurity.com
       - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
-    depends_on:
-      - db
+    links:
+      - db:db
 
   nginx-proxy:
     restart: unless-stopped
