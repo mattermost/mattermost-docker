@@ -76,7 +76,7 @@ Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key th
 no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
 them you may generate a self-signed SSL certificate.
 
-### Starting/Stopping
+### Starting/Stopping Docker
 
 #### Start
 ```
@@ -88,7 +88,7 @@ docker-compose start
 docker-compose stop
 ```
 
-### Removing D
+### Removing Docker
 
 #### Remove the containers
 ```
@@ -100,13 +100,19 @@ docker-compose stop && docker-compose rm
 sudo rm -rf volumes
 ```
 
-## Update Docker to Latest Version
+## Update Mattermost to latest version
 
-First, back up your database and your `./data` file [as described here](https://docs.mattermost.com/administration/backup.html#backup).
+First, shutdown your containers to back up your data.
 
-Then run the following commands.
 ```
 docker-compose down
+```
+
+Back up your mounted volumes to save your data. If you use the default `docker-compose.yml` file proposed on this repository, your data is on `./volumes/` folder.
+
+Then run the following commands.
+
+```
 git pull
 docker-compose build
 docker-compose up -d
