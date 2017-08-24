@@ -76,21 +76,35 @@ Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key th
 no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
 them you may generate a self-signed SSL certificate.
 
-## Starting/Stopping
+### Starting/Stopping
 
-### Start
+#### Start
 ```
 docker-compose start
 ```
 
-### Stop
+#### Stop
 ```
 docker-compose stop
 ```
 
-### Update
+### Removing D
 
-Make sure to backup Mattermost data before proceeding.
+#### Remove the containers
+```
+docker-compose stop && docker-compose rm
+```
+
+#### Remove the data and settings of your Mattermost instance
+```
+sudo rm -rf volumes
+```
+
+## Update Docker to Latest Version
+
+First, back up your database and your `./data` file [as described here](https://docs.mattermost.com/administration/backup.html#backup).
+
+Then run the following commands.
 ```
 docker-compose down
 git pull
@@ -98,17 +112,7 @@ docker-compose build
 docker-compose up -d
 ```
 
-## Removing
-
-### Remove the containers
-```
-docker-compose stop && docker-compose rm
-```
-
-### Remove the data and settings of your Mattermost instance
-```
-sudo rm -rf volumes
-```
+Your Docker image should now be on the latest Mattermost version.
 
 ## Upgrading to Team Edition 3.0.x from 2.x
 
