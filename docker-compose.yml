@@ -49,5 +49,8 @@ services:
       # This directory must have cert files
       - ./volumes/web/cert:/cert:ro
       - /etc/localtime:/etc/localtime:ro
+    # Uncomment for SSL
+    # environment:
+    #  - MATTERMOST_ENABLE_SSL=true
     links:
       - app:app
