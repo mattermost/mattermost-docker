@@ -51,7 +51,7 @@ if [ "$1" = 'platform' ]; then
       echo "Using existing config file" $MM_CONFIG
     fi
 
-    if [ -z "$MM_SQLSETTINGS_DATASOURCE"]
+    if [ -z "$MM_SQLSETTINGS_DATASOURCE" ]
     then
       echo -ne "Configure database connection..."
       export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$MM_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
