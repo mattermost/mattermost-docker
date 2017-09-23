@@ -5,5 +5,6 @@ if [ -f "/cert/cert.pem" -a -f "/cert/key-no-password.pem" ]; then
 else
   echo "linking plain config"
 fi
-ln -s /etc/nginx/sites-available/mattermost$ssl /etc/nginx/conf.d/mattermost.conf
+if [ -e "/etc/nginx/conf.d/default.conf" ]; then rm /etc/nginx/conf.d/default.conf; fi
+ln -s /etc/nginx/sites-available/mattermost${ssl} /etc/nginx/conf.d/mattermost.conf
 nginx -g 'daemon off;'

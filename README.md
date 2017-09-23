@@ -132,6 +132,27 @@ docker-compose up -d
 ```
 See the [offical Upgrade Guide](http://docs.mattermost.com/administration/upgrade.html) for more details.
 
+## Installation using Docker Swarm Mode
+
+The following instructions deploy Mattermost in a production configuration using docker swarm mode on one node.
+Running containerized applications on multi-node swarms involves specific data portability and replication handling that are not covered here.
+
+### Requirements
+
+* [docker] (17.06+)
+
+### Swarm Mode Installation
+
+First, create mattermost directory structure on the docker hosts:
+```
+mkdir -p /var/lib/mattermost/{cert,config,data,logs}
+```
+
+Then, fire up the stack in your swarm:
+```
+docker stack deploy -c docker-swarm.yml mattermost
+```
+
 ## Known Issues
 
 * Do not modify the Listen Address in Service Settings.
