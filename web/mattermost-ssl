@@ -1,8 +1,9 @@
-# server {
-#     listen         80;
-#     server_name    mattermost.example.com;
-#     return         301 https://$server_name$request_uri;
-# }
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	server_name _;
+	return 301 https://$host$request_uri;
+}
 
 map $http_x_forwarded_proto $proxy_x_forwarded_proto {
   default $http_x_forwarded_proto;
