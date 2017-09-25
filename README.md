@@ -139,7 +139,7 @@ Running containerized applications on multi-node swarms involves specific data p
 
 ### Requirements
 
-* [docker] (17.06+)
+* [docker] (1.12.0+)
 
 ### Swarm Mode Installation
 
@@ -150,7 +150,7 @@ mkdir -p /var/lib/mattermost/{cert,config,data,logs}
 
 Then, fire up the stack in your swarm:
 ```
-docker stack deploy -c docker-swarm.yml mattermost
+docker stack deploy -c contrib/swarm/docker-stack.yml mattermost
 ```
 
 ## Known Issues

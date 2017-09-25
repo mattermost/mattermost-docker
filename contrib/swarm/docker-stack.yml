@@ -1,7 +1,11 @@
-# compose v3.3 file format introduces docker config support
+# This file allow you to run mattermost within your docker swarm mode cluster
+# for more informations check: https://docs.docker.com/engine/swarm/
+#
+# use latest compose v3.3 file format for optimal compatibility with latest docker release and swarm features.
 # see https://docs.docker.com/compose/compose-file/compose-versioning/#version-3
 # and https://docs.docker.com/compose/compose-file/compose-versioning/#version-33
 # and https://docs.docker.com/compose/compose-file/compose-versioning/#upgrading
+
 version: '3.3'
 
 services:
@@ -52,30 +56,17 @@ services:
             restart_policy:
                 condition: on-failure
     web:
-        image: nginx:latest
+        # use official mattermost prod-web image
+        image: mattermost/mattermost-prod-web:latest
         ports:
             - "80:80"
             - "443:443"
         networks:
             - mm-network
         volumes:
-            - ./web/docker-entry.sh:/docker-entry.sh
             # This directory must have cert files
             - /var/lib/mattermost/cert:/cert:ro
             - /etc/localtime:/etc/localtime:ro
-        entrypoint: /docker-entry.sh
-        command: sh -c /docker-entry.sh
-        configs:
-          - source: mm-web-conf
-            target: /etc/nginx/sites-available/mattermost
-            uid: '103'
-            gid: '103'
-            mode: 0440
-          - source: mm-web-conf-ssl
-            target: /etc/nginx/sites-available/mattermost-ssl
-            uid: '103'
-            gid: '103'
-            mode: 0440
         deploy:
             restart_policy:
                 condition: on-failure
@@ -85,9 +76,3 @@ networks:
 
 volumes:
     mm-dbdata:
-
-configs:
-    mm-web-conf:
-        file: ./web/mattermost
-    mm-web-conf-ssl:
-        file: ./web/mattermost-ssl
