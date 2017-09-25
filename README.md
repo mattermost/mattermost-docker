@@ -19,6 +19,8 @@ The following instructions deploy Mattermost in a production configuration using
 * [docker]
 * [docker-compose]
 
+The `docker-compose.yml` file use Docker Compose `3.0+` format (which require Docker `1.13.0+`). If you want to use previous version of Docker or Docker Compose, you should modify the `version` field on the `docker-compose.yml` file.
+
 ### Choose Edition to Install
 
 If you want to install Enterprise Edition, you can skip this section.
