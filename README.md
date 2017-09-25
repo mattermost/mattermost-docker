@@ -36,6 +36,8 @@ This repository offer a Docker image for the Mattermost database. It is a custom
 * `POSTGRES_PASSWORD`: database password
 * `POSTGRES_DB`: database name
 
+It is possible to use your own PostgreSQL database, or even use MySQL. But you will need to ensure that Application container can connect to the database (see [Application container](#application-container))
+
 #### AWS
 If deploying to AWS, you could also set following variables to enable [Wal-E](https://github.com/wal-e/wal-e) backup to S3 :
 * `AWS_ACCESS_KEY_ID`: AWS access key
@@ -65,8 +67,11 @@ If your database use some custom host and port, it is also possible to configure
 If you use a Mattermost configuration file on a different location than the default one (`/mattermost/config/config.json`) :
 * `MM_CONFIG`: configuration file location inside the container.
 
-If you choose to use MySQL instead of PostgreSQL, you should set a different datasource :
-* `MM_SQLSETTINGS_DATASOURCE` : `"$MM_USERNAME:$MM_PASSWORD@tcp($DB_HOST:$DB_PORT_NUMBER)/$MM_DBNAME?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s"`
+If you choose to use MySQL instead of PostgreSQL, you should set a different datasource and SQL driver :
+* `DB_PORT_NUMBER` : `3306`
+* `MM_SQLSETTINGS_DRIVERNAME` : `mysql`
+* `MM_SQLSETTINGS_DATASOURCE` : `MM_USERNAME:MM_PASSWORD@tcp(DB_HOST:DB_PORT_NUMBER)/MM_DBNAME?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s"`
+Don't forget to replace all entries (beginning by `MM_` and `DB_`) in `MM_SQLSETTINGS_DATASOURCE` with the real variables values.
 
 ### Web server container
 This image is optional, you should not use it you have your own reverse-proxy. It is a simple front Web server for the Mattermost app container.
