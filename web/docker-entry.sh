@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+
 if [ -f "/cert/cert.pem" -a -f "/cert/key-no-password.pem" ]; then
   echo "found certificate and key, linking ssl config"
   ssl="-ssl"
