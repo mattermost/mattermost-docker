@@ -16,8 +16,8 @@ The following instructions deploy Mattermost in a production configuration using
 
 ### Requirements
 
-* [docker]
-* [docker-compose]
+* [docker] (version `1.10.0+`)
+* [docker-compose] (version `1.6.0+` to support Compose file version `2.0`)
 
 ### Choose Edition to Install
 
