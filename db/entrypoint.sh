@@ -30,6 +30,7 @@ if [ "$1" = 'postgres'  ]; then
         if [ "${!v}" = "" ]; then
             echo "$v is required for Wal-E but not set. Skipping Wal-E setup."
             update_conf
+            # Run the postgresql entrypoint
             . /docker-entrypoint.sh
             exit
         fi
@@ -47,5 +48,6 @@ if [ "$1" = 'postgres'  ]; then
     ARCHIVE_MODE=on
 
     update_conf
+    # Run the postgresql entrypoint
     . /docker-entrypoint.sh
 fi
