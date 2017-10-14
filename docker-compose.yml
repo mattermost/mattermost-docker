@@ -47,11 +47,8 @@ services:
       - "443:443"
     restart: unless-stopped
     volumes:
-      # This directory must have cert files
+      # This directory must have cert files if you want to enable SSL
       - ./volumes/web/cert:/cert:ro
       - /etc/localtime:/etc/localtime:ro
-    # Uncomment for SSL
-    # environment:
-    #  - MATTERMOST_ENABLE_SSL=true
     links:
       - app:app

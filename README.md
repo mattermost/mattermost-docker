@@ -74,9 +74,9 @@ If you choose to use MySQL instead of PostgreSQL, you should set a different dat
 Don't forget to replace all entries (beginning by `MM_` and `DB_`) in `MM_SQLSETTINGS_DATASOURCE` with the real variables values.
 
 ### Web server container
-This image is optional, you should not use it you have your own reverse-proxy. It is a simple front Web server for the Mattermost app container.
-* `MATTERMOST_ENABLE_SSL`: whether to enable SSL
-* `PLATFORM_PORT_80_TCP_PORT`: port that Mattermost image is listening on
+This image is optional, you should **not** use it when you have your own reverse-proxy. It is a simple front Web server for the Mattermost app container. If you use the provided `docker-compose.yml` file, you don't have to configure anything. But if your application container is reachable on custom host and/or port (eg. if you use a container provider), you should add those two environment variables :
+* `APP_HOST`: application host address
+* `APP_PORT_NUMBER`: application HTTP port
 
 #### Install with SSL certificate
 Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key that has
