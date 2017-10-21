@@ -21,8 +21,9 @@ services:
   app:
     build:
       context: app
-      # comment out for team edition
-      dockerfile: Dockerfile-enterprise
+      # comment out 2 following lines for team edition
+      # args:
+      #   - edition=team
     restart: unless-stopped
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
@@ -37,8 +38,6 @@ services:
       - VIRTUAL_HOST=mattermost.tinfoilsecurity.com
       - LETSENCRYPT_HOST=mattermost.tinfoilsecurity.com
       - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
-    links:
-      - db:db
 
   nginx-proxy:
     restart: unless-stopped

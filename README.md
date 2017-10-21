@@ -5,8 +5,8 @@ This project enables deployment of a Mattermost server in a multi-node productio
 [![Build Status](https://travis-ci.org/mattermost/mattermost-docker.svg?branch=master)](https://travis-ci.org/mattermost/mattermost-docker)
 
 Notes:
-- The default Mattermost edition for this repo has changed from team edition to enterprise edition. Please see [Choose Edition](#choose-edition-to-install) section.
-- To install this Docker project on AWS Elastic Beanstalk please see [AWS Elastic Beanstalk Guide](./contrib/aws/README.md).
+- The default Mattermost edition for this repo has changed from Team Edition to Enterprise Edition. Please see [Choose Edition](#choose-edition-to-install) section.
+- To install this Docker project on AWS Elastic Beanstalk please see [AWS Elastic Beanstalk Guide](contrib/aws/README.md).
 - To run Mattermost on Kubernetes you can start with the [manifest examples in the kubernetes folder](contrib/kubernetes/README.md)
 - To install Mattermost without Docker directly onto a Linux-based operating systems, please see [Admin Guide](https://docs.mattermost.com/guides/administrator.html#installing-mattermost).
 
@@ -16,135 +16,121 @@ The following instructions deploy Mattermost in a production configuration using
 
 ### Requirements
 
-* [docker]
-* [docker-compose]
+* [docker] (version `1.10.0+`)
+* [docker-compose] (version `1.6.0+` to support Compose file version `2.0`)
 
 ### Choose Edition to Install
 
-If you want to install enterprise edition, you can skip this section.
+If you want to install Enterprise Edition, you can skip this section.
 
-To install the team edition, comment out the following line in docker-compose.yaml file:
+To install the team edition, comment out the two following lines in docker-compose.yaml file:
+```yaml
+args:
+  - edition=team
 ```
-dockerfile: Dockerfile-enterprise
+The `app` Dockerfile will read the `edition` build argument to install Team (`edition = 'team'`) or Entreprise (`edition != team`) edition.
+
+### Database container
+This repository offer a Docker image for the Mattermost database. It is a customized PostgreSQL image that you should configure with following environment variables :
+* `POSTGRES_USER`: database username
+* `POSTGRES_PASSWORD`: database password
+* `POSTGRES_DB`: database name
+
+It is possible to use your own PostgreSQL database, or even use MySQL. But you will need to ensure that Application container can connect to the database (see [Application container](#application-container))
+
+#### AWS
+If deploying to AWS, you could also set following variables to enable [Wal-E](https://github.com/wal-e/wal-e) backup to S3 :
+* `AWS_ACCESS_KEY_ID`: AWS access key
+* `AWS_SECRET_ACCESS_KEY`: AWS secret
+* `WALE_S3_PREFIX`: AWS s3 bucket name
+* `AWS_REGION`: AWS region
+
+All four environment variables are required. It will enable completed WAL segments sent to archive storage (S3). The base backup and clean up can be done through the following command:
+```bash
+# Base backup
+docker exec mattermost-db su - postgres sh -c "/usr/bin/envdir /etc/wal-e.d/env /usr/local/bin/wal-e backup-push /var/lib/postgresql/data"
+# Keep the most recent 7 base backups and remove the old ones
+docker exec mattermost-db su - postgres sh -c "/usr/bin/envdir /etc/wal-e.d/env /usr/local/bin/wal-e delete --confirm retain 7"
 ```
+Those tasks can be executed through a cron job or systemd timer.
 
-### Database
+### Application container
+Application container run the Mattermost application. You should configure it with following environment variables :
+* `MM_USERNAME`: database username
+* `MM_PASSWORD`: database password
+* `MM_DBNAME`: database name
 
-Make sure to set the appropriate values for `MM_USERNAME`, `MM_PASSWORD` and `MM_DBNAME`.
+If your database use some custom host and port, it is also possible to configure them :
+* `DB_HOST`: database host address
+* `DB_PORT_NUMBER`: database port
 
-### Install with SSL certificate
+If you use a Mattermost configuration file on a different location than the default one (`/mattermost/config/config.json`) :
+* `MM_CONFIG`: configuration file location inside the container.
 
-1. Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key that has
-   no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
-   them you may generate a self-signed SSL certificate.
+If you choose to use MySQL instead of PostgreSQL, you should set a different datasource and SQL driver :
+* `DB_PORT_NUMBER` : `3306`
+* `MM_SQLSETTINGS_DRIVERNAME` : `mysql`
+* `MM_SQLSETTINGS_DATASOURCE` : `MM_USERNAME:MM_PASSWORD@tcp(DB_HOST:DB_PORT_NUMBER)/MM_DBNAME?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s"`
+Don't forget to replace all entries (beginning by `MM_` and `DB_`) in `MM_SQLSETTINGS_DATASOURCE` with the real variables values.
 
-2. Build and run mattermost
-```
-docker-compose up -d
-```
+### Web server container
+This image is optional, you should not use it you have your own reverse-proxy. It is a simple front Web server for the Mattermost app container.
+* `MATTERMOST_ENABLE_SSL`: whether to enable SSL
+* `PLATFORM_PORT_80_TCP_PORT`: port that Mattermost image is listening on
 
-3. Open `https://your.domain` with your web browser.
+#### Install with SSL certificate
+Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key that has
+no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
+them you may generate a self-signed SSL certificate.
 
-### Install without SSL certificate
+### Starting/Stopping Docker
 
-1. Build and run mattermost
-```
-docker-compose up -d
-```
-
-2. Open `http://your.domain` with your web browser.
-
-## Starting/Stopping
-
-### Start
+#### Start
 ```
 docker-compose start
 ```
 
-### Stop
+#### Stop
 ```
 docker-compose stop
 ```
 
-### Update
+### Removing Docker
 
-Make sure to backup Mattermost data before proceeding.
+#### Remove the containers
+```
+docker-compose stop && docker-compose rm
+```
+
+#### Remove the data and settings of your Mattermost instance
+```
+sudo rm -rf volumes
+```
+
+## Update Mattermost to latest version
+
+First, shutdown your containers to back up your data.
+
 ```
 docker-compose down
+```
+
+Back up your mounted volumes to save your data. If you use the default `docker-compose.yml` file proposed on this repository, your data is on `./volumes/` folder.
+
+Then run the following commands.
+
+```
 git pull
 docker-compose build
 docker-compose up -d
 ```
 
-## Removing
-
-### Remove the containers
-```
-docker-compose stop && docker-compose rm
-```
-
-### Remove the data and settings of your mattermost instance
-```
-sudo rm -rf volumes
-```
-
-## Database Backup
-
-When AWS S3 environment variables are specified on db docker container, it enables [Wal-E](https://github.com/wal-e/wal-e) backup to S3.
-
-```bash
-docker run -d --name mattermost-db \
-    -e AWS_ACCESS_KEY_ID=XXXX \
-    -e AWS_SECRET_ACCESS_KEY=XXXX \
-    -e WALE_S3_PREFIX=s3://BUCKET_NAME/PATH \
-    -e AWS_REGION=us-east-1
-    -v ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
-    -v /etc/localtime:/etc/localtime:ro
-    db
-```
-
-All four environment variables are required. It will enable completed WAL segments sent to archive storage (S3). The base backup and clean up can be done through the following command:
-
-```bash
-# base backup
-docker exec mattermost-db su - postgres sh -c "/usr/bin/envdir /etc/wal-e.d/env /usr/local/bin/wal-e backup-push /var/lib/postgresql/data"
-# keep the most recent 7 base backups and remove the old ones
-docker exec mattermost-db su - postgres sh -c "/usr/bin/envdir /etc/wal-e.d/env /usr/local/bin/wal-e delete --confirm retain 7"
-```
-Those tasks can be executed through a cron job or systemd timer.
-
-## Customization
-
-Customization can be done through environment variables.
-
-### Mattermost App Image
-
-* `MM_USERNAME`: database username, must be the same as one in DB image
-* `MM_PASSWORD`: database password, must be the same as one in DB image
-* `MM_DBNAME`: database name, must be the same as one in DB image
-* `DB_HOST`: database host address
-* `DB_PORT_NUMBER`: database port
-* `MM_CONFIG`: configuration file location. It can be used when config is mounted in a different location.
-
-### Mattermost DB Image
-
-* `MM_USERNAME`: database username, must be the same as on in App image
-* `MM_PASSWORD`: database password, must be the same as on in App image
-* `MM_DBNAME`: database name, must be the same as on in App image
-* `AWS_ACCESS_KEY_ID`: aws access key, used for db backup
-* `AWS_SECRET_ACCESS_KEY`: aws secret, used for db backup
-* `WALE_S3_PREFIX`: aws s3 bucket name, used for db backup
-* `AWS_REGION`: aws region, used for db backup
-
-### Mattermost Web Image
-
-* `MATTERMOST_ENABLE_SSL`: whether to enable SSL
-* `PLATFORM_PORT_80_TCP_PORT`: port that Mattermost image is listening on
+Your Docker image should now be on the latest Mattermost version.
 
 ## Upgrading to Team Edition 3.0.x from 2.x
 
-You need to migrate your database before upgrading mattermost to 3.0.x from
-2.x. Run these commands in the latest mattermost-docker directory.
+You need to migrate your database before upgrading Mattermost to `3.0.x` from
+`2.x`. Run these commands in the latest `mattermost-docker` directory.
 ```
 docker-compose rm -f app
 docker-compose build app
@@ -153,10 +139,31 @@ docker-compose up -d
 ```
 See the [offical Upgrade Guide](http://docs.mattermost.com/administration/upgrade.html) for more details.
 
+## Installation using Docker Swarm Mode
+
+The following instructions deploy Mattermost in a production configuration using docker swarm mode on one node.
+Running containerized applications on multi-node swarms involves specific data portability and replication handling that are not covered here.
+
+### Requirements
+
+* [docker] (1.12.0+)
+
+### Swarm Mode Installation
+
+First, create mattermost directory structure on the docker hosts:
+```
+mkdir -p /var/lib/mattermost/{cert,config,data,logs}
+```
+
+Then, fire up the stack in your swarm:
+```
+docker stack deploy -c contrib/swarm/docker-stack.yml mattermost
+```
+
 ## Known Issues
 
 * Do not modify the Listen Address in Service Settings.
-* Rarely 'app' container fails to start because of "connection refused" to
+* Rarely `app` container fails to start because of "connection refused" to
   database. Workaround: Restart the container.
 
 ## More information
@@ -164,7 +171,7 @@ See the [offical Upgrade Guide](http://docs.mattermost.com/administration/upgrad
 If you want to know how to use docker-compose, see [the overview
 page](https://docs.docker.com/compose).
 
-For the server configurations, see [prod-ubuntu.rst] of mattermost.
+For the server configurations, see [prod-ubuntu.rst] of Mattermost.
 
 [docker]: http://docs.docker.com/engine/installation/
 [docker-compose]: https://docs.docker.com/compose/install/
