@@ -37,8 +37,6 @@ services:
       - MM_DBNAME=mattermost
       # in case your config is not in default location
       #- MM_CONFIG=/mattermost/config/config.json
-    links:
-      - db:db
 
   web:
     build: web
@@ -50,5 +48,6 @@ services:
       # This directory must have cert files if you want to enable SSL
       - ./volumes/web/cert:/cert:ro
       - /etc/localtime:/etc/localtime:ro
-    links:
-      - app:app
+    # Uncomment for SSL
+    # environment:
+    #  - MATTERMOST_ENABLE_SSL=true
