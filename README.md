@@ -70,7 +70,7 @@ If you use a Mattermost configuration file on a different location than the defa
 If you choose to use MySQL instead of PostgreSQL, you should set a different datasource and SQL driver :
 * `DB_PORT_NUMBER` : `3306`
 * `MM_SQLSETTINGS_DRIVERNAME` : `mysql`
-* `MM_SQLSETTINGS_DATASOURCE` : `MM_USERNAME:MM_PASSWORD@tcp(DB_HOST:DB_PORT_NUMBER)/MM_DBNAME?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s"`
+* `MM_SQLSETTINGS_DATASOURCE` : `MM_USERNAME:MM_PASSWORD@tcp(DB_HOST:DB_PORT_NUMBER)/MM_DBNAME?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s`
 Don't forget to replace all entries (beginning by `MM_` and `DB_`) in `MM_SQLSETTINGS_DATASOURCE` with the real variables values.
 
 ### Web server container
