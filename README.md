@@ -16,8 +16,10 @@ The following instructions deploy Mattermost in a production configuration using
 
 ### Requirements
 
-* [docker] (version `1.10.0+`)
-* [docker-compose] (version `1.6.0+` to support Compose file version `2.0`)
+* [docker] (version `1.13.0+`)
+* [docker-compose] (version `1.10.0+` to support Compose file version `3.0`)
+
+*see:* [Composer releases after 1.11.0](https://github.com/docker/compose/releases?after=1.11.0)
 
 ### Choose Edition to Install
 
@@ -82,6 +84,14 @@ This image is optional, you should **not** use it when you have your own reverse
 Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key that has
 no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
 them you may generate a self-signed SSL certificate.
+
+### Building images
+
+Before start the containers, we must to build the images:
+
+```
+docker-compose build
+```
 
 ### Starting/Stopping Docker
 

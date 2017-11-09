@@ -1,53 +1,68 @@
-version: "2"
+version: '3'
 
 services:
 
-  db:
+  mattermost_db:
+    hostname: "db.mattermost.local"
+    container_name: "mattermost_db"
     build: db
     restart: unless-stopped
     volumes:
       - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
       - /etc/localtime:/etc/localtime:ro
-    environment:
-      - POSTGRES_USER=mmuser
-      - POSTGRES_PASSWORD=mmuser_password
-      - POSTGRES_DB=mattermost
-    # uncomment the following to enable backup
-    #  - AWS_ACCESS_KEY_ID=XXXX
-    #  - AWS_SECRET_ACCESS_KEY=XXXX
-    #  - WALE_S3_PREFIX=s3://BUCKET_NAME/PATH
-    #  - AWS_REGION=us-east-1
+    env_file:
+      - .env
+    networks:
+      mattermost_network:
+        ipv4_address: 172.22.2.4
 
-  app:
+  mattermost_app:
+    hostname: "app.mattermost.local"
+    container_name: "mattermost_app"
     build:
       context: app
       # comment out 2 following lines for team edition
-      # args:
-      #   - edition=team
+      args:
+        - edition=team
     restart: unless-stopped
+    links:
+      - mattermost_db:db
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
       - ./volumes/app/mattermost/data:/mattermost/data:rw
       - ./volumes/app/mattermost/logs:/mattermost/logs:rw
       - /etc/localtime:/etc/localtime:ro
-    environment:
-      # set same as db credentials and dbname
-      - MM_USERNAME=mmuser
-      - MM_PASSWORD=mmuser_password
-      - MM_DBNAME=mattermost
-      # in case your config is not in default location
-      #- MM_CONFIG=/mattermost/config/config.json
+    env_file:
+      - .env
+    networks:
+      mattermost_network:
+        ipv4_address: 172.22.2.3
 
-  web:
+  mattermost_web_front:
+    hostname: "mattermost.local"
+    container_name: "mattermost_web_front"
     build: web
     ports:
       - "80:80"
       - "443:443"
+    links:
+      - mattermost_app:app
     restart: unless-stopped
     volumes:
       # This directory must have cert files if you want to enable SSL
       - ./volumes/web/cert:/cert:ro
       - /etc/localtime:/etc/localtime:ro
-    # Uncomment for SSL
-    # environment:
-    #  - MATTERMOST_ENABLE_SSL=true
+    env_file:
+      - .env
+    networks:
+      mattermost_network:
+        ipv4_address: 172.22.2.2
+
+networks:
+  mattermost_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.2.0/24
+        # subnet / submask 255.255.255.0 ~ /24 => 255 -2 host

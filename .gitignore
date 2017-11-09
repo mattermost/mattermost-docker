@@ -1,4 +1,7 @@
 
+# Enviroment vars:
+.env
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
