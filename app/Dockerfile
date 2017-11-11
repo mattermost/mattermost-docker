@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
-ENV MM_VERSION=4.3.1
+ENV MM_VERSION=4.3.2
 
 # Build argument to set Mattermost edition
 ARG edition=entreprise
