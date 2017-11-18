@@ -1,4 +1,4 @@
-FROM nginx:mainline
+FROM nginx:mainline-alpine
 
 # Remove default configuration and add our custom Nginx configuration files
 RUN rm /etc/nginx/conf.d/default.conf
