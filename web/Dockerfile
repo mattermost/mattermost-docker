@@ -4,6 +4,7 @@ FROM nginx:mainline
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./mattermost /etc/nginx/sites-available/
 COPY ./mattermost-ssl /etc/nginx/sites-available/
+COPY ./security.conf /etc/nginx/conf.d/
 
 # Add and setup entrypoint
 COPY entrypoint.sh /
