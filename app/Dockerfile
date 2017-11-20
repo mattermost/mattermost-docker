@@ -13,6 +13,7 @@ RUN apt-get update \
       curl \
       jq \
       netcat \
+      ca-certificates \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
 
 # Get Mattermost
