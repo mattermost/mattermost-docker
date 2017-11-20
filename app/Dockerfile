@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
@@ -9,7 +9,7 @@ ARG edition=entreprise
 
 # Install some needed packages
 RUN apt-get update \
-    && apt-get -y install \
+    && apt-get -y --no-install-recommends install \
       curl \
       jq \
       netcat \
