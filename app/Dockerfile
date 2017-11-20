@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:17.04
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
@@ -8,11 +8,12 @@ ENV MM_VERSION=4.4.1
 ARG edition=entreprise
 
 # Install some needed packages
-RUN apt-get update \
-    && apt-get -y install \
+RUN apt-get update && \
+    apt-get -y --no-install-recommends --allow-unauthenticated install \
       curl \
       jq \
       netcat \
+      ca-certificates \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
 
 # Get Mattermost
