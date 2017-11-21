@@ -1,27 +1,25 @@
-FROM alpine
+FROM alpine:3.6
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
 ENV MM_VERSION=4.4.1
 
 # Build argument to set Mattermost edition
-ARG edition=entreprise
+ARG edition=enterprise
 
 
-RUN apk add --no-cache --virtual .build-deps \
-	netcat-openbsd \
-	jq \
-	curl \
+RUN apk add --no-cache \
 	ca-certificates \
+	curl \
+	jq \
+	libc6-compat \
+	libffi-dev \
 	linux-headers \
-    libffi-dev \
-    libc6-compat \
-    bash \
-    ca-certificates \
-    build-base \
-	&& rm -rf /var/cache/apk/* \
-	&& apk del .build-deps 
-	
+        mailcap \
+	netcat-openbsd \
+	xmlsec-dev \
+	&& rm -rf /tmp/*
+
 # Get Mattermost
 RUN mkdir -p /mattermost/data \
     && if [ "$edition" = "team" ] ; then curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz | tar -xvz ; \
@@ -31,7 +29,6 @@ RUN mkdir -p /mattermost/data \
 
 # Configure entrypoint and command
 COPY entrypoint.sh /
-RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 WORKDIR /mattermost/bin
 CMD ["platform"]
