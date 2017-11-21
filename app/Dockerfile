@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM alpine
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
@@ -7,15 +7,21 @@ ENV MM_VERSION=4.4.1
 # Build argument to set Mattermost edition
 ARG edition=entreprise
 
-# Install some needed packages
-RUN apt-get update \
-    && apt-get -y --no-install-recommends install \
-      curl \
-      jq \
-      netcat \
-      ca-certificates \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
 
+RUN apk add --no-cache --virtual .build-deps \
+	netcat-openbsd \
+	jq \
+	curl \
+	ca-certificates \
+	linux-headers \
+    libffi-dev \
+    libc6-compat \
+    bash \
+    ca-certificates \
+    build-base \
+	&& rm -rf /var/cache/apk/* \
+	&& apk del .build-deps 
+	
 # Get Mattermost
 RUN mkdir -p /mattermost/data \
     && if [ "$edition" = "team" ] ; then curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz | tar -xvz ; \
@@ -25,6 +31,7 @@ RUN mkdir -p /mattermost/data \
 
 # Configure entrypoint and command
 COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 WORKDIR /mattermost/bin
 CMD ["platform"]
