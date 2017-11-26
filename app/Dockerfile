@@ -5,7 +5,7 @@ ENV PATH="/mattermost/bin:${PATH}"
 ENV MM_VERSION=4.4.2
 
 # Build argument to set Mattermost edition
-ARG edition=entreprise
+ARG edition=enterprise
 
 # Install some needed packages
 RUN apt-get update \
