@@ -9,3 +9,7 @@
 
 # Generated data
 volumes
+
+# Specific files:
+
+docker-compose.yml

@@ -1,0 +1,44 @@
+version: "2"
+
+services:
+
+  db:
+    build: db
+    restart: unless-stopped
+    volumes:
+      - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
+      - /etc/localtime:/etc/localtime:ro
+    env_file: .env
+    # uncomment the following to enable backup
+    #  - AWS_ACCESS_KEY_ID=XXXX
+    #  - AWS_SECRET_ACCESS_KEY=XXXX
+    #  - WALE_S3_PREFIX=s3://BUCKET_NAME/PATH
+    #  - AWS_REGION=us-east-1
+
+  app:
+    build:
+      context: app
+      # comment out 2 following lines for team edition
+      # args:
+      #   - edition=team
+    restart: unless-stopped
+    volumes:
+      - ./volumes/app/mattermost/config:/mattermost/config:rw
+      - ./volumes/app/mattermost/data:/mattermost/data:rw
+      - ./volumes/app/mattermost/logs:/mattermost/logs:rw
+      - /etc/localtime:/etc/localtime:ro
+    env_file: .env
+
+  web:
+    build: web
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+    volumes:
+      # This directory must have cert files if you want to enable SSL
+      - ./volumes/web/cert:/cert:ro
+      - /etc/localtime:/etc/localtime:ro
+    # Uncomment for SSL
+    # environment:
+    #  - MATTERMOST_ENABLE_SSL=true

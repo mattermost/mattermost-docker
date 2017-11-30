@@ -16,6 +16,14 @@ The following instructions deploy Mattermost in a production configuration using
 
 ### Requirements
 
+For version 2.0 of docker-compose files:
+
+* [docker] (version `1.10.0+`)
+* [docker-compose] (version `1.6.0+` to support Compose file version `2.0`)
+
+
+For version 3.0 of docker-compose files:
+
 * [docker] (version `1.13.0+`)
 * [docker-compose] (version `1.10.0+` to support Compose file version `3.0`)
 
@@ -31,6 +39,45 @@ args:
   - edition=team
 ```
 The `app` Dockerfile will read the `edition` build argument to install Team (`edition = 'team'`) or Entreprise (`edition != team`) edition.
+
+### Choose docker-compose edition / version to use.
+
+We give you two docker-compose sample files, one supports version 3.0 of docker-compose, and the other one supports version 2.0 of docker-compose (you can see more of docker-compose file versions [here](https://docs.docker.com/compose/compose-file/), [here](https://docs.docker.com/compose/compose-file/compose-file-v2/), and [here](https://docs.docker.com/compose/compose-file/compose-versioning/)).
+
+You have to get in mind the requirements for v2 and for v3, and the features that has the v3 over v2 (swarm support, and others); you can see more on [upgrading version 2.x to 3.x ](https://docs.docker.com/compose/compose-file/compose-versioning/#upgrading), and discussions about it:
+
+* https://github.com/mattermost/mattermost-docker/issues/104
+* https://forum.mattermost.org/t/mattermost-with-docker-discussion-about-requirements/3518
+* https://github.com/mattermost/mattermost-docker/issues/151
+
+You only have to do is:
+
+```bash
+$ mv docker-compose.v2.yml.sample docker-compose.yml
+```
+
+to use docker-compose version 2, or:
+
+```bash
+$ mv docker-compose.v3.yml.sample docker-compose.yml
+```
+
+to use docker-compose version 3.
+
+Easy, right?
+
+### Environment file.
+
+We move the environment variables to a .env file; we give you an environment sample file `.env.sample`.
+
+The only thing that you have to do, is:
+
+```bash
+$ mv .env.sample .env
+```
+
+And fill the vars with your values.
+
 
 ### Database container
 This repository offer a Docker image for the Mattermost database. It is a customized PostgreSQL image that you should configure with following environment variables :
