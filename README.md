@@ -50,7 +50,7 @@ You have to get in mind the requirements for v2 and for v3, and the features tha
 * https://forum.mattermost.org/t/mattermost-with-docker-discussion-about-requirements/3518
 * https://github.com/mattermost/mattermost-docker/issues/151
 
-You only have to do is:
+You only have to do this:
 
 ```bash
 $ mv docker-compose.v2.yml.sample docker-compose.yml
@@ -134,7 +134,7 @@ them you may generate a self-signed SSL certificate.
 
 ### Building images
 
-Before start the containers, we must to build the images:
+Before start the containers, you must build the images:
 
 ```
 docker-compose build
