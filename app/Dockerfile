@@ -26,7 +26,7 @@ RUN mkdir -p /mattermost/data \
 # Configure entrypoint and command
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
-WORKDIR /mattermost/bin
+WORKDIR /mattermost
 CMD ["platform"]
 
 # Expose port 80 of the container
