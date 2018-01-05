@@ -58,7 +58,9 @@ if [ "$1" = 'platform' ]; then
   if [ -z "$MM_SQLSETTINGS_DATASOURCE" ]
   then
     echo -ne "Configure database connection..."
-    export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$MM_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
+    # URLEncode the password, allowing for special characters
+    ENCODED_PASSWORD=$(printf %s $MM_PASSWORD | jq -s -R -r @uri)
+    export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$ENCODED_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
     echo OK
   else
     echo "Using existing database connection"
