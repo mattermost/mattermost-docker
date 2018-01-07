@@ -50,4 +50,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
     # Uncomment for SSL
     # environment:
-    #  - MATTERMOST_ENABLE_SSL=true
+    #  - MATTERMOST_ENABLE_SSL=true # comment this line if you want to generate SSL cerificate automatically from letsencrypt
+    # Uncomment following lines to generate SSL from letsencrpt automatically
+    #  - LETSENCRYPT_SSL_GENERATION=true
+    #  - DOMAIN_NAME=XXXX # if more than one domain name then it should be separated by comma
+    #  - SERVER_NAME=XXXX # if more than one domain name then it should be separated by space
+    #  - EMAIL=XXXX # Email for SSL Certificate generation 
