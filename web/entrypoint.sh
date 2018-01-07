@@ -14,8 +14,14 @@ fi
 # Linking Nginx configuration file
 ln -s /etc/nginx/sites-available/mattermost$ssl /etc/nginx/conf.d/mattermost.conf
 
+# add server name if letsencrypt ssl generation is enabled
+if [ ${LETSENCRYPT_SSL_GENERATION} ]; then
+  sed -i "s/{%SERVER_NAME%}/server_name ${SERVER_NAME};/g" /etc/nginx/conf.d/mattermost.conf
+else
+  sed -i "s/{%SERVER_NAME%}//g" /etc/nginx/conf.d/mattermost.conf 
+fi
+
 # Setup app host and port on configuration file
-sed -i "s/{%SERVER_NAME%}/${SERVER_NAME}/g" /etc/nginx/conf.d/mattermost.conf
 sed -i "s/{%APP_HOST%}/${APP_HOST}/g" /etc/nginx/conf.d/mattermost.conf
 sed -i "s/{%APP_PORT%}/${APP_PORT_NUMBER}/g" /etc/nginx/conf.d/mattermost.conf
 

@@ -1,12 +1,9 @@
 FROM nginx
 
-# install cron and supervisor
-RUN apt-get install -qy cron supervisor
-
-# install certbot
+# install cron, supervisor and certbot
 RUN echo "deb http://ftp.debian.org/debian stretch-backports main" | tee -a /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get install -qy python-certbot-nginx -t stretch-backports
+RUN apt-get install -qy cron supervisor python-certbot-nginx -t stretch-backports
 
 # Remove default configuration and add our custom Nginx configuration files
 RUN rm /etc/nginx/conf.d/default.conf
@@ -17,7 +14,7 @@ COPY ./security.conf /etc/nginx/conf.d/
 # Add entrypoint script and letsencrypt script
 COPY entrypoint.sh letsencrypt.sh /usr/bin/
 
-RUN chmod +x /usr/bin/nginx.sh /usr/bin/letsencrypt.sh
+RUN chmod +x /usr/bin/entrypoint.sh /usr/bin/letsencrypt.sh
 
 # Supervisor config
 COPY entrypoint.conf /etc/supervisor/conf.d/
