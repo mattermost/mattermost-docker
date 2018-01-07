@@ -83,6 +83,30 @@ Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key th
 no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
 them you may generate a self-signed SSL certificate.
 
+#### Install SSL certificate with Let's Encrypt automatically
+If you want to generate SSL certificate automatically from letsencrypt, you can set the following environment variables in **docker-compose.yml** to enable the auto SSL generation process:
+* `LETSENCRYPT_SSL_GENERATION`: true 
+* `DOMAIN_NAME`: Domain name of your application. If more than one domain name then it should be separated by comma.
+* `SERVER_NAME`: Server name of your application. If more than one domain name then it should be separated by space.
+* `EMAIL`: Email for SSL Certificate generation 
+
+```
+    # Uncomment for SSL
+    environment:
+    #  - MATTERMOST_ENABLE_SSL=true # leave this line commented
+    # Uncomment following lines to generate SSL from letsencrpt automatically
+      - LETSENCRYPT_SSL_GENERATION=true
+      - DOMAIN_NAME=yourdomainname.com
+      - SERVER_NAME=yourdomainname.com
+      - EMAIL=youremail@example.com
+```
+After editing the **docker-compose.yml** file. Do the following steps:
+```
+docker-compose build
+docker-compose up -d
+```
+ That is all. After the server is up you can check by browsing **https://yourdomainname.com** in the browser. Also, it checks for the SSL certificate expiration and renews the certificate automatically.
+
 ### Starting/Stopping Docker
 
 #### Start
