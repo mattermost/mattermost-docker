@@ -24,7 +24,14 @@
 
 version: '3.3'
 networks:
-  mm-network:
+  # network for App <-> DB transactions
+  mm-in:
+    driver: overlay
+    internal: true
+  # this network faces the outside world
+  mm-out:
+    driver: overlay
+    internal: false
 volumes:
   mm-dbdata:
 services:
@@ -32,7 +39,7 @@ services:
     # use official mattermost prod-db image
     image: mattermost/mattermost-prod-db
     networks:
-      - mm-network
+      - mm-in
     volumes:
       # use a named-volume for data persistency
       - mm-dbdata:/var/lib/postgresql/data
@@ -53,7 +60,8 @@ services:
     # use official mattermost prod-app image
     image: mattermost/mattermost-prod-app
     networks:
-      - mm-network
+      - mm-in
+      - mm-out
     volumes:
       - /var/lib/mattermost/config:/mattermost/config:rw
       - /var/lib/mattermost/data:/mattermost/data:rw
@@ -83,7 +91,7 @@ services:
       - "80:80"
       - "443:443"
     networks:
-      - mm-network
+      - mm-out
     volumes:
       # This directory must have cert files
       - /var/lib/mattermost/cert:/cert:ro
