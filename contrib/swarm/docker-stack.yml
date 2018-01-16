@@ -1,13 +1,13 @@
-# This file allow you to run mattermost within your docker swarm mode cluster
+# This file allows you to run mattermost within your docker swarm mode cluster
 # for more informations check: https://docs.docker.com/engine/swarm/
 #
 # Simply run:
 #
-# `docker stack up [STACK NAME] -c docker-compose.yml`
+# `docker stack up [STACK NAME] -c docker-stack.yml`
 # 
 # In this case `mm` is going to be stack name, so the command will be:
 #
-# `docker stack up mm -c docker-compose.yml`
+# `docker stack up mm -c docker-stack.yml`
 #
 # From now on all the services that belong to this stack will be prefixed with `mm_`
 # this file defines 3 services, these are going to be mm_db, mm_app and mm_web,
