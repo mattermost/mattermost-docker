@@ -15,6 +15,7 @@ RUN apt-get update \
       netcat \
       ca-certificates \
       xmlsec1 \
+      mime-support \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
 
 # Get Mattermost
