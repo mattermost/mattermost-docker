@@ -2,12 +2,12 @@ FROM alpine:3.6
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
-ENV MM_VERSION=4.4.1
+ENV MM_VERSION=4.6.1
 
 # Build argument to set Mattermost edition
 ARG edition=enterprise
 
-
+# Install some needed packages
 RUN apk add --no-cache \
 	ca-certificates \
 	curl \
@@ -15,7 +15,7 @@ RUN apk add --no-cache \
 	libc6-compat \
 	libffi-dev \
 	linux-headers \
-        mailcap \
+	mailcap \
 	netcat-openbsd \
 	xmlsec-dev \
 	&& rm -rf /tmp/*
@@ -30,7 +30,7 @@ RUN mkdir -p /mattermost/data \
 # Configure entrypoint and command
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
-WORKDIR /mattermost/bin
+WORKDIR /mattermost
 CMD ["platform"]
 
 # Expose port 80 of the container
