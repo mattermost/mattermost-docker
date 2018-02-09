@@ -43,14 +43,10 @@ The following steps should be completed by a new maintainer
 
 When receive a mailing list email about a new security update or major version of Mattermost being released, update the version number of this project by doing the following: 
 
-1) In the **master branch**
+In the **master branch**
 
 - Change the [version number](https://github.com/mattermost/mattermost-docker/blob/master/app/Dockerfile#L6) to the latest release 
 - Tag the repo 
-
-2) In the **team-and-enterprise branch**
-
-- Change the [version number](https://github.com/mattermost/mattermost-docker/blob/team-and-enterprise/app/Dockerfile#L6) to the latest release 
 
 ### Issue and Pull Request Review 
 

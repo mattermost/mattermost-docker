@@ -1,20 +1,24 @@
-FROM ubuntu:16.04
+FROM alpine:3.6
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
-ENV MM_VERSION=4.4.2
+ENV MM_VERSION=4.6.1
 
 # Build argument to set Mattermost edition
 ARG edition=enterprise
 
 # Install some needed packages
-RUN apt-get update \
-    && apt-get -y --no-install-recommends install \
-      curl \
-      jq \
-      netcat \
-      ca-certificates \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
+RUN apk add --no-cache \
+	ca-certificates \
+	curl \
+	jq \
+	libc6-compat \
+	libffi-dev \
+	linux-headers \
+	mailcap \
+	netcat-openbsd \
+	xmlsec-dev \
+	&& rm -rf /tmp/*
 
 # Get Mattermost
 RUN mkdir -p /mattermost/data \
@@ -26,7 +30,7 @@ RUN mkdir -p /mattermost/data \
 # Configure entrypoint and command
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
-WORKDIR /mattermost/bin
+WORKDIR /mattermost
 CMD ["platform"]
 
 # Expose port 80 of the container
