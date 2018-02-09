@@ -16,6 +16,7 @@ RUN apt-get update \
     && apt-get remove -y \
       build-essential \
       python-dev \
+      curl \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin /tmp/* /var/tmp/*
