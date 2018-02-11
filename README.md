@@ -175,4 +175,4 @@ For the server configurations, see [prod-ubuntu.rst] of Mattermost.
 
 [docker]: http://docs.docker.com/engine/installation/
 [docker-compose]: https://docs.docker.com/compose/install/
-[prod-ubuntu.rst]: https://docs.mattermost.com/install/install-ubuntu-1404.html
+[prod-ubuntu.rst]: https://docs.mattermost.com/install/install-ubuntu-1604.html
