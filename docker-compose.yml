@@ -4,6 +4,7 @@ services:
 
   db:
     build: db
+    read_only: true
     restart: unless-stopped
     volumes:
       - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
@@ -24,8 +25,8 @@ services:
       # comment out 2 following lines for team edition
       # args:
       #   - edition=team
+    #read_only: true
     restart: unless-stopped
-    read_only: true
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
       - ./volumes/app/mattermost/data:/mattermost/data:rw
@@ -44,6 +45,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    read_only: true
     restart: unless-stopped
     volumes:
       # This directory must have cert files if you want to enable SSL

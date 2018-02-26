@@ -37,6 +37,9 @@ RUN addgroup -g ${PGID} mattermost \
 
 USER mattermost 
 
+#Healthcheck to make sure container is ready
+HEALTHCHECK CMD curl --fail http://localhost:8000 || exit 1
+
 # Configure entrypoint and command
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
@@ -46,8 +49,5 @@ CMD ["platform"]
 # Expose port 8000 of the container
 EXPOSE 8000
 
-#Healthcheck to make sure container is ready 
-HEALTHCHECK CMD curl --fail http://localhost:8000 || exit 1
-
 # Declare volumes for mount point directories
-VOLUME ["/mattermost/data", "/mattermost/logs", "/mattermost/config", "/mattermost/client", "/mattermost/plugins", "/tmp"]
+VOLUME ["/mattermost/data", "/mattermost/logs", "/mattermost/config"]

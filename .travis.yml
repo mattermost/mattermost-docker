@@ -18,6 +18,7 @@ env:
 script:
     - curl -sSf http://localhost > /dev/null
     - docker ps -a | grep app | grep healthy
+    - docker ps -a | grep db | grep healthy
 
 after_failure:
     - timeout 3s docker-compose logs app db web
