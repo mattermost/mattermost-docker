@@ -1,24 +1,19 @@
-FROM postgres:9.4
+FROM postgres:9.4-alpine
+
+ENV DEFAULT_TIMEZONE UTC
 
 # Install some packages to use WAL
-RUN apt-get update \
-    && apt-get install -y \
-      build-essential \
+RUN apk add --no-cache \
+      build-base \
       curl \
-      daemontools \
+      libc6-compat \
       libffi-dev \
-      libssl-dev \
-      lzop \
-      pv \
+      linux-headers \
       python-dev \
+      py-cryptography \
     && curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | python \
-    && pip install 'wal-e<1.0.0' \
-    && apt-get remove -y \
-      build-essential \
-      python-dev \
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin /tmp/* /var/tmp/*
+    && pip --no-cache-dir install 'wal-e<1.0.0' envdir \
+    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 # Add wale script
 COPY setup-wale.sh /docker-entrypoint-initdb.d/
