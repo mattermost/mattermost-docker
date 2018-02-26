@@ -6,6 +6,9 @@ ENV MM_VERSION=4.7.2
 
 # Build argument to set Mattermost edition
 ARG edition=enterprise
+ARG PUID=2000
+ARG PGID=2000
+
 
 # Install some needed packages
 RUN apk add --no-cache \
@@ -27,14 +30,24 @@ RUN mkdir -p /mattermost/data \
     && cp /mattermost/config/config.json /config.json.save \
     && rm -rf /mattermost/config/config.json
 
+# Get ready for production
+RUN addgroup -g ${PGID} mattermost \
+    && adduser -D -u ${PUID} -G mattermost -h /mattermost -D mattermost \
+    && chown -R mattermost:mattermost /mattermost /config.json.save 
+
+USER mattermost 
+
 # Configure entrypoint and command
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 WORKDIR /mattermost
 CMD ["platform"]
 
-# Expose port 80 of the container
-EXPOSE 80
+# Expose port 8000 of the container
+EXPOSE 8000
 
-# Use a volume for the data directory
-VOLUME /mattermost/data
+#Healthcheck to make sure container is ready 
+HEALTHCHECK CMD curl --fail http://localhost:8000 || exit 1
+
+# Declare volumes for mount point directories
+VOLUME ["/mattermost/data", "/mattermost/logs", "/mattermost/config", "/mattermost/client", "/mattermost/plugins", "/tmp"]

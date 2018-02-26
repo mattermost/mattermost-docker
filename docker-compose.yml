@@ -25,6 +25,7 @@ services:
       # args:
       #   - edition=team
     restart: unless-stopped
+    read_only: true
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
       - ./volumes/app/mattermost/data:/mattermost/data:rw
