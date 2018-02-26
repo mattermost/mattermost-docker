@@ -1,53 +1,62 @@
 #!/bin/bash
 
-# if wal backup is not enabled, use minimal wal logging to reduce disk space
-: ${WAL_LEVEL:=minimal}
-: ${ARCHIVE_MODE:=off}
-: ${ARCHIVE_TIMEOUT:=60}
-
-export WAL_LEVEL
-export ARCHIVE_MODE
-export ARCHIVE_TIMEOUT
-
-# PGDATA is defined in upstream postgres dockerfile
+# if wal-e backup is not enabled, use minimal wal-e logging to reduce disk space
+export WAL_LEVEL=${WAL_LEVEL:-minimal}
+export ARCHIVE_MODE=${ARCHIVE_MODE:-off}
+export ARCHIVE_TIMEOUT=${ARCHIVE_TIMEOUT:-60}
 
 function update_conf () {
-    if [ -f $PGDATA/postgresql.conf ]; then
-        sed -i "s/wal_level =.*$/wal_level = $WAL_LEVEL/g" $PGDATA/postgresql.conf
-        sed -i "s/archive_mode =.*$/archive_mode = $ARCHIVE_MODE/g" $PGDATA/postgresql.conf
-        sed -i "s/archive_timeout =.*$/archive_timeout = $ARCHIVE_TIMEOUT/g" $PGDATA/postgresql.conf
-    fi
+  wal=$1
+  # PGDATA is defined in upstream postgres dockerfile
+  config_file=$PGDATA/postgresql.conf
+
+  # Check if configuration file exists. If not, it probably means that database is not initialized yet
+  if [ ! -f $config_file ]; then
+    return
+  fi
+  # Reinitialize config
+  sed -i "s/log_timezone =.*$//g" $PGDATA/postgresql.conf
+  sed -i "s/timezone =.*$//g" $PGDATA/postgresql.conf
+  sed -i "s/wal_level =.*$//g" $config_file
+  sed -i "s/archive_mode =.*$//g" $config_file
+  sed -i "s/archive_timeout =.*$//g" $config_file
+  sed -i "s/archive_command =.*$//g" $config_file
+
+  # Configure wal-e
+  if [ "$wal" = true ] ; then
+    /docker-entrypoint-initdb.d/setup-wale.sh
+  fi
+  echo "log_timezone = $DEFAULT_TIMEZONE" >> $config_file
+  echo "timezone = $DEFAULT_TIMEZONE" >> $config_file
 }
 
-if [ "${1:0:1}" = '-'  ]; then
-    set -- postgres "$@"
+if [ "${1:0:1}" = '-' ]; then
+  set -- postgres "$@"
 fi
 
-if [ "$1" = 'postgres'  ]; then
-    VARS=(AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY WALE_S3_PREFIX AWS_REGION)
+if [ "$1" = 'postgres' ]; then
+  # Check wal-e variables
+  wal_enable=true
+  VARS=(AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY WALE_S3_PREFIX AWS_REGION)
+  for v in ${VARS[@]}; do
+    if [ "${!v}" = "" ]; then
+      echo "$v is required for Wal-E but not set. Skipping Wal-E setup."
+      wal_enable=false
+    fi
+  done
 
+  # Setup wal-e env variables
+  if [ "$wal_enable" = true ] ; then
     for v in ${VARS[@]}; do
-        if [ "${!v}" = "" ]; then
-            echo "$v is required for Wal-E but not set. Skipping Wal-E setup."
-            update_conf
-            # Run the postgresql entrypoint
-            . /docker-entrypoint.sh
-            exit
-        fi
+      export $v="${!v}"
     done
-
-    umask u=rwx,g=rx,o=
-    mkdir -p /etc/wal-e.d/env
-
-    for v in ${VARS[@]}; do
-        echo "${!v}" > /etc/wal-e.d/env/$v
-    done
-    chown -R root:postgres /etc/wal-e.d
-
     WAL_LEVEL=archive
     ARCHIVE_MODE=on
+  fi
 
-    update_conf
-    # Run the postgresql entrypoint
-    . /docker-entrypoint.sh
+  # Update postgresql configuration
+  update_conf $wal_enable
+
+  # Run the postgresql entrypoint
+  . /docker-entrypoint.sh
 fi
