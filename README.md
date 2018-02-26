@@ -86,7 +86,10 @@ them you may generate a self-signed SSL certificate.
 ### Starting/Stopping Docker
 
 #### Start
+If you are running docker with non root user, make sure the UID and GID in app/Dockerfile are the same as your current UID/GID
 ```
+mkdir -p ./volumes/app/mattermost/{data,logs,config}
+chown -R $UID:$GID ./volumes/app/mattermost/
 docker-compose start
 ```
 
