@@ -44,7 +44,7 @@ services:
   web:
     build: web
     ports:
-      - "80:80"
+      - "80:8000"
       - "443:443"
     read_only: true
     restart: unless-stopped
