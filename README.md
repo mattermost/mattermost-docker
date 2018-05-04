@@ -16,8 +16,8 @@ The following instructions deploy Mattermost in a production configuration using
 
 ### Requirements
 
-* [docker] (version `1.10.0+`)
-* [docker-compose] (version `1.6.0+` to support Compose file version `2.0`)
+* [docker] (version `1.12+`)
+* [docker-compose] (version `1.10.0+` to support Compose file version `3.0`) 
 
 ### Choose Edition to Install
 
@@ -86,7 +86,10 @@ them you may generate a self-signed SSL certificate.
 ### Starting/Stopping Docker
 
 #### Start
+If you are running docker with non root user, make sure the UID and GID in app/Dockerfile are the same as your current UID/GID
 ```
+mkdir -p ./volumes/app/mattermost/{data,logs,config}
+chown -R 2000:2000 ./volumes/app/mattermost/
 docker-compose start
 ```
 
@@ -126,6 +129,22 @@ docker-compose up -d
 ```
 
 Your Docker image should now be on the latest Mattermost version.
+
+
+## Upgrading Mattermost to 4.9+
+
+Docker images for `4.9.0` release introduce some important changes from [PR #241](https://github.com/mattermost/mattermost-docker/pull/241) to improve production use of Mattermost with Docker.
+**There are 2 important changes for existing installations**  
+
+One important change is that we don't use `root` user by default to run the Mattermost application. So, as explained on [the README](https://github.com/mattermost/mattermost-docker#start), if you use host mounted volume you have to be sure that files on your host server have the correct UID/GID (by default those values are `2000`). In practice, you should just run following commands :
+```
+mkdir -p ./volumes/app/mattermost/{data,logs,config}
+chown -R 2000:2000 ./volumes/app/mattermost/
+```
+
+The second important change is the port used by Mattermost application container. The default port is now `8000`, and existing installations that use port `80` will not work without a little configuration change. You have to open your Mattermost configuration file (`./volumes/app/mattermost/config/config.json` by default) and change the key `ServiceSettings.ListenAddress` to `:8000`.  
+Also if you use your own web-server/reverse-proxy you need to change its configuration to reach port `8000` of the Mattermost container.
+
 
 ## Upgrading to Team Edition 3.0.x from 2.x
 
@@ -175,4 +194,4 @@ For the server configurations, see [prod-ubuntu.rst] of Mattermost.
 
 [docker]: http://docs.docker.com/engine/installation/
 [docker-compose]: https://docs.docker.com/compose/install/
-[prod-ubuntu.rst]: https://docs.mattermost.com/install/install-ubuntu-1404.html
+[prod-ubuntu.rst]: https://docs.mattermost.com/install/install-ubuntu-1604.html

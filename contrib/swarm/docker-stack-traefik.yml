@@ -3,11 +3,11 @@
 #
 # Simply run:
 #
-# `docker stack up [STACK NAME] -c docker-stack.yml`
+# `docker stack up [STACK NAME] -c docker-stack-traefik.yml`
 # 
 # In this case `mm` is going to be stack name, so the command will be:
 #
-# `docker stack up mm -c docker-stack.yml`
+# `docker stack up mm -c docker-stack-traefik.yml`
 #
 # From now on all the services that belong to this stack will be prefixed with `mm_`
 # this file defines 3 services, these are going to be mm_db, mm_app and mm_web,
@@ -34,6 +34,7 @@ networks:
     internal: false
 volumes:
   mm-dbdata:
+  traefik-certs:
 services:
   db:
     # use official mattermost prod-db image
@@ -82,26 +83,41 @@ services:
       # in case your config is not in default location
       # - MM_CONFIG=/mattermost/config/config.json
     deploy:
+      labels:
+        - "traefik.backend.loadbalancer.sticky=true"
+        - "traefik.backend.loadbalancer.swarm=true"
+        # the backend service needs a name
+        - "traefik.backend=mmapp"
+        # network is prefixed `mm_` as well
+        - "traefik.docker.network=mm_mm-out"
+        # generate a TLS cert for this domain
+        - "traefik.entrypoints=https"
+        - "traefik.frontend.passHostHeader=true"
+        # add your domain below here
+        - "traefik.frontend.rule=Host:mattermost.domain.com"
+        - "traefik.port=80"
       restart_policy:
         condition: on-failure
   web:
-    # use official mattermost prod-web image
-    image: mattermost/mattermost-prod-web
+  # use official traefik image
+    image: traefik
     ports:
       - "80:80"
+      # you can view the traefik's dashboard in http://localhost:8080
+      - "8080:8080"
       - "443:443"
     networks:
       - mm-out
+    command: --acme --acme.email="[ADD YOUR EMAIL HERE]" --acme.entrypoint=https --acme.onhostrule --acme.storage="acme/certs.json" --acme.acmelogging --web --docker --docker.domain=docker.localhost --docker.swarmmode --docker.watch --logLevel=DEBUG
     volumes:
-      # This directory must have cert files
-      - /var/lib/mattermost/cert:/cert:ro
-      - /etc/localtime:/etc/localtime:ro
-    environment:
-      # use app service's hostname
-      - APP_HOST=mm_app
-      # talk to the port within the overlay network
-      # without (over)exposing ports
-      - APP_PORT_NUMBER=80
+      # traefik needs the docker socket in order to work properly
+      - /var/run/docker.sock:/var/run/docker.sock
+      # no traefik config file is being used
+      # you can deep further in the traefik docs
+      # http://docs.traefik.io/user-guide/examples/
+      - /dev/null:/traefik.toml
+      # use a named-volume for certs persistency
+      - traefik-certs:/acme
     deploy:
       restart_policy:
        condition: on-failure

@@ -55,4 +55,4 @@ server {
     }
 }
 
-# See https://github.com/mattermost/docs/blob/master/source/install/prod-ubuntu.rst for the SSL configuration
+# See https://docs.mattermost.com/install/install-ubuntu-1604.html#configuring-nginx-with-ssl-and-http-2 for the SSL configuration

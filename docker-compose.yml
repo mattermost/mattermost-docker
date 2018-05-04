@@ -4,6 +4,7 @@ services:
 
   db:
     build: db
+    read_only: true
     restart: unless-stopped
     volumes:
       - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
@@ -21,9 +22,11 @@ services:
   app:
     build:
       context: app
-      # comment out 2 following lines for team edition
+      # comment out following lines for team edition or change UID/GID
       # args:
       #   - edition=team
+      #   - PUID=1000
+      #   - PGID=1000
     restart: unless-stopped
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
@@ -45,6 +48,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    read_only: true
     volumes:
       - "/etc/nginx/vhost.d"
       - "/usr/share/nginx/html"
