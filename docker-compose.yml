@@ -28,6 +28,8 @@ services:
       #   - PUID=1000
       #   - PGID=1000
     restart: unless-stopped
+    expose:
+      - 8000
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
       - ./volumes/app/mattermost/data:/mattermost/data:rw
@@ -38,20 +40,53 @@ services:
       - MM_USERNAME=mmuser
       - MM_PASSWORD=mmuser_password
       - MM_DBNAME=mattermost
-      # in case your config is not in default location
-      #- MM_CONFIG=/mattermost/config/config.json
+      - VIRTUAL_HOST=mattermost.tinfoilsecurity.com
+      - VIRTUAL_PORT=8000
+      - LETSENCRYPT_HOST=mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
 
-  web:
-    build: web
+  nginx-proxy:
+    restart: unless-stopped
+    image: jwilder/nginx-proxy
     ports:
       - "80:80"
       - "443:443"
     read_only: true
-    restart: unless-stopped
     volumes:
-      # This directory must have cert files if you want to enable SSL
-      - ./volumes/web/cert:/cert:ro
-      - /etc/localtime:/etc/localtime:ro
-    # Uncomment for SSL
-    # environment:
-    #  - MATTERMOST_ENABLE_SSL=true
+      - "/etc/nginx/vhost.d"
+      - "/usr/share/nginx/html"
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - "/etc/nginx/certs"
+      - "/home/ubuntu/mattermost-docker/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf"
+
+  letsencrypt-nginx-proxy-companion:
+    restart: unless-stopped
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    volumes_from:
+      - "nginx-proxy"
+
+  github-integration:
+    restart: unless-stopped
+    image: tinfoil/mattermost-github-integration
+    environment:
+      - VIRTUAL_HOST=github.mattermost.tinfoilsecurity.com
+      - VIRTUAL_PORT=5000
+      - LETSENCRYPT_HOST=github.mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
+    volumes:
+      - "./volumes/github-integration/config.py:/app/mattermostgithub/config.py"
+
+  giphy-integration:
+    restart: unless-stopped
+    image: tinfoil/mattermost-giphy-integration
+    expose:
+      - 5000
+    environment:
+      - VIRTUAL_HOST=giphy.mattermost.tinfoilsecurity.com
+      - VIRTUAL_PORT=5000
+      - LETSENCRYPT_HOST=giphy.mattermost.tinfoilsecurity.com
+      - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
+    env_file:
+      - "./volumes/giphy-integration/env"
