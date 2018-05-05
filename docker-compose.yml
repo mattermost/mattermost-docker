@@ -28,6 +28,8 @@ services:
       #   - PUID=1000
       #   - PGID=1000
     restart: unless-stopped
+    expose:
+      - 8000
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
       - ./volumes/app/mattermost/data:/mattermost/data:rw
@@ -39,6 +41,7 @@ services:
       - MM_PASSWORD=mmuser_password
       - MM_DBNAME=mattermost
       - VIRTUAL_HOST=mattermost.tinfoilsecurity.com
+      - VIRTUAL_PORT=8000
       - LETSENCRYPT_HOST=mattermost.tinfoilsecurity.com
       - LETSENCRYPT_EMAIL=engineers@tinfoilsecurity.com
 
@@ -48,6 +51,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    read_only: true
     volumes:
       - "/etc/nginx/vhost.d"
       - "/usr/share/nginx/html"
