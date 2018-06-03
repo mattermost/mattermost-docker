@@ -73,7 +73,7 @@ If you choose to use MySQL instead of PostgreSQL, you should set a different dat
 * `MM_SQLSETTINGS_DATASOURCE` : `MM_USERNAME:MM_PASSWORD@tcp(DB_HOST:DB_PORT_NUMBER)/MM_DBNAME?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s`
 Don't forget to replace all entries (beginning by `MM_` and `DB_`) in `MM_SQLSETTINGS_DATASOURCE` with the real variables values.
 
-If you want to push Mattermost application to Cloud Foundry, use a `manifest.yml` like this one (with external PostgreSQL service):
+If you want to push Mattermost application to **Cloud Foundry**, use a `manifest.yml` like this one (with external PostgreSQL service):
 
 ```
 ---
