@@ -14,10 +14,10 @@ MM_DBNAME=${MM_DBNAME:-mattermost}
 MM_CONFIG=${MM_CONFIG:-/mattermost/config/config.json}
 
 if [ "${1:0:1}" = '-' ]; then
-    set -- platform "$@"
+    set -- mattermost "$@"
 fi
 
-if [ "$1" = 'platform' ]; then
+if [ "$1" = 'mattermost' ]; then
   # Check CLI args for a -config option
   for ARG in $@;
   do
@@ -77,7 +77,7 @@ if [ "$1" = 'platform' ]; then
   # Necessary to avoid "panic: Failed to open sql connection pq: the database system is starting up"
   sleep 1
 
-  echo "Starting platform"
+  echo "Starting mattermost"
 fi
 
 exec "$@"
