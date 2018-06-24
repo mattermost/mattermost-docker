@@ -22,7 +22,7 @@ services:
   app:
     build:
       context: app
-      # comment out following lines for team edition or change UID/GID
+      # uncomment following lines for team edition or change UID/GID
       # args:
       #   - edition=team
       #   - PUID=1000
