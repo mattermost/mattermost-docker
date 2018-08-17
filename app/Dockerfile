@@ -2,7 +2,7 @@ FROM alpine:3.6
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
-ENV MM_VERSION=5.1.1
+ENV MM_VERSION=5.2.0
 
 # Build argument to set Mattermost edition
 ARG edition=enterprise
