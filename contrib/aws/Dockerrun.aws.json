@@ -20,6 +20,12 @@
             }
         },
         {
+            "name": "app-plugins",
+            "host": {
+                "sourcePath": "/var/app/current/app/mattermost/plugins"
+            }
+        },
+        {
             "name": "db-data",
             "host": {
                 "sourcePath": "/var/app/current/db/mattermost/var/lib/postgresql/data"
@@ -72,6 +78,10 @@
                 {
                     "sourceVolume": "app-logs",
                     "containerPath": "/mattermost/logs"
+                },
+                {
+                    "sourceVolume": "app-plugins",
+                    "containerPath": "/mattermost/plugins"
                 }
             ],
             "links": [
