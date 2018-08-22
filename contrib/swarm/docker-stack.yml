@@ -66,6 +66,7 @@ services:
       - /var/lib/mattermost/config:/mattermost/config:rw
       - /var/lib/mattermost/data:/mattermost/data:rw
       - /var/lib/mattermost/logs:/mattermost/logs:rw
+      - /var/lib/mattermost/plugins:/mattermost/plugins:rw
       - /etc/localtime:/etc/localtime:ro
     environment:
       # use service's hostname

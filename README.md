@@ -108,7 +108,7 @@ them you may generate a self-signed SSL certificate.
 #### Start
 If you are running docker with non root user, make sure the UID and GID in app/Dockerfile are the same as your current UID/GID
 ```
-mkdir -p ./volumes/app/mattermost/{data,logs,config}
+mkdir -p ./volumes/app/mattermost/{data,logs,config,plugins}
 chown -R 2000:2000 ./volumes/app/mattermost/
 docker-compose start
 ```
@@ -158,7 +158,7 @@ Docker images for `4.9.0` release introduce some important changes from [PR #241
 
 One important change is that we don't use `root` user by default to run the Mattermost application. So, as explained on [the README](https://github.com/mattermost/mattermost-docker#start), if you use host mounted volume you have to be sure that files on your host server have the correct UID/GID (by default those values are `2000`). In practice, you should just run following commands :
 ```
-mkdir -p ./volumes/app/mattermost/{data,logs,config}
+mkdir -p ./volumes/app/mattermost/{data,logs,config,plugins}
 chown -R 2000:2000 ./volumes/app/mattermost/
 ```
 
@@ -191,7 +191,7 @@ Running containerized applications on multi-node swarms involves specific data p
 
 First, create mattermost directory structure on the docker hosts:
 ```
-mkdir -p /var/lib/mattermost/{cert,config,data,logs}
+mkdir -p /var/lib/mattermost/{cert,config,data,logs,plugins}
 ```
 
 Then, fire up the stack in your swarm:

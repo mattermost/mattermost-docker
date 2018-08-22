@@ -12,7 +12,7 @@ install:
     - sleep 30
 
 env:
-    - BUILD="mkdir -p ./volumes/app/mattermost/{data,logs,config} && docker-compose up -d"
+    - BUILD="mkdir -p ./volumes/app/mattermost/{data,logs,config,plugins} && docker-compose up -d"
     - BUILD="docker run -d --name db -e POSTGRES_USER=mmuser -e POSTGRES_PASSWORD=mmuser_password -e POSTGRES_DB=mattermost mattermost-prod-db && sleep 5 && docker run -d --link db -p 80:8000 --name app mattermost-prod-app"
 
 script:
