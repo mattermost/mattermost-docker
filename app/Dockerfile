@@ -28,10 +28,8 @@ RUN mkdir -p /mattermost/data \
     && if [ "$edition" = "team" ] ; then curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz | tar -xvz ; \
       else curl https://releases.mattermost.com/$MM_VERSION/mattermost-$MM_VERSION-linux-amd64.tar.gz | tar -xvz ; fi \
     && cp /mattermost/config/config.json /config.json.save \
-    && rm -rf /mattermost/config/config.json
-
-# Get ready for production
-RUN addgroup -g ${PGID} mattermost \
+    && rm -rf /mattermost/config/config.json \
+    && addgroup -g ${PGID} mattermost \
     && adduser -D -u ${PUID} -G mattermost -h /mattermost -D mattermost \
     && chown -R mattermost:mattermost /mattermost /config.json.save
 
