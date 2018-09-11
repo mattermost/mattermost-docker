@@ -1,5 +1,13 @@
 FROM nginx:mainline-alpine
 
+ARG proxy
+
+ENV http_proxy="${proxy}" \
+    https_proxy="${proxy}" \
+    HTTP_PROXY="${proxy}" \
+    HTTPS_PROXY="${proxy}" \
+    NO_PROXY="${no_proxy}"
+
 # Remove default configuration and add our custom Nginx configuration files
 RUN rm /etc/nginx/conf.d/default.conf \
     && apk add --no-cache curl

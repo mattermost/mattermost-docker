@@ -1,4 +1,5 @@
 #!/bin/sh
+unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY NO_PROXY
 
 # Function to generate a random salt
 generate_salt() {

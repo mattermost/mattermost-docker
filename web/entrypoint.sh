@@ -1,4 +1,5 @@
 #!/bin/sh
+unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY NO_PROXY
 
 # Define default value for app container hostname and port
 APP_HOST=${APP_HOST:-app}

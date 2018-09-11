@@ -1,5 +1,13 @@
 FROM postgres:9.4-alpine
 
+ARG proxy
+
+ENV http_proxy="${proxy}" \
+    https_proxy="${proxy}" \
+    HTTP_PROXY="${proxy}" \
+    HTTPS_PROXY="${proxy}" \
+    NO_PROXY="${no_proxy}"
+
 ENV DEFAULT_TIMEZONE UTC
 
 # Install some packages to use WAL
