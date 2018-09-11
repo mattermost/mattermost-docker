@@ -4,6 +4,14 @@ FROM alpine:3.8
 ENV PATH="/mattermost/bin:${PATH}"
 ENV MM_VERSION=5.2.1
 
+ARG proxy
+
+ENV http_proxy="${proxy}" \
+    https_proxy="${proxy}" \
+    HTTP_PROXY="${proxy}" \
+    HTTPS_PROXY="${proxy}" \
+    NO_PROXY="${no_proxy}"
+
 # Build argument to set Mattermost edition
 ARG edition=enterprise
 ARG PUID=2000

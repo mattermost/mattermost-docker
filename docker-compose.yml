@@ -3,7 +3,11 @@ version: "2"
 services:
 
   db:
-    build: db
+    build:
+      context: db
+      args:
+        - proxy=${http_proxy}
+        - no_proxy=${no_proxy}
     read_only: true
     restart: unless-stopped
     volumes:
@@ -22,6 +26,9 @@ services:
   app:
     build:
       context: app
+      args:
+        - proxy=${http_proxy}
+        - no_proxy=${no_proxy}
       # uncomment following lines for team edition or change UID/GID
       # args:
       #   - edition=team
@@ -42,8 +49,26 @@ services:
       # in case your config is not in default location
       #- MM_CONFIG=/mattermost/config/config.json
 
+  # For testing custom slash command.
+  # apicmock works custom slash command in backend(restapi).
+  apimock:
+    build:
+      context: apimock
+      args:
+        - proxy=${http_proxy}
+        - no_proxy=${no_proxy}
+    ports:
+      - "10080:10080"
+    volumes:
+      - ./apimock/stub:/node:rw
+    command: node /node/simple_mock.js
+
   web:
-    build: web
+    build:
+      context: web
+      args:
+        - proxy=${http_proxy}
+        - no_proxy=${no_proxy}
     ports:
       - "80:80"
       - "443:443"
@@ -56,3 +81,5 @@ services:
     # Uncomment for SSL
     # environment:
     #  - MATTERMOST_ENABLE_SSL=true
+    links:
+      - apimock

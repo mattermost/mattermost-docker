@@ -1,4 +1,5 @@
 #!/bin/bash
+unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY NO_PROXY
 
 # if wal-e backup is not enabled, use minimal wal-e logging to reduce disk space
 export WAL_LEVEL=${WAL_LEVEL:-minimal}
