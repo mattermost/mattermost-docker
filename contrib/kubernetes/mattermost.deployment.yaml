@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: mattermost-app
-        image: "mattermost/mattermost-prod-app:5.2.1"
+        image: "mattermost/mattermost-prod-app:5.3.0"
         env:
         - name: DB_HOST
           valueFrom:
