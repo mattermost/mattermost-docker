@@ -67,7 +67,7 @@ if [ "$1" = 'mattermost' ]; then
     echo "Using existing config file" $MM_CONFIG
   fi
 
-  if [ ! -z "$DB_HOST" ]
+  if [ -z "$MM_SQLSETTINGS_DATASOURCE" ] && [ ! -f $MM_CONFIG ]
   then
     # Wait for database to be reachable
     echo "Wait until database $DB_HOST:$DB_PORT_NUMBER is ready..."
