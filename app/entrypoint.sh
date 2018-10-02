@@ -67,16 +67,6 @@ if [ "$1" = 'mattermost' ]; then
     echo "Using existing config file" $MM_CONFIG
   fi
 
-  if [ -z "$MM_SQLSETTINGS_DATASOURCE" ] && [ ! -f $MM_CONFIG ]
-  then
-    # Wait for database to be reachable
-    echo "Wait until database $DB_HOST:$DB_PORT_NUMBER is ready..."
-    until nc -z $DB_HOST $DB_PORT_NUMBER
-    do
-      sleep 1
-    done
-  fi
-
   # Wait another second for the database to be properly started.
   # Necessary to avoid "panic: Failed to open sql connection pq: the database system is starting up"
   sleep 1
