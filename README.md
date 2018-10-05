@@ -98,6 +98,8 @@ This image is optional, you should **not** use it when you have your own reverse
 * `APP_HOST`: application host address
 * `APP_PORT_NUMBER`: application HTTP port
 
+If you plan to upload large files to your Mattermost instance, Nginx will need to write some temporary files. In that case, the `read_only: true` option on the `web` container should be removed from your `docker-compose.yml` file.
+
 #### Install with SSL certificate
 Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key that has
 no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
