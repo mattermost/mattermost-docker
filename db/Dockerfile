@@ -19,11 +19,11 @@ RUN apk add --no-cache \
 COPY setup-wale.sh /docker-entrypoint-initdb.d/
 
 #Healthcheck to make sure container is ready
-HEALTHCHECK CMD pg_isready || exit 1
+HEALTHCHECK CMD pg_isready -U postgres || exit 1
 
 # Add and configure entrypoint and command
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["postgres"]
 
-VOLUME ["/var/run/postgresql", "/usr/share/postgresql/", "/var/lib/postgresql/data", "/tmp"]
+VOLUME ["/var/run/postgresql", "/usr/share/postgresql/", "/var/lib/postgresql/data", "/tmp", "/etc/wal-e.d"]
