@@ -6,8 +6,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 80
-    targetPort: 80
+  - port: 8065
+    targetPort: 8065
     protocol: TCP
     name: http
   selector:

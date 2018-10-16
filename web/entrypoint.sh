@@ -2,7 +2,7 @@
 
 # Define default value for app container hostname and port
 APP_HOST=${APP_HOST:-app}
-APP_PORT_NUMBER=${APP_PORT_NUMBER:-8000}
+APP_PORT_NUMBER=${APP_PORT_NUMBER:-8065}
 
 # Check if SSL should be enabled (if certificates exists)
 if [ -f "/cert/cert.pem" -a -f "/cert/key-no-password.pem" ]; then
