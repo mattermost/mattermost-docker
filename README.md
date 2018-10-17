@@ -152,9 +152,9 @@ docker-compose up -d
 
 Your Docker image should now be on the latest Mattermost version.
 
-## Upgrading Mattermost to 5.5.0+
+## Upgrading Mattermost to 6.0.0+
 
-Docker images for `5.5.0` release introduce a new change related to the way to access the application, We switch back the application port to use the default port which is `8065`. Existing installations that use port `8000` will not work without a little configuration change. You have to open your Mattermost configuration file (`./volumes/app/mattermost/config/config.json` by default) and change the key `ServiceSettings.ListenAddress` to `:8065`.
+Docker images for `6.0.0` release introduce a new change related to the way to access the application, We switch back the application port to use the default port which is `8065`. Existing installations that use port `8000` will not work without a little configuration change. You have to open your Mattermost configuration file (`./volumes/app/mattermost/config/config.json` by default) and change the key `ServiceSettings.ListenAddress` to `:8065`.
 Also if you use your own web-server/reverse-proxy you need to change its configuration to reach port `8065` of the Mattermost container.
 
 Also added two new ports for HA installations which is the GossipPort `8074` and the StreamingPort `8075`.
