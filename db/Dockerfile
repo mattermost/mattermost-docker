@@ -26,4 +26,4 @@ COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["postgres"]
 
-VOLUME ["/var/run/postgresql", "/usr/share/postgresql/", "/var/lib/postgresql/data", "/tmp"]
+VOLUME ["/var/run/postgresql", "/usr/share/postgresql/", "/var/lib/postgresql/data", "/tmp", "/etc/wal-e.d"]
