@@ -25,7 +25,7 @@ RUN apk add --no-cache \
 	&& rm -rf /tmp/*
 
 # Get Mattermost
-RUN mkdir -p /mattermost/data \
+RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
     && if [ ! -z "$MM_BINARY" ]; then curl $MM_BINARY | tar -xvz ; \
       elif [ "$edition" = "team" ] ; then curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz | tar -xvz ; \
       else curl https://releases.mattermost.com/$MM_VERSION/mattermost-$MM_VERSION-linux-amd64.tar.gz | tar -xvz ; fi \
@@ -33,7 +33,7 @@ RUN mkdir -p /mattermost/data \
     && rm -rf /mattermost/config/config.json \
     && addgroup -g ${PGID} mattermost \
     && adduser -D -u ${PUID} -G mattermost -h /mattermost -D mattermost \
-    && chown -R mattermost:mattermost /mattermost /config.json.save
+    && chown -R mattermost:mattermost /mattermost /config.json.save /mattermost/plugins /mattermost/client/plugins
 
 USER mattermost
 
