@@ -45,14 +45,14 @@ spec:
               name: mattermost.env
               key: mm-dbname
         volumeMounts:
-        # optional persistant storage
+        # optional persistent storage
         #- name: appdata
           #mountPath: /mattermost/data
         - name: etclocaltime
           mountPath: /etc/localtime
           readOnly: true
       volumes:
-      # optional persistant storage
+      # optional persistent storage
       #- name: appdata
         #persistentVolumeClaim:
         #  claimName: mattermost-app
