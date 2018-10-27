@@ -2,7 +2,7 @@
 
 # Function to generate a random salt
 generate_salt() {
-  cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 48 | head -n 1
+  tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 48 | head -n 1
 }
 
 # Read environment variables or set default values
