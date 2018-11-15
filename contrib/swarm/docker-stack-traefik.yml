@@ -4,17 +4,17 @@
 # Simply run:
 #
 # `docker stack up [STACK NAME] -c docker-stack-traefik.yml`
-# 
+#
 # In this case `mm` is going to be stack name, so the command will be:
 #
 # `docker stack up mm -c docker-stack-traefik.yml`
 #
 # From now on all the services that belong to this stack will be prefixed with `mm_`
 # this file defines 3 services, these are going to be mm_db, mm_app and mm_web,
-# each of these names is the service's hostname as well, they can communicate 
+# each of these names is the service's hostname as well, they can communicate
 # with each other easily by using the hostname instead of the ip or exposing ports to the host.
 #
-# As a side note, images tagged as latest are pulled by default, 
+# As a side note, images tagged as latest are pulled by default,
 # that means there's no need to use `image:latest`
 #
 # use latest compose v3.3 file format for optimal compatibility with latest docker release and swarm features.
