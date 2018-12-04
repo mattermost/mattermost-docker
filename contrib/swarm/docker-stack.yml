@@ -4,17 +4,17 @@
 # Simply run:
 #
 # `docker stack up [STACK NAME] -c docker-stack.yml`
-# 
-# In this case `mm` is going to be stack name, so the command will be:
 #
-# `docker stack up mm -c docker-stack.yml`
+# In this case `mattermost` is going to be stack name, so the command will be:
 #
-# From now on all the services that belong to this stack will be prefixed with `mm_`
-# this file defines 3 services, these are going to be mm_db, mm_app and mm_web,
-# each of these names is the service's hostname as well, they can communicate 
+# `docker stack up mattermost -c docker-stack.yml`
+#
+# From now on all the services that belong to this stack will be prefixed with `mattermost_`
+# this file defines 3 services, these are going to be mattermost_db, mattermost_app and mattermost_web,
+# each of these names is the service's hostname as well, they can communicate
 # with each other easily by using the hostname instead of the ip or exposing ports to the host.
 #
-# As a side note, images tagged as latest are pulled by default, 
+# As a side note, images tagged as latest are pulled by default,
 # that means there's no need to use `image:latest`
 #
 # use latest compose v3.3 file format for optimal compatibility with latest docker release and swarm features.
@@ -70,7 +70,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       # use service's hostname
-      - DB_HOST=mm_db
+      - DB_HOST=db
       # talk to the port within the overlay network
       # without (over)exposing ports
       - DB_PORT_NUMBER=5432
@@ -99,7 +99,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       # use app service's hostname
-      - APP_HOST=mm_app
+      - APP_HOST=app
       # talk to the port within the overlay network
       # without (over)exposing ports
       - APP_PORT_NUMBER=80
