@@ -1,7 +1,14 @@
 server {
 	listen 80 default_server;
 	server_name _;
+    location / {
 	return 301 https://$host$request_uri;
+    }
+    location /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        root         /var/www/acme-challenge;
+        rewrite /.well-known/acme-challenge/(.*)$ /$1 break;
+    }
 }
 
 map $http_x_forwarded_proto $proxy_x_forwarded_proto {

@@ -36,4 +36,10 @@ server {
         proxy_read_timeout 600s;
         proxy_pass http://{%APP_HOST%}:{%APP_PORT%};
     }
+
+    location /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        root         /var/www/acme-challenge;
+        rewrite /.well-known/acme-challenge/(.*)$ /$1 break;
+    }
 }

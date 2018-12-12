@@ -53,6 +53,7 @@ services:
       # This directory must have cert files if you want to enable SSL
       - ./volumes/web/cert:/cert:ro
       - /etc/localtime:/etc/localtime:ro
+      - ./volumes/web/acme-challenge:/var/www/acme-challenge:ro
     # Uncomment for SSL
     # environment:
     #  - MATTERMOST_ENABLE_SSL=true
