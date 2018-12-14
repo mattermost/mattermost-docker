@@ -19,4 +19,4 @@ sed -i "s/{%APP_HOST%}/${APP_HOST}/g" /etc/nginx/conf.d/mattermost.conf
 sed -i "s/{%APP_PORT%}/${APP_PORT_NUMBER}/g" /etc/nginx/conf.d/mattermost.conf
 
 # Run Nginx
-nginx -g 'daemon off;'
+exec nginx -g 'daemon off;'
