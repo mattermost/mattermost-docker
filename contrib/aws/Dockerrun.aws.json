@@ -43,6 +43,7 @@
             "name": "db",
             "image": "mattermost/mattermost-prod-db:latest",
             "memory": 128,
+            "essential": true,
             "mountPoints": [
                 {
                     "sourceVolume": "db-data",
@@ -66,6 +67,7 @@
             "name": "app",
             "image": "mattermost/mattermost-prod-app:latest",
             "memory": 128,
+            "essential": true,
             "mountPoints": [
                 {
                     "sourceVolume": "app-config",
@@ -92,6 +94,7 @@
             "name": "web",
             "image": "mattermost/mattermost-prod-web:latest",
             "memory": 128,
+            "essential": true,
             "mountPoints": [
                 {
                     "sourceVolume": "web-cert",
