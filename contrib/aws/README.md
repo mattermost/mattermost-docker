@@ -6,6 +6,8 @@
 
 ### Install
 
+Make the changes in the config file to reflect your needs (app/mattermost/config/config.json)
+
 ```
 eb init
 eb create prod
