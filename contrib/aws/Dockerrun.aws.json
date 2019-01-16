@@ -92,7 +92,7 @@
         },
         {
             "name": "web",
-            "image": "mattermost/mattermost-prod-web:5.6.3",
+            "image": "mattermost/mattermost-prod-web:5.7.0",
             "memory": 128,
             "essential": true,
             "mountPoints": [
