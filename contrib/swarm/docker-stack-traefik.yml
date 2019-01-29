@@ -109,7 +109,18 @@ services:
       - "443:443"
     networks:
       - mm-out
-    command: --acme --acme.email="[ADD YOUR EMAIL HERE]" --acme.entrypoint=https --acme.onhostrule --acme.storage="acme/certs.json" --acme.acmelogging --web --docker --docker.domain=docker.localhost --docker.swarmmode --docker.watch --logLevel=DEBUG
+    command: >
+      --acme
+      --acme.email="[ADD YOUR EMAIL HERE]"
+      --acme.entrypoint=https --acme.onhostrule
+      --acme.storage="acme/certs.json"
+      --acme.acmelogging
+      --web
+      --docker
+      --docker.domain=docker.localhost
+      --docker.swarmmode
+      --docker.watch
+      --logLevel=DEBUG
     volumes:
       # traefik needs the docker socket in order to work properly
       - /var/run/docker.sock:/var/run/docker.sock
