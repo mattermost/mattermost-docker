@@ -1,0 +1,14 @@
+---
+applications:
+- name: mattermost
+  docker:
+    image: mattermost/mattermost-prod-app
+  instances: 1
+  memory: 1G
+  disk_quota: 256M
+  env:
+    DB_HOST: database host address
+    DB_PORT_NUMBER: database port
+    MM_DBNAME: database name
+    MM_USERNAME: database username
+    MM_PASSWORD: database password
