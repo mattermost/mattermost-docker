@@ -16,9 +16,10 @@ Please use this long name:
 
 The following people help to maintain this open source project:
 
-| Current Maintainer(s)  | Start Date    |
-|:-----------------------|:--------------|
-| Kyâne Pichou - @pichouk| Jun 01 2017   |
+| Current Maintainer(s)                 | Start Date    |
+|:--------------------------------------|:--------------|
+| Kyâne Pichou - @pichouk               | Jun 01 2017   |
+| Carlos Tadeu Panato Junior - @cpanato | Feb 18 2018   |
 
 In case something happens where no maintainers are able to complete their responsibilies, the following sponsoring organization can help find a new maintainer:
 
