@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+
+  db:
+    image: mattermost/mattermost-prod-db
+    read_only: true
+    networks:
+      mattermost-net:
+        aliases:
+          - db
+    volumes:
+      - /docker/volumes/mattermost/db/data:/var/lib/postgresql/data
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+    restart: unless-stopped
+
+  app:
+    image: mattermost/mattermost-prod-app
+    networks:
+      - mattermost-net
+    volumes:
+      - /docker/volumes/mattermost/app/config:/mattermost/config:rw
+      - /docker/volumes/mattermost/app/data:/mattermost/data:rw
+      - /docker/volumes/mattermost/app/logs:/mattermost/logs:rw
+      - /docker/volumes/mattermost/app/plugins:/mattermost/plugins:rw
+      - /docker/volumes/mattermost/app/client-plugins:/mattermost/client/plugins:rw
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      # set same as db credentials and dbname
+      - MM_USERNAME=mmuser
+      - MM_PASSWORD=mmuser_password
+      - MM_DBNAME=mattermost
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8000"
+      # Change the following "my.mattermost.tld" to your Mattermost domain
+      - "traefik.frontend.rule=Host:my.mattermost.tld"
+    restart: unless-stopped
+
+  traefik:
+    image: traefik:1.7
+    networks:
+      - mattermost-net
+    command: >
+      traefik --docker --loglevel=WARN --docker.exposedbydefault=false --docker.watch=true
+      --acme=true --acme.ondemand=true --acme.onhostrule=true --acme.httpchallenge.entrypoint=http --acme.email='my@email.tld' --acme.entrypoint=https --acme.storage=/certs/acme.json
+      --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 TLS' --defaultentrypoints=http,https
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /docker/volumes/traefik/certs:/certs
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+networks:
+  mattermost-net:
+    external: true
