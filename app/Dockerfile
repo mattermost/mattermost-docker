@@ -2,7 +2,7 @@ FROM alpine:3.9
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
-ENV MM_VERSION=4.10.2
+ENV MM_VERSION=4.10.3
 
 # Build argument to set Mattermost edition
 ARG edition=enterprise
@@ -33,7 +33,7 @@ RUN mkdir -p /mattermost/data \
 # Get ready for production
 RUN addgroup -g ${PGID} mattermost \
     && adduser -D -u ${PUID} -G mattermost -h /mattermost -D mattermost \
-    && chown -R mattermost:mattermost /mattermost /config.json.save 
+    && chown -R mattermost:mattermost /mattermost /config.json.save
 
 USER mattermost
 
