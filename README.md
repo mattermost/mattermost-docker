@@ -1,3 +1,5 @@
+# The docker image `mattermost/mattermost-prod-app`: will be deprecated in Mattermost 6.0, in favor of `mattermost/mattermost-enterprise-edition` and `mattermost/mattermost-team-edition`
+
 # Production Docker deployment for Mattermost
 
 This project enables deployment of a Mattermost server in a multi-node production configuration using Docker.
