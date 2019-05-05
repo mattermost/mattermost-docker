@@ -22,6 +22,7 @@ RUN apk add --no-cache \
 	mailcap \
 	netcat-openbsd \
 	xmlsec-dev \
+	tzdata \
 	&& rm -rf /tmp/*
 
 # Get Mattermost
