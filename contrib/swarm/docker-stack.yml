@@ -58,7 +58,7 @@ services:
         condition: on-failure
   app:
     # use official mattermost prod-app image
-    image: mattermost/mattermost-prod-app:5.11.0
+    image: mattermost/mattermost-prod-app:5.13.0
     networks:
       - mm-in
       - mm-out
