@@ -6,10 +6,22 @@ generate_salt() {
 }
 
 # Read environment variables or set default values
-DB_HOST=${DB_HOST:-db}
-DB_PORT_NUMBER=${DB_PORT_NUMBER:-5432}
-MM_DBNAME=${MM_DBNAME:-mattermost}
-MM_CONFIG=${MM_CONFIG:-/mattermost/config/config.json}
+MM_DB_HOST=${MM_DB_HOST:-"db"}
+MM_DB_PORT_NUMBER=${MM_DB_PORT_NUMBER:-5432}
+MM_DB_NAME=${MM_DB_NAME:-"mattermost"}
+MM_DB_NAME=${MM_DB_USERNAME:-"postgres"}
+MM_DB_NAME=${MM_DB_PASSWORD:-""}
+MM_CONFIG=${MM_CONFIG:-"/mattermost/config/config.json"}
+MM_SQLSETTINGS_DATASOURCE=${MM_SQLSETTINGS_DATASOURCE:-""}
+SUDO="gosu mattermost"
+PUID=${PUID:-2000}
+PGID=${PGID:-2000}
+
+
+addgroup -g ${PGID} mattermost
+adduser -D -u ${PUID} -G mattermost -h /mattermost -D mattermost
+chown -R mattermost:mattermost /mattermost /config.json.save /mattermost/plugins /mattermost/client/plugins
+
 
 if [ "${1:0:1}" = '-' ]; then
     set -- mattermost "$@"
@@ -17,7 +29,7 @@ fi
 
 if [ "$1" = 'mattermost' ]; then
   # Check CLI args for a -config option
-  for ARG in $@;
+  for ARG in "$@";
   do
       case "$ARG" in
           -config=*)
@@ -25,42 +37,42 @@ if [ "$1" = 'mattermost' ]; then
       esac
   done
 
-  if [ ! -f $MM_CONFIG ]
+  if [ ! -f "$MM_CONFIG" ]
   then
     # If there is no configuration file, create it with some default values
-    echo "No configuration file" $MM_CONFIG
+    echo "No configuration file" "$MM_CONFIG"
     echo "Creating a new one"
     # Copy default configuration file
-    cp /config.json.save $MM_CONFIG
+    cp /config.json.save "$MM_CONFIG"
     # Substitue some parameters with jq
-    jq '.ServiceSettings.ListenAddress = ":8000"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.LogSettings.EnableConsole = true' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.LogSettings.ConsoleLevel = "ERROR"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.FileSettings.Directory = "/mattermost/data/"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.FileSettings.EnablePublicLink = true' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.FileSettings.PublicLinkSalt = "'$(generate_salt)'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.EmailSettings.SendEmailNotifications = false' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.EmailSettings.FeedbackEmail = ""' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.EmailSettings.SMTPServer = ""' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.EmailSettings.SMTPPort = ""' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.EmailSettings.InviteSalt = "'$(generate_salt)'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.EmailSettings.PasswordResetSalt = "'$(generate_salt)'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.RateLimitSettings.Enable = true' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.SqlSettings.DriverName = "postgres"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.SqlSettings.AtRestEncryptKey = "'$(generate_salt)'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.PluginSettings.Directory = "/mattermost/plugins/"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+    jq '.ServiceSettings.ListenAddress = ":8000"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.LogSettings.EnableConsole = true' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.LogSettings.ConsoleLevel = "ERROR"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.FileSettings.Directory = "/mattermost/data/"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.FileSettings.EnablePublicLink = true' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.FileSettings.PublicLinkSalt = "'$(generate_salt)'"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.EmailSettings.SendEmailNotifications = false' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.EmailSettings.FeedbackEmail = ""' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.EmailSettings.SMTPServer = ""' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.EmailSettings.SMTPPort = ""' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.EmailSettings.InviteSalt = "'$(generate_salt)'"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.EmailSettings.PasswordResetSalt = "'$(generate_salt)'"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.RateLimitSettings.Enable = true' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.SqlSettings.DriverName = "postgres"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.SqlSettings.AtRestEncryptKey = "'$(generate_salt)'"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    jq '.PluginSettings.Directory = "/mattermost/plugins/"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
   else
-    echo "Using existing config file" $MM_CONFIG
+    echo "Using existing config file" "$MM_CONFIG"
   fi
 
   # Configure database access
-  if [[ -z "$MM_SQLSETTINGS_DATASOURCE" && ! -z "$MM_USERNAME" && ! -z "$MM_PASSWORD" ]]
+  if [ -z "$MM_SQLSETTINGS_DATASOURCE" ] && [ -n "$MM_DB_USERNAME" ] && [ -n "$MM_DB_PASSWORD" ]
   then
-    echo -ne "Configure database connection..."
+    echo "Configure database connection..."
     # URLEncode the password, allowing for special characters
-    ENCODED_PASSWORD=$(printf %s $MM_PASSWORD | jq -s -R -r @uri)
-    export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$ENCODED_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
-    echo OK
+    ENCODED_PASSWORD=$(printf %s $MM_DB_PASSWORD | jq -s -R -r @uri)
+    export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_DB_USERNAME:$ENCODED_PASSWORD@$MM_DB_HOST:$MM_DB_PORT_NUMBER/$MM_DB_NAME?sslmode=disable&connect_timeout=10"
+    echo "OK"
   else
     echo "Using existing database connection"
   fi
@@ -72,4 +84,4 @@ if [ "$1" = 'mattermost' ]; then
   echo "Starting mattermost"
 fi
 
-exec "$@"
+$SUDO exec "$@"

@@ -1,24 +1,41 @@
-sudo: required
+language: minimal
+dist: xenial
+addons:
+  apt:
+    sources:
+      - docker-xenial
+  hosts:
+  - mattermost.example.com
 
-services:
-    - docker
+env:
+    #- BUILD="mkdir -p ./volumes/app/mattermost/{data,logs,config,plugins} && docker-compose up -d"
+    - BUILD="docker run -d --name db -e POSTGRES_USER=mmuser -e POSTGRES_PASSWORD=mmuser_password -e POSTGRES_DB=mattermost mattermost-prod-db && sleep 5 && docker run -d --link db -p 80:8000 --name app -e MM__DB_USERNAME=mmuser -e MM_DB_PASSWORD=mmuser_password -e MM_DB_HOST=db -e PUID=2000 -e PGID=2000 mattermost-prod-app"
+    - BUILD="docker run -d --name db -e POSTGRES_USER=mmuser -e POSTGRES_PASSWORD=mmuser_password -e POSTGRES_DB=mattermost mattermost-prod-db && sleep 5 && docker run -d --link db -p 80:8000 --name app -e MM__DB_USERNAME=mmuser -e MM_DB_PASSWORD=mmuser_password -e MM_DB_HOST=db -e PUID=2000 -e PGID=2000 mattermost-prod-app-team"
+   global:
+    - MM_VERSION="5.13.0"
 
 before_install:
     - docker build -t mattermost-prod-db db
-    - docker build -t mattermost-prod-app app
+    - docker build -t mattermost-prod-app --build-arg MM_VERSION=$MM_VERSION app
+    - docker build -t mattermost-prod-app-team --build-arg edition=team --build-arg MM_VERSION=$MM_VERSION app
 
 install:
     - eval $BUILD
     - sleep 30
 
-env:
-    - BUILD="mkdir -p ./volumes/app/mattermost/{data,logs,config,plugins} && docker-compose up -d"
-    - BUILD="docker run -d --name db -e POSTGRES_USER=mmuser -e POSTGRES_PASSWORD=mmuser_password -e POSTGRES_DB=mattermost mattermost-prod-db && sleep 5 && docker run -d --link db -p 80:8000 --name app -e MM_USERNAME=mmuser -e MM_PASSWORD=mmuser_password mattermost-prod-app"
-
 script:
-    - curl -sSf http://localhost > /dev/null
+    - curl -sSf http://mattermost.example.com > /dev/null
     - docker ps -a | grep app | grep healthy
     - docker ps -a | grep db | grep healthy
+
+after_success:
+    - docker tag mattermost-prod-db mattermost/mattermost-prod-db:$MM_VERSION
+    - docker tag mattermost-prod-app mattermost/mattermost-prod-app-enterprise:$MM_VERSION
+    - docker tag mattermost-prod-app mattermost/mattermost-prod-app-team:$MM_VERSION
+    - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+    - docker push mattermost/mattermost-prod-db:$MM_VERSION
+    - docker push mattermost/mattermost-prod-app-enterprise:$MM_VERSION
+    - docker push mattermost/mattermost-prod-app-team:$MM_VERSION
 
 after_failure:
     - timeout 3s docker-compose logs app db web
