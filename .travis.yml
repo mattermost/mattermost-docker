@@ -11,7 +11,6 @@ env:
     #- BUILD="mkdir -p ./volumes/app/mattermost/{data,logs,config,plugins} && docker-compose up -d"
     - BUILD="docker run -d --name db -e POSTGRES_USER=mmuser -e POSTGRES_PASSWORD=mmuser_password -e POSTGRES_DB=mattermost mattermost-prod-db && sleep 5 && docker run -d --link db -p 80:8000 --name app -e MM__DB_USERNAME=mmuser -e MM_DB_PASSWORD=mmuser_password -e MM_DB_HOST=db -e PUID=2000 -e PGID=2000 mattermost-prod-app"
     - BUILD="docker run -d --name db -e POSTGRES_USER=mmuser -e POSTGRES_PASSWORD=mmuser_password -e POSTGRES_DB=mattermost mattermost-prod-db && sleep 5 && docker run -d --link db -p 80:8000 --name app -e MM__DB_USERNAME=mmuser -e MM_DB_PASSWORD=mmuser_password -e MM_DB_HOST=db -e PUID=2000 -e PGID=2000 mattermost-prod-app-team"
-   global:
     - MM_VERSION="5.13.0"
     #- DOCKER_USERNAME=Changeme
     #- DOCKER_PASSWORD=Changeme!
