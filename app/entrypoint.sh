@@ -18,8 +18,8 @@ PUID=${PUID:-2000}
 PGID=${PGID:-2000}
 
 
-addgroup -g ${PGID} mattermost
-adduser -D -u ${PUID} -G mattermost -h /mattermost -D mattermost
+addgroup -g "${PGID}" mattermost
+adduser -D -u "${PUID}" -G mattermost -h /mattermost -D mattermost
 chown -R mattermost:mattermost /mattermost /config.json.save /mattermost/plugins /mattermost/client/plugins
 
 
@@ -50,15 +50,19 @@ if [ "$1" = 'mattermost' ]; then
     jq '.LogSettings.ConsoleLevel = "ERROR"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
     jq '.FileSettings.Directory = "/mattermost/data/"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
     jq '.FileSettings.EnablePublicLink = true' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    # shellcheck disable=SC2046
     jq '.FileSettings.PublicLinkSalt = "'$(generate_salt)'"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
     jq '.EmailSettings.SendEmailNotifications = false' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
     jq '.EmailSettings.FeedbackEmail = ""' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
     jq '.EmailSettings.SMTPServer = ""' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
     jq '.EmailSettings.SMTPPort = ""' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    # shellcheck disable=SC2046
     jq '.EmailSettings.InviteSalt = "'$(generate_salt)'"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    # shellcheck disable=SC2046
     jq '.EmailSettings.PasswordResetSalt = "'$(generate_salt)'"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
     jq '.RateLimitSettings.Enable = true' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
     jq '.SqlSettings.DriverName = "postgres"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
+    # shellcheck disable=SC2046
     jq '.SqlSettings.AtRestEncryptKey = "'$(generate_salt)'"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
     jq '.PluginSettings.Directory = "/mattermost/plugins/"' "$MM_CONFIG" > "$MM_CONFIG.tmp" && mv "$MM_CONFIG.tmp" "$MM_CONFIG"
   else
@@ -70,7 +74,7 @@ if [ "$1" = 'mattermost' ]; then
   then
     echo "Configure database connection..."
     # URLEncode the password, allowing for special characters
-    ENCODED_PASSWORD=$(printf %s $MM_DB_PASSWORD | jq -s -R -r @uri)
+    ENCODED_PASSWORD=$(printf %s "$MM_DB_PASSWORD" | jq -s -R -r @uri)
     export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_DB_USERNAME:$ENCODED_PASSWORD@$MM_DB_HOST:$MM_DB_PORT_NUMBER/$MM_DB_NAME?sslmode=disable&connect_timeout=10"
     echo "OK"
   else

@@ -15,8 +15,13 @@ env:
     - MM_VERSION="5.13.0"
 
 before_install:
+    # Find all .sh shellscripts and check it against shellcheck
+    - find . -path "*.sh" -type f -print -exec shellcheck {} +
+    # Build DB container
     - docker build -t mattermost-prod-db db
+    # Build app enterprise container
     - docker build -t mattermost-prod-app --build-arg MM_VERSION=$MM_VERSION app
+    # Build app team container
     - docker build -t mattermost-prod-app-team --build-arg edition=team --build-arg MM_VERSION=$MM_VERSION app
 
 install:
