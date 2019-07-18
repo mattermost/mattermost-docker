@@ -13,7 +13,7 @@ MM_DB_NAME=${MM_DB_USERNAME:-"postgres"}
 MM_DB_NAME=${MM_DB_PASSWORD:-""}
 MM_CONFIG=${MM_CONFIG:-"/mattermost/config/config.json"}
 MM_SQLSETTINGS_DATASOURCE=${MM_SQLSETTINGS_DATASOURCE:-""}
-SUDO="gosu mattermost"
+SUDO="su-exec mattermost"
 PUID=${PUID:-2000}
 PGID=${PGID:-2000}
 
