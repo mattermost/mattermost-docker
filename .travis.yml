@@ -13,6 +13,10 @@ env:
     - BUILD="docker run -d --name db -e POSTGRES_USER=mmuser -e POSTGRES_PASSWORD=mmuser_password -e POSTGRES_DB=mattermost mattermost-prod-db && sleep 5 && docker run -d --link db -p 80:8000 --name app -e MM__DB_USERNAME=mmuser -e MM_DB_PASSWORD=mmuser_password -e MM_DB_HOST=db -e PUID=2000 -e PGID=2000 mattermost-prod-app-team"
    global:
     - MM_VERSION="5.13.0"
+    #- DOCKER_USERNAME=Changeme
+    #- DOCKER_PASSWORD=Changeme!
+    - DOCKER_REPO_NAME=mattermost
+    #- DOCKER_REPO_TAG=$TRAVIS_COMMIT
 
 before_install:
     # Find all .sh shellscripts and check it against shellcheck
@@ -34,13 +38,16 @@ script:
     - docker ps -a | grep db | grep healthy
 
 after_success:
-    - docker tag mattermost-prod-db mattermost/mattermost-prod-db:$MM_VERSION
-    - docker tag mattermost-prod-app mattermost/mattermost-prod-app-enterprise:$MM_VERSION
-    - docker tag mattermost-prod-app mattermost/mattermost-prod-app-team:$MM_VERSION
+    # Retag
+    - docker tag mattermost-prod-db $DOCKER_REPO_NAME/mattermost-prod-db:$MM_VERSION
+    - docker tag mattermost-prod-app $DOCKER_REPO_NAME/mattermost-prod-app-enterprise:$MM_VERSION
+    - docker tag mattermost-prod-app $DOCKER_REPO_NAME/mattermost-prod-app-team:$MM_VERSION
+    # Login
     - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-    - docker push mattermost/mattermost-prod-db:$MM_VERSION
-    - docker push mattermost/mattermost-prod-app-enterprise:$MM_VERSION
-    - docker push mattermost/mattermost-prod-app-team:$MM_VERSION
+    # Push
+    - docker push $DOCKER_REPO_NAME/mattermost-prod-db:$MM_VERSION
+    - docker push $DOCKER_REPO_NAME/mattermost-prod-app-enterprise:$MM_VERSION
+    - docker push $DOCKER_REPO_NAME/mattermost-prod-app-team:$MM_VERSION
 
 after_failure:
     - timeout 3s docker-compose logs app db web
