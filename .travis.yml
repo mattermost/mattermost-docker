@@ -21,7 +21,7 @@ env:
 
 before_install:
     # Find all .sh shellscripts and check it against shellcheck
-    - find . -path "*.sh" -type f -print -exec shellcheck {} +
+    #- find . -path "*.sh" -type f -print -exec shellcheck {} +
     # Build DB container
     - docker build -t mattermost-prod-db db
     # Build app enterprise container
