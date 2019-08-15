@@ -18,7 +18,6 @@ The following people help to maintain this open source project:
 
 | Current Maintainer(s)                 | Start Date    |
 |:--------------------------------------|:--------------|
-| Kyâne Pichou - @pichouk               | Jun 01 2017   |
 | Carlos Tadeu Panato Junior - @cpanato | Feb 18 2018   |
 
 In case something happens where no maintainers are able to complete their responsibilies, the following sponsoring organization can help find a new maintainer:
@@ -56,10 +55,11 @@ Maintainer(s) should periodically review pull requests and issues submitted to p
 
 PREVIOUS MAINTAINERS
 
-| Maintainer             | Start Date    | End Date    |
-|:-----------------------|:--------------|:------------|
-| Yi EungJun - @npcode   | Nov 26 2015   | Nov 30 2016 |
-| Pan Luo - @xcompass    | Nov 30 2015   | Feb 21 2019 |
+| Maintainer              | Start Date    | End Date    |
+|:------------------------|:--------------|:------------|
+| Yi EungJun - @npcode    | Nov 26 2015   | Nov 30 2016 |
+| Pan Luo - @xcompass     | Nov 30 2015   | Feb 21 2019 |
+| Kyâne Pichou - @pichouk | Jun 01 2017   | Aug 15 2019 |
 
 
 CREATOR
