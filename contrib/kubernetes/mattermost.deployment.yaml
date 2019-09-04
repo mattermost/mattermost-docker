@@ -24,7 +24,7 @@ spec:
             secretKeyRef:
               name: mattermost.env
               key: db-host
-        - name: DB_PORT
+        - name: DB_PORT_NUMBER
           valueFrom:
             secretKeyRef:
               name: mattermost.env
