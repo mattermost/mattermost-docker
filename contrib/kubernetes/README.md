@@ -76,7 +76,7 @@ Type:                   NodePort
 IP:                     10.0.0.194
 Port:                   http    80/TCP
 NodePort:               http    32283/TCP
-Endpoints:              172.17.0.4:80
+Endpoints:              172.17.0.4:8000
 Session Affinity:       None
 No events.
 ```
