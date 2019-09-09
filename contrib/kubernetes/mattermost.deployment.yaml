@@ -17,14 +17,14 @@ spec:
     spec:
       containers:
       - name: mattermost-app
-        image: "mattermost/mattermost-prod-app:5.13.0"
+        image: "mattermost/mattermost-prod-app:5.14.1"
         env:
         - name: DB_HOST
           valueFrom:
             secretKeyRef:
               name: mattermost.env
               key: db-host
-        - name: DB_PORT
+        - name: DB_PORT_NUMBER
           valueFrom:
             secretKeyRef:
               name: mattermost.env

@@ -76,7 +76,7 @@ Type:                   NodePort
 IP:                     10.0.0.194
 Port:                   http    80/TCP
 NodePort:               http    32283/TCP
-Endpoints:              172.17.0.4:80
+Endpoints:              172.17.0.4:8000
 Session Affinity:       None
 No events.
 ```
@@ -90,7 +90,7 @@ curl -L http://192.168.99.100:32283
 
 ### Optional steps
 
- * If you want your data to be persistent you will need to make persistent volumes for Mattermost and Postgres.
+ * If you want your data to be persistent you will need to make persistent volumes for Mattermost and Postgres. This requires adding a [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#discussion) to the deployment to set `runAsUser: 2000`, `runAsGroup: 2000` and `fsGroup: 2000`.
  * If you want to change advanced settings for the mattermost container you can make a [configMap](http://blog.kubernetes.io/2016/04/configuration-management-with-containers.html) for the /mattermost/config/config.json file
  * If you want the application exposed on port 80 you can either specify the port in the service manifest or use an [ingress controller](http://kubernetes.io/docs/user-guide/ingress/#ingress-controllers) and an ingress map for the mattermost service. A sample ingress map would be
 ```
