@@ -1,0 +1,14 @@
+version: 2.1
+jobs:
+  none:
+    docker:
+      - image: alpine:3.10
+    steps:
+      - run:
+          command: echo "Skipping. not implemented"
+
+workflows:
+  version: 2
+  mainbuild:
+    jobs:
+      - none
