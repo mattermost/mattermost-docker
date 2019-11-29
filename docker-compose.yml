@@ -20,8 +20,7 @@ services:
     #  - AWS_REGION=us-east-1
 
   app:
-    build:
-      context: app
+    build: app
       # uncomment following lines for team edition or change UID/GID
       # args:
       #   - edition=team
