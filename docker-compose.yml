@@ -26,6 +26,7 @@ services:
     #   - PUID=1000
     #   - PGID=1000
     ports:
+      - "8000:8000"
       - "8067:8067"
     restart: unless-stopped
     volumes:
