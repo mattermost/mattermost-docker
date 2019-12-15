@@ -2,7 +2,6 @@ package main
 
 import (
 	"io"
-	"io/ioutil"
 	"net/http"
 
 	"github.com/prometheus/common/expfmt"
@@ -14,6 +13,22 @@ var (
 )
 
 func main() {
+}
+
+// TODO: refresh samples every 5s
+// TODO: check for same metric from Grafana
+// TODO: unit tests
+func refreshSamples(metricsURL string) {
+	bodyReader, _ := downloadMetrics(metricsURL)
+	defer bodyReader.Close()
+
+	metrics, _ := parseMetrics(bodyReader, expfmt.FmtText)
+	samples := make(map[string]prometheusSample)
+
+	for _, sample := range metrics {
+		parsedMetric := parsePrometheusSample(sample)
+		samples[parsedMetric.name] = parsedMetric
+	}
 }
 
 func parseMetrics(metricsReader io.Reader, format expfmt.Format) (model.Vector, error) {
@@ -43,21 +58,12 @@ func parseMetrics(metricsReader io.Reader, format expfmt.Format) (model.Vector, 
 	return all, nil
 }
 
-// TODO: return io.Reader
-func downloadMetrics(url string) (string, error) {
+func downloadMetrics(url string) (io.ReadCloser, error) {
 	response, err := http.Get(url)
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	defer response.Body.Close()
-
-	body, err := ioutil.ReadAll(response.Body)
-
-	if err != nil {
-		return "", err
-	}
-
-	return string(body), nil
+	return response.Body, nil
 }

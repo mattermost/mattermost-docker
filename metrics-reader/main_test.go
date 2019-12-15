@@ -2,6 +2,7 @@ package main
 
 import (
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"sort"
@@ -37,16 +38,16 @@ func Test_download(t *testing.T) {
 	server := httptest.NewServer(mux)
 	defer server.Close()
 
-	client := server.Client()
-	http.DefaultClient = client
-
 	var (
-		url       = server.URL + "/metrics"
-		body, err = downloadMetrics(url)
+		url                     = server.URL + "/metrics"
+		responseBodyReader, err = downloadMetrics(url)
 	)
 
 	assert.Nil(t, err)
-	assert.Equal(t, sampleMetrics, body)
+
+	defer responseBodyReader.Close()
+	body, _ := ioutil.ReadAll(responseBodyReader)
+	assert.Equal(t, sampleMetrics, string(body))
 }
 
 func Test_parseMetrics(t *testing.T) {
