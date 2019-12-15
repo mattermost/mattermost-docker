@@ -108,6 +108,46 @@
             }
         },
         {
+            "alert": {
+                "alertRuleTags": {},
+                "conditions": [
+                    {
+                        "evaluator": {
+                            "params": [
+                                0.1
+                            ],
+                            "type": "gt"
+                        },
+                        "operator": {
+                            "type": "and"
+                        },
+                        "query": {
+                            "params": [
+                                "A",
+                                "5m",
+                                "now"
+                            ]
+                        },
+                        "reducer": {
+                            "params": [],
+                            "type": "max"
+                        },
+                        "type": "query"
+                    }
+                ],
+                "executionErrorState": "alerting",
+                "for": "1m",
+                "frequency": "1m",
+                "handler": 1,
+                "message": "Percentage of errors per request is above 10%",
+                "name": "Relative amount of HTTP errors alert",
+                "noDataState": "no_data",
+                "notifications": [
+                    {
+                        "uid": "jiTWiHfWz"
+                    }
+                ]
+            },
             "aliasColors": {},
             "bars": false,
             "dashLength": 10,
@@ -155,7 +195,15 @@
                     "refId": "A"
                 }
             ],
-            "thresholds": [],
+            "thresholds": [
+                {
+                    "colorMode": "critical",
+                    "fill": true,
+                    "line": true,
+                    "op": "gt",
+                    "value": 0.1
+                }
+            ],
             "timeFrom": "1h",
             "timeRegions": [],
             "timeShift": null,
@@ -315,5 +363,5 @@
     "timezone": "",
     "title": "Mattermost Server",
     "uid": "puJpeIfWk",
-    "version": 1
+    "version": 4
 }

@@ -82,3 +82,12 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     ports:
       - "3000:3000"
+
+  alert-receiver:
+    build: alert-receiver
+    depends_on:
+      - grafana
+      - prometheus
+      - app
+    ports:
+      - "8081:8081"

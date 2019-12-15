@@ -1,0 +1,18 @@
+delete_notifiers:
+  - name: alert-receiver-webhook
+    uid: jiTWiHfWz
+
+notifiers:
+  - name: alert-receiver-webhook
+    type: webhook
+    uid: jiTWiHfWz
+    org_id: 1
+    is_default: true
+    send_reminder: true
+    frequency: 1m
+    disable_resolve_message: false
+    settings:
+      auto_resolve: true
+      http_method: POST
+      uploadImage: false
+      url: http://alert-receiver:8081/webhook
