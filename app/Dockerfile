@@ -18,7 +18,7 @@ RUN apk add --no-cache \
 	jq \
 	libc6-compat \
 	libffi-dev \
-    libcap \
+	libcap \
 	linux-headers \
 	mailcap \
 	netcat-openbsd \
@@ -28,15 +28,15 @@ RUN apk add --no-cache \
 
 # Get Mattermost
 RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
-    && if [ ! -z "$MM_BINARY" ]; then curl $MM_BINARY | tar -xvz ; \
-      elif [ "$edition" = "team" ] ; then curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz | tar -xvz ; \
-      else curl https://releases.mattermost.com/$MM_VERSION/mattermost-$MM_VERSION-linux-amd64.tar.gz | tar -xvz ; fi \
-    && cp /mattermost/config/config.json /config.json.save \
-    && rm -rf /mattermost/config/config.json \
-    && addgroup -g ${PGID} mattermost \
-    && adduser -D -u ${PUID} -G mattermost -h /mattermost -D mattermost \
-    && chown -R mattermost:mattermost /mattermost /config.json.save /mattermost/plugins /mattermost/client/plugins \
-    && setcap cap_net_bind_service=+ep /mattermost/bin/mattermost
+	&& if [ ! -z "$MM_BINARY" ]; then curl $MM_BINARY | tar -xvz ; \
+	elif [ "$edition" = "team" ] ; then curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz | tar -xvz ; \
+	else curl https://releases.mattermost.com/$MM_VERSION/mattermost-$MM_VERSION-linux-amd64.tar.gz | tar -xvz ; fi \
+	&& cp /mattermost/config/config.json /config.json.save \
+	&& rm -rf /mattermost/config/config.json \
+	&& addgroup -g ${PGID} mattermost \
+	&& adduser -D -u ${PUID} -G mattermost -h /mattermost -D mattermost \
+	&& chown -R mattermost:mattermost /mattermost /config.json.save /mattermost/plugins /mattermost/client/plugins \
+	&& setcap cap_net_bind_service=+ep /mattermost/bin/mattermost
 
 USER mattermost
 
@@ -51,6 +51,7 @@ CMD ["mattermost"]
 
 # Expose port 8000 of the container
 EXPOSE 8000
+EXPOSE 8067
 
 # Declare volumes for mount point directories
 VOLUME ["/mattermost/data", "/mattermost/logs", "/mattermost/config", "/mattermost/plugins", "/mattermost/client/plugins"]

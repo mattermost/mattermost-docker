@@ -1,14 +1,13 @@
 version: "3"
 
 services:
-
   db:
     build: db
     read_only: true
     restart: unless-stopped
     volumes:
       - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
-      - /etc/localtime:/etc/localtime:ro
+      # - /etc/localtime:/etc/localtime:ro
     environment:
       - POSTGRES_USER=mmuser
       - POSTGRES_PASSWORD=mmuser_password
@@ -21,11 +20,13 @@ services:
 
   app:
     build: app
-      # uncomment following lines for team edition or change UID/GID
-      # args:
-      #   - edition=team
-      #   - PUID=1000
-      #   - PGID=1000
+    # uncomment following lines for team edition or change UID/GID
+    # args:
+    #   - edition=team
+    #   - PUID=1000
+    #   - PGID=1000
+    ports:
+      - "8067:8067"
     restart: unless-stopped
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
@@ -33,7 +34,7 @@ services:
       - ./volumes/app/mattermost/logs:/mattermost/logs:rw
       - ./volumes/app/mattermost/plugins:/mattermost/plugins:rw
       - ./volumes/app/mattermost/client-plugins:/mattermost/client/plugins:rw
-      - /etc/localtime:/etc/localtime:ro
+      # - /etc/localtime:/etc/localtime:ro
     environment:
       # set same as db credentials and dbname
       - MM_USERNAME=mmuser
@@ -57,7 +58,26 @@ services:
     volumes:
       # This directory must have cert files if you want to enable SSL
       - ./volumes/web/cert:/cert:ro
-      - /etc/localtime:/etc/localtime:ro
+      # - /etc/localtime:/etc/localtime:ro
     # Uncomment for SSL
     # environment:
     #  - MATTERMOST_ENABLE_SSL=true
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    ports:
+      - "3000:3000"
