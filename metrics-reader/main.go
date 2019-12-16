@@ -17,13 +17,13 @@ func main() {
 
 // TODO: refresh samples every 5s
 // TODO: check for same metric from Grafana
-func LoadMetrics(metricsURL string) map[string]prometheusSample {
+func LoadMetrics(metricsURL string) map[string]PrometheusSample {
 	bodyReader, _ := downloadMetrics(metricsURL)
 	defer bodyReader.Close()
 
 	var (
 		metricsVector, _ = parseMetrics(bodyReader, expfmt.FmtText)
-		samples          = make(map[string]prometheusSample)
+		samples          = make(map[string]PrometheusSample)
 		currentSample    model.Sample
 	)
 

@@ -2,20 +2,20 @@ package main
 
 import "github.com/prometheus/common/model"
 
-type prometheusSample struct {
+type PrometheusSample struct {
 	name   string
-	value  model.SampleValue
+	value  float64
 	labels map[string]string
 }
 
-func (ps prometheusSample) label(name string) string {
+func (ps PrometheusSample) label(name string) string {
 	return ps.labels[name]
 }
 
-func parsePrometheusSample(sample *model.Sample) prometheusSample {
-	outputSample := prometheusSample{
+func parsePrometheusSample(sample *model.Sample) PrometheusSample {
+	outputSample := PrometheusSample{
 		name:   string(sample.Metric[model.MetricNameLabel]),
-		value:  sample.Value,
+		value:  float64(sample.Value),
 		labels: make(map[string]string),
 	}
 

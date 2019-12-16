@@ -10,7 +10,6 @@ import (
 	"testing"
 
 	"github.com/prometheus/common/expfmt"
-	"github.com/prometheus/common/model"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -74,10 +73,10 @@ func (t *MetricsReaderTest) Test_parseMetrics() {
 	sort.Sort(metrics)
 
 	t.Assert().Equal("go_goroutines", parsePrometheusSample(metrics[0]).name)
-	t.Assert().Equal(model.SampleValue(1073), parsePrometheusSample(metrics[0]).value)
+	t.Assert().Equal(float64(1073), parsePrometheusSample(metrics[0]).value)
 
 	t.Assert().Equal("go_memstats_alloc_bytes", parsePrometheusSample(metrics[1]).name)
-	t.Assert().Equal(model.SampleValue(5.2909488e+07), parsePrometheusSample(metrics[1]).value)
+	t.Assert().Equal(float64(5.2909488e+07), parsePrometheusSample(metrics[1]).value)
 
 	t.Assert().Equal("go_info", parsePrometheusSample(metrics[2]).name)
 	t.Assert().Equal("go1.12", parsePrometheusSample(metrics[2]).label("version"))
@@ -97,8 +96,8 @@ func (t *MetricsReaderTest) Test_LoadMetrics() {
 	t.Assert().True(hasKeyGoMemstats)
 	t.Assert().True(hasKeyGoInfo)
 
-	t.Assert().Equal(model.SampleValue(1073), metricsGoRoutines.value)
-	t.Assert().Equal(model.SampleValue(5.2909488e+07), metricsGoMemstats.value)
-	t.Assert().Equal(model.SampleValue(1), metricsGoInfo.value)
+	t.Assert().Equal(float64(1073), metricsGoRoutines.value)
+	t.Assert().Equal(float64(5.2909488e+07), metricsGoMemstats.value)
+	t.Assert().Equal(float64(1), metricsGoInfo.value)
 	t.Assert().Equal("go1.12", metricsGoInfo.labels["version"])
 }
