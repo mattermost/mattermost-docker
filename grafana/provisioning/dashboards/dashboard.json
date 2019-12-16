@@ -152,7 +152,7 @@
             "bars": false,
             "dashLength": 10,
             "dashes": false,
-            "datasource": null,
+            "datasource": "Prometheus",
             "description": "Percentual amount of HTTP errors per HTTP requests",
             "fill": 5,
             "fillGradient": 0,
@@ -363,5 +363,5 @@
     "timezone": "",
     "title": "Mattermost Server",
     "uid": "puJpeIfWk",
-    "version": 4
+    "version": 1
 }
