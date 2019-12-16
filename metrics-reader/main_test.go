@@ -11,7 +11,7 @@ import (
 
 	"github.com/prometheus/common/expfmt"
 	"github.com/prometheus/common/model"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
 var sampleMetrics = `
@@ -26,7 +26,16 @@ go_info{version="go1.12"} 1
 go_memstats_alloc_bytes 5.2909488e+07
 `
 
-func Test_download(t *testing.T) {
+func TestSuite(t *testing.T) {
+	suite.Run(t, new(MetricsReaderTest))
+}
+
+type MetricsReaderTest struct {
+	suite.Suite
+	server *httptest.Server
+}
+
+func (t *MetricsReaderTest) SetupTest() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/metrics", func(rw http.ResponseWriter, req *http.Request) {
@@ -35,36 +44,61 @@ func Test_download(t *testing.T) {
 		io.WriteString(rw, sampleMetrics)
 	})
 
-	server := httptest.NewServer(mux)
-	defer server.Close()
+	t.server = httptest.NewServer(mux)
+}
 
+func (t *MetricsReaderTest) TearDownSuite() {
+	t.server.Close()
+}
+
+func (t *MetricsReaderTest) Test_download() {
 	var (
-		url                     = server.URL + "/metrics"
+		url                     = t.server.URL + "/metrics"
 		responseBodyReader, err = downloadMetrics(url)
 	)
 
-	assert.Nil(t, err)
+	t.Assert().Nil(err)
 
 	defer responseBodyReader.Close()
 	body, _ := ioutil.ReadAll(responseBodyReader)
-	assert.Equal(t, sampleMetrics, string(body))
+	t.Assert().Equal(sampleMetrics, string(body))
 }
 
-func Test_parseMetrics(t *testing.T) {
+func (t *MetricsReaderTest) Test_parseMetrics() {
 	reader := strings.NewReader(sampleMetrics)
 	metrics, err := parseMetrics(reader, expfmt.FmtText)
 
-	assert.Nil(t, err)
-	assert.Equal(t, 3, metrics.Len())
+	t.Assert().Nil(err)
+	t.Assert().Equal(3, metrics.Len())
 
 	sort.Sort(metrics)
 
-	assert.Equal(t, "go_goroutines", parsePrometheusSample(metrics[0]).name)
-	assert.Equal(t, model.SampleValue(1073), parsePrometheusSample(metrics[0]).value)
+	t.Assert().Equal("go_goroutines", parsePrometheusSample(metrics[0]).name)
+	t.Assert().Equal(model.SampleValue(1073), parsePrometheusSample(metrics[0]).value)
 
-	assert.Equal(t, "go_memstats_alloc_bytes", parsePrometheusSample(metrics[1]).name)
-	assert.Equal(t, model.SampleValue(5.2909488e+07), parsePrometheusSample(metrics[1]).value)
+	t.Assert().Equal("go_memstats_alloc_bytes", parsePrometheusSample(metrics[1]).name)
+	t.Assert().Equal(model.SampleValue(5.2909488e+07), parsePrometheusSample(metrics[1]).value)
 
-	assert.Equal(t, "go_info", parsePrometheusSample(metrics[2]).name)
-	assert.Equal(t, "go1.12", parsePrometheusSample(metrics[2]).label("version"))
+	t.Assert().Equal("go_info", parsePrometheusSample(metrics[2]).name)
+	t.Assert().Equal("go1.12", parsePrometheusSample(metrics[2]).label("version"))
+}
+
+func (t *MetricsReaderTest) Test_LoadMetrics() {
+	var (
+		url     = t.server.URL + "/metrics"
+		metrics = LoadMetrics(url)
+
+		metricsGoRoutines, hasKeyGoGoroutines = metrics["go_goroutines"]
+		metricsGoMemstats, hasKeyGoMemstats   = metrics["go_memstats_alloc_bytes"]
+		metricsGoInfo, hasKeyGoInfo           = metrics["go_info"]
+	)
+
+	t.Assert().True(hasKeyGoGoroutines)
+	t.Assert().True(hasKeyGoMemstats)
+	t.Assert().True(hasKeyGoInfo)
+
+	t.Assert().Equal(model.SampleValue(1073), metricsGoRoutines.value)
+	t.Assert().Equal(model.SampleValue(5.2909488e+07), metricsGoMemstats.value)
+	t.Assert().Equal(model.SampleValue(1), metricsGoInfo.value)
+	t.Assert().Equal("go1.12", metricsGoInfo.labels["version"])
 }

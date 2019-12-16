@@ -17,18 +17,23 @@ func main() {
 
 // TODO: refresh samples every 5s
 // TODO: check for same metric from Grafana
-// TODO: unit tests
-func refreshSamples(metricsURL string) {
+func LoadMetrics(metricsURL string) map[string]prometheusSample {
 	bodyReader, _ := downloadMetrics(metricsURL)
 	defer bodyReader.Close()
 
-	metrics, _ := parseMetrics(bodyReader, expfmt.FmtText)
-	samples := make(map[string]prometheusSample)
+	var (
+		metricsVector, _ = parseMetrics(bodyReader, expfmt.FmtText)
+		samples          = make(map[string]prometheusSample)
+		currentSample    model.Sample
+	)
 
-	for _, sample := range metrics {
-		parsedMetric := parsePrometheusSample(sample)
+	for _, sample := range metricsVector {
+		currentSample = *sample
+		parsedMetric := parsePrometheusSample(&currentSample)
 		samples[parsedMetric.name] = parsedMetric
 	}
+
+	return samples
 }
 
 func parseMetrics(metricsReader io.Reader, format expfmt.Format) (model.Vector, error) {
