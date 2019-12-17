@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	metricsURL = "http://localhost:8067/metrics"
+	metricsURL = "http://app:8067/metrics"
 )
 
 func main() {
