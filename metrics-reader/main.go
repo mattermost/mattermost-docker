@@ -51,7 +51,7 @@ func checkHTTPErrors(metrics map[string]PrometheusSample) {
 		httpRequestsTotal = metrics["mattermost_http_requests_total"]
 	)
 
-	log.Printf("\tPercentual of errors per request: %1.f\n", httpErrorsTotal.value)
+	log.Printf("\tTotal amount of errors: %1.f\n", httpErrorsTotal.value)
 	log.Printf("\tTotal amount of requests: %1.f\n", httpRequestsTotal.value)
 
 }
