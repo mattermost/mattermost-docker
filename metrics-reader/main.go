@@ -26,7 +26,9 @@ func main() {
 			metrics, err := LoadMetrics(metricsURL)
 
 			if err != nil {
-				panic(err)
+				log.Printf("Error: %s. Will sleep for 60 seconds and try again.\n", err.Error())
+				time.Sleep(60 * time.Second)
+				continue
 			}
 
 			// TODO:
