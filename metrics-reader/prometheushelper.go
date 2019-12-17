@@ -2,6 +2,8 @@ package main
 
 import "github.com/prometheus/common/model"
 
+// PrometheusSample stores data from parsed metrics from Prometheus,
+// using only Golang basic types.
 type PrometheusSample struct {
 	name   string
 	value  float64
@@ -28,4 +30,16 @@ func parsePrometheusSample(sample *model.Sample) PrometheusSample {
 	}
 
 	return outputSample
+}
+
+func vectorToMap(metricsVector model.Vector) map[string]PrometheusSample {
+	samples := make(map[string]PrometheusSample)
+
+	for _, sample := range metricsVector {
+		currentSample := *sample
+		parsedMetric := parsePrometheusSample(&currentSample)
+		samples[parsedMetric.name] = parsedMetric
+	}
+
+	return samples
 }

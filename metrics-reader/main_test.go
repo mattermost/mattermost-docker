@@ -84,9 +84,13 @@ func (t *MetricsReaderTest) Test_parseMetrics() {
 
 func (t *MetricsReaderTest) Test_LoadMetrics() {
 	var (
-		url     = t.server.URL + "/metrics"
-		metrics = LoadMetrics(url)
+		url          = t.server.URL + "/metrics"
+		metrics, err = LoadMetrics(url)
+	)
 
+	t.Assert().Nil(err)
+
+	var (
 		metricsGoRoutines, hasKeyGoGoroutines = metrics["go_goroutines"]
 		metricsGoMemstats, hasKeyGoMemstats   = metrics["go_memstats_alloc_bytes"]
 		metricsGoInfo, hasKeyGoInfo           = metrics["go_info"]

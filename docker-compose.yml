@@ -91,3 +91,8 @@ services:
       - app
     ports:
       - "8081:8081"
+
+  metrics-reader:
+    build: metrics-reader
+    depends_on:
+      - app
