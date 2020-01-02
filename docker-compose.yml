@@ -21,7 +21,7 @@ services:
 
   app:
     build: app
-      # uncomment following lines for team edition or change UID/GID
+      # change `build:app` to `build:` and uncomment following lines for team edition or change UID/GID
       # context: app
       # args:
       #   - edition=team
