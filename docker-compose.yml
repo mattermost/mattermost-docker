@@ -82,11 +82,6 @@ services:
     ports:
       - "8081:8081"
 
-  metrics-reader:
-    build: metrics-reader
-    depends_on:
-      - app
-
   metrics-watcher:
     build: metrics-watcher
     depends_on:
