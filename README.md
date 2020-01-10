@@ -23,10 +23,13 @@ The following instructions deploy Mattermost in a production configuration using
 
 If you want to install Enterprise Edition, you can skip this section.
 
-To install the team edition, uncomment out these lines in docker-compose.yaml file:
+To install the team edition, change `build: app` to `build:` and uncomment out these lines in `app:` services block to make it look like below in docker-compose.yaml file:
 ```yaml
-args:
-  - edition=team
+app:
+  build:
+    context: app
+    args:
+      - edition=team
 ```
 The `app` Dockerfile will read the `edition` build argument to install Team (`edition = 'team'`) or Enterprise (`edition != team`) edition.
 
