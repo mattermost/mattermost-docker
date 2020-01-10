@@ -8,7 +8,7 @@ func printRequestDuration(prometheus *prometheushelper.PrometheusHelper) {
 	if requestDuration, err := prometheus.VectorFirst(query); err == nil {
 		logger.Info("Request duration is %2.8f", requestDuration)
 	} else {
-		logger.Error("Error while querying Prometheus: %s", err.Error())
+		logger.Error("Error while querying Prometheus for request duration: %s", err.Error())
 	}
 }
 
@@ -18,6 +18,6 @@ func printCurrentWebsockets(prometheus *prometheushelper.PrometheusHelper) {
 	if amountOfWebsockets, err := prometheus.VectorFirst(requestDurationQuery); err == nil {
 		logger.Info("Current amount of websockets is %1.0f", amountOfWebsockets)
 	} else {
-		logger.Error("Error while querying Prometheus: %s", err.Error())
+		logger.Error("Error while querying Prometheus for current amount of websockets: %s", err.Error())
 	}
 }
