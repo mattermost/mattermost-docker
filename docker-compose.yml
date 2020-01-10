@@ -74,14 +74,6 @@ services:
     depends_on:
       - app
 
-  alert-receiver:
-    build: alert-receiver
-    depends_on:
-      - prometheus
-      - app
-    ports:
-      - "8081:8081"
-
   metrics-watcher:
     build: metrics-watcher
     depends_on:
