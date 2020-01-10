@@ -12,6 +12,8 @@ import (
 )
 
 func Test_CanFetchAScalarValue(t *testing.T) {
+	t.Skip("Test only for documentation purposes")
+
 	config := api.Config{
 		Address: "http://localhost:9090",
 	}
