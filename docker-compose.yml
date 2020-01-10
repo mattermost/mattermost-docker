@@ -74,20 +74,9 @@ services:
     depends_on:
       - app
 
-  grafana:
-    image: grafana/grafana
-    depends_on:
-      - prometheus
-    volumes:
-      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
-    ports:
-      - "3000:3000"
-
   alert-receiver:
     build: alert-receiver
     depends_on:
-      - grafana
       - prometheus
       - app
     ports:
