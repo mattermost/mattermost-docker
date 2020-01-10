@@ -97,3 +97,10 @@ services:
     build: metrics-reader
     depends_on:
       - app
+
+  metrics-watcher:
+    build: metrics-watcher
+    depends_on:
+      - app
+    environment:
+      - MATTERMOST_PROMETHEUS_SERVER=http://prometheus:9090
