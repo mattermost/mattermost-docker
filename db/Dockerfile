@@ -13,6 +13,7 @@ RUN apk add --no-cache \
       py-pip \
       py-cryptography \
       pv \
+      libressl-dev \
     && pip --no-cache-dir install 'wal-e<1.0.0' envdir \
     && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
