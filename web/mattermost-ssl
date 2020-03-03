@@ -12,7 +12,6 @@ map $http_x_forwarded_proto $proxy_x_forwarded_proto {
 server {
     listen 443 ssl http2;
 
-    ssl on;
     ssl_certificate /cert/cert.pem;
     ssl_certificate_key /cert/key-no-password.pem;
     ssl_session_timeout 5m;
