@@ -12,7 +12,7 @@ else
   echo "linking plain config"
 fi
 # Linking Nginx configuration file
-ln -s /etc/nginx/sites-available/mattermost$ssl /etc/nginx/conf.d/mattermost.conf
+ln -s -f /etc/nginx/sites-available/mattermost$ssl /etc/nginx/conf.d/mattermost.conf
 
 # Setup app host and port on configuration file
 sed -i "s/{%APP_HOST%}/${APP_HOST}/g" /etc/nginx/conf.d/mattermost.conf
