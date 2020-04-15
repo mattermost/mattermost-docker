@@ -13,6 +13,7 @@ ARG MM_BINARY=
 
 # Install some needed packages
 RUN apk add --no-cache \
+	bash \
 	ca-certificates \
 	curl \
 	jq \
