@@ -1,6 +1,6 @@
-# Production Docker deployment for Mattermost
+# Docker deployment for Mattermost
 
-This project enables deployment of a Mattermost server in a multi-node production configuration using Docker.
+This project enables deployment of a Mattermost server in a multi-node configuration using Docker.
 
 [![Build Status](https://travis-ci.org/mattermost/mattermost-docker.svg?branch=master)](https://travis-ci.org/mattermost/mattermost-docker)
 
@@ -12,7 +12,7 @@ Notes:
 
 ## Installation using Docker Compose
 
-The following instructions deploy Mattermost in a production configuration using multi-node Docker Compose set up.
+The following instructions deploy Mattermost in a configuration using multi-node Docker Compose set up.
 
 ### Requirements
 
@@ -166,7 +166,7 @@ Your Docker image should now be on the latest Mattermost version.
 
 ## Upgrading Mattermost to 4.9+
 
-Docker images for `4.9.0` release introduce some important changes from [PR #241](https://github.com/mattermost/mattermost-docker/pull/241) to improve production use of Mattermost with Docker.
+Docker images for `4.9.0` release introduce some important changes from [PR #241](https://github.com/mattermost/mattermost-docker/pull/241) to improve use of Mattermost with Docker.
 **There are 2 important changes for existing installations**
 
 One important change is that we don't use `root` user by default to run the Mattermost application. So, as explained on [the README](https://github.com/mattermost/mattermost-docker#start), if you use host mounted volume you have to be sure that files on your host server have the correct UID/GID (by default those values are `2000`). In practice, you should just run following commands :
@@ -193,7 +193,7 @@ See the [offical Upgrade Guide](http://docs.mattermost.com/administration/upgrad
 
 ## Installation using Docker Swarm Mode
 
-The following instructions deploy Mattermost in a production configuration using docker swarm mode on one node.
+The following instructions deploy Mattermost in a configuration using docker swarm mode on one node.
 Running containerized applications on multi-node swarms involves specific data portability and replication handling that are not covered here.
 
 ### Requirements
