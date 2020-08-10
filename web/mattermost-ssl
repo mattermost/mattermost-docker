@@ -15,7 +15,7 @@ server {
     ssl_certificate /cert/cert.pem;
     ssl_certificate_key /cert/key-no-password.pem;
     ssl_session_timeout 5m;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:MEDIUM:!SSLv2:!PSK:!SRP:!ADH:!AECDH;
     ssl_prefer_server_ciphers on;
 
