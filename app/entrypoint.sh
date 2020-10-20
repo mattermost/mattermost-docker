@@ -25,14 +25,13 @@ if [ "$1" = 'mattermost' ]; then
       esac
   done
 
-  if [ ! -f $MM_CONFIG ]
-  then
+  if [ ! -f "$MM_CONFIG" ]; then
     # If there is no configuration file, create it with some default values
     echo "No configuration file" $MM_CONFIG
     echo "Creating a new one"
     # Copy default configuration file
-    cp /config.json.save $MM_CONFIG
-    # Substitue some parameters with jq
+    cp /config.json.save "$MM_CONFIG"
+    # Substitute some parameters with jq
     jq '.ServiceSettings.ListenAddress = ":8000"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
     jq '.LogSettings.EnableConsole = true' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
     jq '.LogSettings.ConsoleLevel = "ERROR"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
@@ -50,7 +49,7 @@ if [ "$1" = 'mattermost' ]; then
     jq '.SqlSettings.AtRestEncryptKey = "'$(generate_salt)'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
     jq '.PluginSettings.Directory = "/mattermost/plugins/"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
   else
-    echo "Using existing config file" $MM_CONFIG
+    echo "Using existing config file $MM_CONFIG"
   fi
 
   # Configure database access
@@ -60,7 +59,7 @@ if [ "$1" = 'mattermost' ]; then
     # URLEncode the password, allowing for special characters
     ENCODED_PASSWORD=$(printf %s $MM_PASSWORD | jq -s -R -r @uri)
     export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$ENCODED_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
-    echo OK
+    echo "OK"
   else
     echo "Using existing database connection"
   fi
