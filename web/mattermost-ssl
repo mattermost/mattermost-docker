@@ -1,7 +1,7 @@
 server {
-	listen 80 default_server;
-	server_name _;
-	return 301 https://$host$request_uri;
+    listen 80 default_server;
+    server_name _;
+    return 301 https://$host$request_uri;
 }
 
 map $http_x_forwarded_proto $proxy_x_forwarded_proto {
@@ -15,9 +15,11 @@ server {
     ssl_certificate /cert/cert.pem;
     ssl_certificate_key /cert/key-no-password.pem;
     ssl_session_timeout 5m;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
-    ssl_ciphers HIGH:MEDIUM:!SSLv2:!PSK:!SRP:!ADH:!AECDH;
-    ssl_prefer_server_ciphers on;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    # Please update the ciphers in this file every 6 months.
+    # https://ssl-config.mozilla.org/
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
 
     location ~ /api/v[0-9]+/(users/)?websocket$ {
         proxy_set_header Upgrade $http_upgrade;
@@ -33,7 +35,7 @@ server {
         proxy_buffers 256 16k;
         proxy_buffer_size 16k;
         proxy_read_timeout 600s;
-	proxy_pass http://{%APP_HOST%}:{%APP_PORT%};
+        proxy_pass http://{%APP_HOST%}:{%APP_PORT%};
     }
 
     location / {
@@ -50,7 +52,7 @@ server {
         proxy_buffers 256 16k;
         proxy_buffer_size 16k;
         proxy_read_timeout 600s;
-	proxy_pass http://{%APP_HOST%}:{%APP_PORT%};
+        proxy_pass http://{%APP_HOST%}:{%APP_PORT%};
     }
 }
 
