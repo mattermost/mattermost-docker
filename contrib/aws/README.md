@@ -13,3 +13,6 @@ eb init
 eb create prod
 eb open prod
 ```
+
+### Note
+You must chmod the config.json file, then compress the whole folder starting form mattemost-docker/contrib/aws/* and then upload the .zip file to elastic beanstalk. 
