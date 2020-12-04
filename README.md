@@ -67,6 +67,13 @@ If your database use some custom host and port, it is also possible to configure
 * `DB_HOST`: database host address
 * `DB_PORT_NUMBER`: database port
 
+Use this optional variable if your PostgreSQL connection requires encryption (you may need a certificate authority file and/or a certificate revocation list - check the documentation for your database provider).  See the [PostgreSQL notes on encrypted connections](https://www.postgresql.org/docs/current/libpq-ssl.html) for recommendations on what values to use when encryption is needed.
+* `DB_SSLMODE`: defaults to `disable`, indicating no encryption
+
+PostgreSQL allows two other variables `sslrootcert` and `sslcrl` for connection strings.  However these are not broadly supported when the connection string is specified as a URI. If you need these parameters, use the PostgreSQL-specified environment variables
+* `PGSSLROOTCERT` specifies the location of CA file
+* `PGSSLCRL` specifies the location of a certificate revocation list file
+
 If you use a Mattermost configuration file on a different location than the default one (`/mattermost/config/config.json`) :
 * `MM_CONFIG`: configuration file location inside the container.
 
