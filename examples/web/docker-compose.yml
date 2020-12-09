@@ -3,7 +3,7 @@ version: "3"
 services:
 
   db:
-    build: db
+    build: ../../db
     read_only: true
     restart: unless-stopped
     volumes:
@@ -21,7 +21,7 @@ services:
 
   app:
     build:
-      context: app
+      context: ../../app
       # uncomment following lines for team edition or change UID/GID
       # args:
       #   - edition=team
@@ -52,7 +52,7 @@ services:
       #- MM_CONFIG=/mattermost/config/config.json
 
   web:
-    build: web
+    build: ../../web
     ports:
       - "80:80"
       - "443:443"
