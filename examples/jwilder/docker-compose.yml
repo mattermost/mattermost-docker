@@ -1,0 +1,65 @@
+#### you have to copy this file into the root folder of the project !!!
+
+version: "3"
+
+services:
+
+  db:
+    build: db
+    restart: unless-stopped
+    volumes:
+      - .volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+            - internal    
+    environment:
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+    # uncomment the following to enable backup
+    #  - AWS_ACCESS_KEY_ID=XXXX
+    #  - AWS_SECRET_ACCESS_KEY=XXXX
+    #  - WALE_S3_PREFIX=s3://BUCKET_NAME/PATH
+    #  - AWS_REGION=us-east-1
+
+  app:
+    build: 
+      context: app
+      # uncomment following lines for team edition or change UID/GID 
+      # args: 
+      #   - edition=team 
+      #   - PUID=1000 
+      #   - PGID=1000 
+
+    restart: unless-stopped
+    container_name: mattermost_app
+    volumes:
+        - .volumes/app/mattermost/config:/mattermost/config:rw
+        - .volumes/app/mattermost/data:/mattermost/data:rw
+        - .volumes/app/mattermost/logs:/mattermost/logs:rw
+        - /etc/localtime:/etc/localtime:ro
+        - .volumes/app/mattermost/plugins:/mattermost/plugins:rw
+        - .volumes/app/mattermost/client-plugins:/mattermost/client/plugins:rw
+    networks:
+        - internal
+        - default      
+    environment:
+      # set same as db credentials and dbname
+        - MM_USERNAME=mmuser
+        - MM_PASSWORD=mmuser_password
+        - MM_DBNAME=mattermost
+        - VIRTUAL_HOST=mattermost.example.com     ## fill in your hostname here
+        - LETSENCRYPT_HOST=mattermost.example.com ## 
+        - LETSENCRYPT_EMAIL=admin@example.com     ##
+        # in case your config is not in default location
+      #- MM_CONFIG=/mattermost/config/config.json
+
+    expose:
+        - 8000            
+
+networks:
+        default:
+          external:
+           name: webproxy   ## name of your jwilder network
+        internal:
+                   external: false   
