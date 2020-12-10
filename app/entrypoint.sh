@@ -8,6 +8,16 @@ generate_salt() {
 # Read environment variables or set default values
 DB_HOST=${DB_HOST:-db}
 DB_PORT_NUMBER=${DB_PORT_NUMBER:-5432}
+# see https://www.postgresql.org/docs/current/libpq-ssl.html
+# for usage when database connection requires encryption
+# filenames should be escaped if they contain spaces
+#  i.e. $(printf %s ${MY_ENV_VAR:-''}  | jq -s -R -r @uri)
+# the location of the CA file can be set using environment var PGSSLROOTCERT
+# the location of the CRL file can be set using PGSSLCRL
+# The URL syntax for connection string does not support the parameters
+# sslrootcert and sslcrl reliably, so use these PostgreSQL-specified variables
+# to set names if using a location other than default
+DB_USE_SSL=${DB_USE_SSL:-disable}
 MM_DBNAME=${MM_DBNAME:-mattermost}
 MM_CONFIG=${MM_CONFIG:-/mattermost/config/config.json}
 
@@ -56,7 +66,7 @@ if [ "$1" = 'mattermost' ]; then
 		echo "Configure database connection..."
 		# URLEncode the password, allowing for special characters
 		ENCODED_PASSWORD=$(printf %s "$MM_PASSWORD" | jq -s -R -r @uri)
-		export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$ENCODED_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
+		export MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$ENCODED_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=$DB_USE_SSL&connect_timeout=10"
 		echo "OK"
 	else
 		echo "Using existing database connection"
