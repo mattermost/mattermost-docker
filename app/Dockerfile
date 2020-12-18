@@ -2,7 +2,7 @@ FROM alpine:3.10
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
-ENV MM_VERSION=5.29.1
+ENV MM_VERSION=5.30.1
 ENV MM_INSTALL_TYPE=docker
 
 # Build argument to set Mattermost edition
