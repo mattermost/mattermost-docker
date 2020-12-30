@@ -5,7 +5,7 @@ export WAL_LEVEL=${WAL_LEVEL:-minimal}
 export ARCHIVE_MODE=${ARCHIVE_MODE:-off}
 export ARCHIVE_TIMEOUT=${ARCHIVE_TIMEOUT:-60}
 
-function update_conf () {
+function update_conf() {
   wal=$1
   # PGDATA is defined in upstream postgres dockerfile
   config_file=$PGDATA/postgresql.conf
@@ -23,11 +23,11 @@ function update_conf () {
   sed -i "s/archive_command =.*$//g" $config_file
 
   # Configure wal-e
-  if [ "$wal" = true ] ; then
+  if [ "$wal" = true ]; then
     /docker-entrypoint-initdb.d/setup-wale.sh
   fi
-  echo "log_timezone = $DEFAULT_TIMEZONE" >> $config_file
-  echo "timezone = $DEFAULT_TIMEZONE" >> $config_file
+  echo "log_timezone = $DEFAULT_TIMEZONE" >>$config_file
+  echo "timezone = $DEFAULT_TIMEZONE" >>$config_file
 }
 
 if [ "${1:0:1}" = '-' ]; then
@@ -46,7 +46,7 @@ if [ "$1" = 'postgres' ]; then
   done
 
   # Setup wal-e env variables
-  if [ "$wal_enable" = true ] ; then
+  if [ "$wal_enable" = true ]; then
     for v in ${VARS[@]}; do
       export $v="${!v}"
     done
