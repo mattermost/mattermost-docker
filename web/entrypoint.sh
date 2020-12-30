@@ -11,7 +11,7 @@ if [ -f "/cert/cert.pem" -a -f "/cert/key-no-password.pem" ]; then
 else
   echo "linking plain config"
 fi
-# Ensure that the configuration file is not present before linking. 
+# Ensure that the configuration file is not present before linking.
 test -w /etc/nginx/conf.d/mattermost.conf && rm /etc/nginx/conf.d/mattermost.conf
 # Linking Nginx configuration file
 ln -s -f /etc/nginx/sites-available/mattermost$ssl /etc/nginx/conf.d/mattermost.conf
