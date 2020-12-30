@@ -20,7 +20,7 @@ The following people help to maintain this open source project:
 |:--------------------------------------|:--------------|
 | Carlos Tadeu Panato Junior - @cpanato | Feb 18 2018   |
 
-In case something happens where no maintainers are able to complete their responsibilies, the following sponsoring organization can help find a new maintainer:
+In case something happens where no maintainers are able to complete their responsibilities, the following sponsoring organization can help find a new maintainer:
 
 | Sponsoring Organization        | Start Date    |
 |:-------------------------------|:--------------|
