@@ -196,7 +196,7 @@ docker-compose build app
 docker-compose run app -upgrade_db_30
 docker-compose up -d
 ```
-See the [offical Upgrade Guide](http://docs.mattermost.com/administration/upgrade.html) for more details.
+See the [official Upgrade Guide](http://docs.mattermost.com/administration/upgrade.html) for more details.
 
 ## Installation using Docker Swarm Mode
 
