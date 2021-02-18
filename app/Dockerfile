@@ -7,8 +7,8 @@ ENV MM_INSTALL_TYPE=docker
 
 # Build argument to set Mattermost edition
 ARG edition=enterprise
-ARG PUID=2000
-ARG PGID=2000
+ARG PUID=1000
+ARG PGID=1000
 ARG MM_BINARY=
 
 
