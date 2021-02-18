@@ -61,4 +61,5 @@ services:
     volumes:
       # This directory must have cert files if you want to enable SSL
       - ./volumes/web/cert:/cert:ro
+      - ./volumes/web/conf:/etc/nginx/conf.d:rw
       - /etc/localtime:/etc/localtime:ro

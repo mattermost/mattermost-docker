@@ -110,6 +110,8 @@ This image is optional, you should **not** use it when you have your own reverse
 
 If you plan to upload large files to your Mattermost instance, Nginx will need to write some temporary files. In that case, the `read_only: true` option on the `web` container should be removed from your `docker-compose.yml` file.
 
+If you want to publish custom path such as example.com/mattermost, you need to modify ServiceSettings.SiteURL in the app's config.json and proxy path in mattermost.conf in the web's volume.
+
 #### Install with SSL certificate
 Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key that has
 no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
