@@ -224,6 +224,7 @@ docker stack deploy -c contrib/swarm/docker-stack.yml mattermost
 * Do not modify the Listen Address in Service Settings.
 * Rarely `app` container fails to start because of "connection refused" to
   database. Workaround: Restart the container.
+* Don't update to release-5.32 though, it's broken: #489
 
 ## More information
 
