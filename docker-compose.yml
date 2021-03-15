@@ -7,7 +7,7 @@ services:
     read_only: true
     restart: unless-stopped
     volumes:
-      - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
+      - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data:Z
       - /etc/localtime:/etc/localtime:ro
     environment:
       - POSTGRES_USER=mmuser
@@ -29,11 +29,11 @@ services:
       #   - PGID=1000
     restart: unless-stopped
     volumes:
-      - ./volumes/app/mattermost/config:/mattermost/config:rw
-      - ./volumes/app/mattermost/data:/mattermost/data:rw
-      - ./volumes/app/mattermost/logs:/mattermost/logs:rw
-      - ./volumes/app/mattermost/plugins:/mattermost/plugins:rw
-      - ./volumes/app/mattermost/client-plugins:/mattermost/client/plugins:rw
+      - ./volumes/app/mattermost/config:/mattermost/config:rw,Z
+      - ./volumes/app/mattermost/data:/mattermost/data:rw,Z
+      - ./volumes/app/mattermost/logs:/mattermost/logs:rw,Z
+      - ./volumes/app/mattermost/plugins:/mattermost/plugins:rw,Z
+      - ./volumes/app/mattermost/client-plugins:/mattermost/client/plugins:rw,Z
       - /etc/localtime:/etc/localtime:ro
       # When you want to use SSO with GitLab, you have to add the cert pki chain of GitLab inside Alpine
       # to avoid Token request failed: certificate signed by unknown authority (link: https://github.com/mattermost/mattermost-server/issues/13059)
@@ -60,5 +60,5 @@ services:
     restart: unless-stopped
     volumes:
       # This directory must have cert files if you want to enable SSL
-      - ./volumes/web/cert:/cert:ro
+      - ./volumes/web/cert:/cert:ro,Z
       - /etc/localtime:/etc/localtime:ro
