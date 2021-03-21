@@ -27,6 +27,7 @@ services:
       #   - edition=team
       #   - PUID=1000
       #   - PGID=1000
+      #   - MM_VERSION=5.31
     restart: unless-stopped
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
