@@ -1,5 +1,11 @@
 # Production Docker deployment for Mattermost
 
+## WARNING:
+
+The current state of this repository does not work out of the box as the server version 5.31+ require Postgres versions of 10 or higher.
+
+We're actively working on a fix and revamp of this repository. In the meantime please refer to these upgrade instructions: https://github.com/mattermost/mattermost-docker/issues/489#issuecomment-790277661
+
 This project enables deployment of a Mattermost server in a multi-node production configuration using Docker.
 
 [![Build Status](https://travis-ci.org/mattermost/mattermost-docker.svg?branch=master)](https://travis-ci.org/mattermost/mattermost-docker)
