@@ -1,6 +1,8 @@
-FROM postgres:9.4-alpine
+FROM postgres:10-alpine
 
 ENV DEFAULT_TIMEZONE UTC
+# Mandatory nowdays with PG 10
+ENV WAL_LEVEL logical
 
 # Install some packages to use WAL
 RUN echo "azure<5.0.0" > pip-constraints.txt
@@ -10,8 +12,8 @@ RUN apk add --no-cache \
       libc6-compat \
       libffi-dev \
       linux-headers \
-      python-dev \
-      py-pip \
+      python3-dev \
+      py3-pip \
       py-cryptography \
       pv \
       libressl-dev \
