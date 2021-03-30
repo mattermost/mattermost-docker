@@ -2,7 +2,7 @@
 
 ## WARNING:
 
-The current state of this repository does not work out of the box as the server version 5.31+ require Postgres versions of 10 or higher.
+The current state of this repository doesn't work out-of-the box since Mattermost server v5.31+ requires PostgreSQL versions of 10 or higher.
 
 We're actively working on a fix to this repository. Until then, please refer to these upgrade instructions: https://github.com/mattermost/mattermost-docker/issues/489#issuecomment-790277661
 
