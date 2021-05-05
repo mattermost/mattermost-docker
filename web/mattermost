@@ -4,7 +4,7 @@ map $http_x_forwarded_proto $proxy_x_forwarded_proto {
 }
 
 server {
-    listen 80;
+    listen 8080;
 
     location ~ /api/v[0-9]+/(users/)?websocket$ {
         proxy_set_header Upgrade $http_upgrade;

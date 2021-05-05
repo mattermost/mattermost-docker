@@ -55,11 +55,13 @@ services:
   web:
     build: web
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:8080"
+      - "443:8443"
     read_only: true
     restart: unless-stopped
     volumes:
       # This directory must have cert files if you want to enable SSL
       - ./volumes/web/cert:/cert:ro
       - /etc/localtime:/etc/localtime:ro
+    cap_drop:
+      - ALL

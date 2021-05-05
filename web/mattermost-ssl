@@ -1,5 +1,5 @@
 server {
-    listen 80 default_server;
+    listen 8080 default_server;
     server_name _;
     return 301 https://$host$request_uri;
 }
@@ -10,7 +10,7 @@ map $http_x_forwarded_proto $proxy_x_forwarded_proto {
 }
 
 server {
-    listen 443 ssl http2;
+    listen 8443 ssl http2;
 
     ssl_certificate /cert/cert.pem;
     ssl_certificate_key /cert/key-no-password.pem;
