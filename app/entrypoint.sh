@@ -20,6 +20,7 @@ DB_PORT_NUMBER=${DB_PORT_NUMBER:-5432}
 DB_USE_SSL=${DB_USE_SSL:-disable}
 MM_DBNAME=${MM_DBNAME:-mattermost}
 MM_CONFIG=${MM_CONFIG:-/mattermost/config/config.json}
+CONFIG_USE_DB=${CONFIG_USE_DB:-false}
 
 _1=$(echo "$1" | awk '{ s=substr($0, 0, 1); print s; }')
 if [ "$_1" = '-' ]; then
@@ -34,7 +35,20 @@ if [ "$1" = 'mattermost' ]; then
     esac
   done
 
-  if [ ! -f "$MM_CONFIG" ]; then
+  if [ "$CONFIG_USE_DB" = "true" ]; then
+    # If the Database contains the configuration, configure access to that
+    echo "Configure database for application configuration..."
+    # Allow specifying a custom datasource string
+    if [ -z "$MM_SQLSETTINGS_DATASOURCE" ]; then
+      # URLEncode the password, allowing for special characters
+      ENCODED_PASSWORD=$(printf %s "$MM_PASSWORD" | jq -s -R -r @uri)
+      export MM_CONFIG="postgres://$MM_USERNAME:$ENCODED_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=$DB_USE_SSL&connect_timeout=10"
+    else
+      # Use the same custom datasource if defined
+      export MM_CONFIG="$MM_SQLSETTINGS_DATASOURCE"
+    fi
+    echo "OK"
+  else if [ ! -f "$MM_CONFIG" ]; then
     # If there is no configuration file, create it with some default values
     echo "No configuration file $MM_CONFIG"
     echo "Creating a new one"

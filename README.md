@@ -83,6 +83,9 @@ PostgreSQL allows two other variables `sslrootcert` and `sslcrl` for connection 
 If you use a Mattermost configuration file on a different location than the default one (`/mattermost/config/config.json`) :
 * `MM_CONFIG`: configuration file location inside the container.
 
+You can use [in-database configuration](https://docs.mattermost.com/administration/config-in-database.html) by defining:
+* `CONFIG_USE_DB`: `true` to read and store configuration within the database
+
 If you choose to use MySQL instead of PostgreSQL, you should set a different datasource and SQL driver :
 * `DB_PORT_NUMBER` : `3306`
 * `MM_SQLSETTINGS_DRIVERNAME` : `mysql`
