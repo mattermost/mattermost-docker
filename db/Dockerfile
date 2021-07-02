@@ -15,7 +15,7 @@ RUN apk add --no-cache \
       python3-dev \
       py3-pip \
       py-cryptography \
-      pv
+      pv \
     && pip install --upgrade pip \
     && pip --no-cache-dir install -c pip-constraints.txt 'wal-e<1.0.0' envdir \
     && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
