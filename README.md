@@ -230,6 +230,7 @@ docker stack deploy -c contrib/swarm/docker-stack.yml mattermost
 * Do not modify the Listen Address in Service Settings.
 * Rarely `app` container fails to start because of "connection refused" to
   database. Workaround: Restart the container.
+* Upgrading to ``release-5.32`` fails because PostgreSQL 10+ is required. We don't currently have a timeline for the fix, and as an intermediate option we recommend trying out [Mattermost Omnibus](https://docs.mattermost.com/install/mattermost-omnibus.html) which supports PostgreSQL 10+.
 
 ## More information
 
