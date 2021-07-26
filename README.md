@@ -1,5 +1,19 @@
 # Production Docker deployment for Mattermost
 
+|![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/156px-Warning.svg.png) | This project is no longer supported.
+|---|---|
+
+## NOTE: 
+This repository has been a community-driven effort created when running Docker containers was just getting popular. This repository produced three images: one for Mattermost itself, another for Database, and for the Web Proxy.
+
+We will no longer support those three images. If you have a Mattermost server running with the image mattermost/mattermost-prod-app, we recommend migrating either to mattermost/mattermost-enterprise-edition or mattermost/mattermost-team-edition images, which are the official ones and supported by Mattermost. These images support Postgres 10+ database, which we know has been a long-running challenge for the community, and you will not lose any features or functionality by moving to these new images.
+
+If you have any issues or concerns with the migration, let us know in this GitHub issue.
+
+In the future, this repo will contain examples of running Mattermost image in several types of services, like Swarm, AWS Beanstalk, and others, but will not have Dockerfile to build any custom image. Dockerfile will be deprecated in Mattermost version 6.0 in September 2021 and removed from the repository.
+
+A new repository is available at https://github.com/mattermost/docker. It is still a work-in-progress, and we recommend testing a fresh setup first. If you decide to migrate to the new image, please make sure to have full data backups as we haven't fully tested the migration process yet, so there may be unforeseen issues until those tests have been completed. If any questions or feedback, let us know!
+
 ## WARNING:
 
 The current state of this repository doesn't work out-of-the box since Mattermost server v5.31+ requires PostgreSQL versions of 10 or higher.
