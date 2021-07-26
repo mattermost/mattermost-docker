@@ -1,5 +1,8 @@
 # Production Docker deployment for Mattermost
 
+|![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/156px-Warning.svg.png) | This project is no longer supported.
+|---|---|
+
 ## NOTE: 
 This repository has been a community-driven effort created when running Docker containers was just getting popular. This repository produced three images: one for Mattermost itself, another for Database, and for the Web Proxy.
 
